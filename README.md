@@ -23,22 +23,22 @@ Tibor Levanić | tlevanic23@foi.hr | 0016165686 | tlevanic23
 Tin Račić | ... | ... | ...
 
 ## Opis domene
-Zadatak projekta je izraditi programsko rješenje namijenjeno praćenju zaliha u poduzeću koje prodaje proizvode. Program bi uglavnom koristili menadžeri poslovnica ili upravitelji smjena kako bi se povećala učinkovitost poslovanja i olakšalo upravljanje robom. Program će sadržavati sljedeće funkcionalnosti: login, evidentiranje robe, naručivanje i izvoz robe, upravljanje radnicima i radnim smjenama, stvaranje izvještaja, generiranje statistike, praćenje zaliha te automatsko obavještavanje u slučaju iscrpljenja istih. Korisnici će putem programa jednostavno upravljati podacima o proizvodima, zalihama i partnerskim poduzećima. 
+Zadatak projekta je izraditi programsko rješenje namijenjeno praćenju zaliha u poduzeću koje prodaje proizvode. Program bi uglavnom koristili menadžeri poslovnica ili upravitelji smjena kako bi se povećala učinkovitost poslovanja i olakšalo upravljanje robom. Program će sadržavati sljedeće funkcionalnosti: login, evidentiranje robe, naručivanje i izvoz robe, upravljanje radnicima i radnim smjenama, stvaranje izvještaja, generiranje statistike, praćenje zaliha te obaviještavanje.  
 
 ## Specifikacija projekta
 Umjesto ovih uputa opišite zahtjeve za funkcionalnošću programskog proizvoda. Pobrojite osnovne funkcionalnosti i za svaku naznačite ime odgovornog člana tima. Opišite buduću arhitekturu programskog proizvoda. Obratite pozornost da bi arhitektura trebala biti višeslojna s odvojenom (dislociranom) bazom podatka koju ćemo za vas mi pripremiti i dati vam pristup naknadno. Također uzmite u obzir da bi svaki član tima treba biti odgovoran za otprilike 3 funkcionalnosti, te da bi opterećenje članova tima trebalo biti ujednačeno. Priložite odgovarajuće dijagrame i skice gdje je to prikladno. Funkcionalnosti sustava bobrojite u tablici ispod koristeći predložak koji slijedi:
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Login | Za pristup dnevniku potrebna je autentikacija korisnika pomoću login funkcionalnosti. Korisnik se logira s podacima koji su mu dodijeljeni prilikom ... | Karlo Kuzmić
-F02 | Upravljanje proizvodima | (koje proizvode imamo u bazi) | Karlo Kuzmić
-F03 | Upravljanje zalihama | (koliko proizvoda ima) | Karlo Kuzmić
-F04 | Upravljanje uvozom robe | | Tibor Levanić
-F05 | Upravljanje izvozom robe | (za veleprodaju) | Tibor Levanić
-F06 | Stvaranje izvještaja o toku robe | | Tibor Levanić
-F07 | Upravljanje podacima o partnerima | (dobavljači i kupci veleprodaje) | Tin Račić
-F08 |  |  | Tin Račić
-F09 | Stvaranje izvještaja o nečemu | | Tin Račić
+F01 | Login | Za pristup programu potrebna je kombinacija odgovarajućeg korisničkog imena i lozinke. Sustav implementira više tipova korisnika, pri čemu svaki tip ima pristup određenim funkcionalnostima. | Karlo Kuzmić
+F02 | Upravljanje naručivanja proizvoda | Program implementira više načina naručivanja proizvoda. Moguće je ručno upisati vrstu i količinu porizvoda za naručivanje, a moguće je i automatsko naručivanje prema određenim parametrima (broj proizvoda na zalihi, broj proizvoda na policama, rok trajanja, trend kupovine, sezonski utjecaji) | Karlo Kuzmić
+F03 | Upravljanje zalihama | Cilj sustava je pratiti broj proizvoda na zalihama i osigurati minimalnu moguću zalihu koja i dalje osigurava dovoljan broj proizvoda na policama. Preko programa moguće vidjeti točne vrste i broj proizvoda trenutno na zalihi. Sustav zaliha komunicira sa sustavom za upravljanje narudžbama i sustavom za veleprodaju zbog ostvarenja cilja. | Karlo Kuzmić
+F04 | Upravljanje izvozom robe | Program omogućuje veleprodaju, odnosno mogućnost prodaje proizvoda na veliko iz poslovnice drugim partnerima | Tibor Levanić
+F05 | Statistika | Generiranje pisanih ili digitalnih izvještaja funkcionalnosti nekih drugih sustava u točnom trenutku u svrhu dokaza ili očitovanja, generiranje statistike kao pomoć u odlučivanju (najprodavaniji proizvod, proizvod s najviše žalbi, graf broja prodanih porizvoda kroz godinu itd.)  | Tibor Levanić
+F06 | Obaviještavanje | Sustav omogućuje obaviještavanje korisnika putem kartice "Obavijesti" kada se u sustavu ispuni definirani uvjet (npr. kad na zalihi ima manje od X proizvoda, kada) | Tin Račić
+F07 |  |  | Tin Račić
+F08 | 
+F09 | Upravljanje radnicima i radnim smjenama | U sustav je dostupan pregled zapisanih radnika po smjenama kroz tjedne, upis novih radnika, mijenjanje i brisanje smjene, mijenjanje repozitorija radnika | Tin Račić
 
 ## Tehnologije i oprema
 Za projektiranje sustava ponajprije će biti korišten {PROGRAM ZA UML DIJAGRAME} Program će biti Windows Forms aplikacija razvijena pomoću .NET Framework razvojnog okvira.
