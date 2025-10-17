@@ -11,7 +11,7 @@ Sav programski kod potrebno je verzionirati u glavnoj **master** grani i **obvez
 
 Nakon vaše prijave bit će vam dodijeljen mentor s kojim ćete tijekom semestra raditi na ovom projektu. Mentor će vam slati povratne informacije kroz sekciju Discussions također dostupnu na GitHubu vašeg projekta. A sada, vrijeme je da prijavite vaš projekt. Za prijavu vašeg projektnog prijedloga molimo vas koristite **predložak** koji je naveden u nastavku, a započnite tako da kliknete na *olovku* u desnom gornjem kutu ovoga dokumenta :) 
 
-# Naziv projekta
+# SIR - Sustav za Inventar i Resurse
 (u redak iznad navedite kratki proizvoljni naziv projekta prikladan akademskoj zajednici, a ovaj tekst obrišite)
 
 ## Projektni tim
@@ -19,7 +19,8 @@ Nakon vaše prijave bit će vam dodijeljen mentor s kojim ćete tijekom semestra
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
 Karlo Kuzmić | kkuzmic23@foi.hr | 0016165158 | kkuzmic23
-Ime i prezime | ... | ... | ...
+Tibor Levanić | ... | ... | ...
+Tin Račić | ... | ... | ...
 
 ## Opis domene
 Umjesto ovih uputa opišite domenu ili problem koji pokrivate vašim  projektom. Domena može biti proizvoljna, ali obratite pozornost da sukladno ishodima učenja, domena omogući primjenu zahtijevanih koncepata kako je to navedeno u sljedećem poglavlju. Priložite odgovarajuće skice gdje je to prikladno.
@@ -29,8 +30,15 @@ Umjesto ovih uputa opišite zahtjeve za funkcionalnošću programskog proizvoda.
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Login | Za pristup dnevniku potrebnba je autentikacija korisnika pomoću login funkcionalnosti. Korisnik se logira s podacima koji su mu dodijeljeni prilikom ... | Zlatko Stapić
-F02 | Pregled dnevnika | .... | ...
+F01 | Login | Za pristup dnevniku potrebna je autentikacija korisnika pomoću login funkcionalnosti. Korisnik se logira s podacima koji su mu dodijeljeni prilikom ... | Karlo Kuzmić
+F02 | Upravljanje proizvodima | (koje proizvode imamo u bazi) | Karlo Kuzmić
+F03 | Upravljanje zalihama | (koliko proizvoda ima) | Karlo Kuzmić
+F04 | Upravljanje dobavljanjem robe | | Tibor Levanić
+F05 | Upravljanje izdavanjem robe | (za veleprodaju) | Tibor Levanić
+F06 | Stvaranje izvještaja o toku robe | | Tibor Levanić
+F07 | Upravljanje podacima o partnerima | (dobavljači i kupci veleprodaje) | Tin Račić
+F08 | Stvaranje izvještaja o nečemu | | Tin Račić
+F09 |  |  | Tin Račić
 
 ## Tehnologije i oprema
 Umjesto ovih uputa jasno popišite sve tehnologije, alate i opremu koju ćete koristiti pri implementaciji vašeg rješenja. Projekti se razvijaju koristeći .Net Framework ili .Net Core razvojne okvire, a vrsta projekta može biti WinForms, WPF i UWP. Ne zaboravite planirati korištenje tehnologija u aktivnostima kao što su projektni menadžment ili priprema dokumentacije. Tehnologije koje ćete koristiti bi trebale biti javno dostupne, a ako ih ne budemo obrađivali na vježbama u vašoj dokumentaciji ćete morati navesti način preuzimanja, instaliranja i korištenja onih tehnologija koje su neopbodne kako bi se vaš programski proizvod preveo i pokrenuo. Pazite da svi alati koje ćete koristiti moraju imati odgovarajuću licencu. Što se tiče zahtjeva nastavnika, obvezno je koristiti git i GitHub za verzioniranje programskog koda, GitHub Wiki za pisanje tehničke i projektne dokumentacije, a projektne zadatke je potrebno planirati i pratiti u alatu GitHub projects. 
