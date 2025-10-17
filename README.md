@@ -7,7 +7,7 @@ Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
 Karlo Kuzmić | kkuzmic23@foi.hr | 0016165158 | kkuzmic23
 Tibor Levanić | tlevanic23@foi.hr | 0016165686 | tlevanic23
-Tin Račić | ... | ... | ...
+Tin Račić | tracic21@foi hr | 0016154766 | tracic21
 
 ## Opis domene
 Zadatak projekta je izraditi programsko rješenje namijenjeno praćenju zaliha u poduzeću koje prodaje proizvode. Program bi uglavnom koristili menadžeri poslovnica ili upravitelji smjena kako bi se povećala učinkovitost poslovanja i olakšalo upravljanje robom. Program će sadržavati različite funkcionalnosti koje omogućuju praćenje zaliha, evidentiranje uvoz i izvoz robe, stvaranje izvještaja te automatsko obavještavanje ako će ponestat zaliha nekog proizvoda. Korisnici bi na računalu morali jednostavno upravljati podacima o proizvodima, zalihama i partnerskim poduzećima. 
