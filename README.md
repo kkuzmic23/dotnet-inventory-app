@@ -35,7 +35,7 @@ F02 | Upravljanje naručivanja proizvoda | Program implementira više načina na
 F03 | Upravljanje zalihama | Cilj sustava je pratiti broj proizvoda na zalihama i osigurati minimalnu moguću zalihu koja i dalje osigurava dovoljan broj proizvoda na policama. Preko programa moguće vidjeti točne vrste i broj proizvoda trenutno na zalihi. Sustav zaliha komunicira sa sustavom za upravljanje narudžbama i sustavom za veleprodaju zbog ostvarenja cilja. | Karlo Kuzmić
 F04 | Upravljanje izvozom robe | Program omogućuje veleprodaju, odnosno mogućnost prodaje proizvoda na veliko iz poslovnice drugim partnerima | Tibor Levanić
 F05 | Statistika | Generiranje pisanih ili digitalnih izvještaja funkcionalnosti nekih drugih sustava u točnom trenutku u svrhu dokaza ili očitovanja, generiranje statistike kao pomoć u odlučivanju (najprodavaniji proizvod, proizvod s najviše žalbi, graf broja prodanih porizvoda kroz godinu itd.)  | Tibor Levanić
-F06 | Obaviještavanje | Sustav omogućuje obaviještavanje korisnika putem kartice "Obavijesti" kada se u sustavu ispuni definirani uvjet (npr. kad na zalihi ima manje od X proizvoda, kada) | Tin Račić
+F06 | Obaviještavanje | Sustav omogućuje obaviještavanje korisnika putem kartice "Obavijesti" kada se u sustavu ispuni definirani uvjet (npr. kad na zalihi ima manje od X proizvoda, kada) | Tibor Levanić
 F07 |  |  | Tin Račić
 F08 | 
 F09 | Upravljanje radnicima i radnim smjenama | U sustav je dostupan pregled zapisanih radnika po smjenama kroz tjedne, upis novih radnika, mijenjanje i brisanje smjene, mijenjanje repozitorija radnika | Tin Račić
