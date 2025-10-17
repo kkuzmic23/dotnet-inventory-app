@@ -19,7 +19,7 @@ Nakon vaše prijave bit će vam dodijeljen mentor s kojim ćete tijekom semestra
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
 Karlo Kuzmić | kkuzmic23@foi.hr | 0016165158 | kkuzmic23
-Tibor Levanić | tlevanic23@foi.hr | ... | ...
+Tibor Levanić | tlevanic23@foi.hr | 0016165686 | tlevanic23
 Tin Račić | ... | ... | ...
 
 ## Opis domene
