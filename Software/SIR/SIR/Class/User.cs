@@ -13,13 +13,15 @@ namespace SIR.Class
         public string LastName { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
+        public string Email { get; set; }
 
-        public User(string firstName, string lastName, string username, string password)
+        public User(string firstName, string lastName, string username, string password, string email)
         {
             FirstName = firstName;
             LastName = lastName;
             Username = username;
             Password = password;
+            Email = email;
         }
 
         public override string ToString()

@@ -24,9 +24,9 @@ namespace SIR
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-            kkuzmic = new User("Karlo", "Kuzmic", "kkuzmic", "pw123");
-            tlevanic = new User("Tibor", "Levanic", "tlevanic", "pw123");
-            tracic = new User("Tin", "Racic", "tracic", "pw123");
+            kkuzmic = new User("Karlo", "Kuzmic", "kkuzmic", "pw123", "kkuzmic23@foi.hr");
+            tlevanic = new User("Tibor", "Levanic", "tlevanic", "pw123", "tlevanic23@foi.hr");
+            tracic = new User("Tin", "Racic", "tracic", "pw123", "tracic22@foi.hr");
             users = new List<User>();
             users.Add(kkuzmic); users.Add(tlevanic); users.Add(tracic);
         }
@@ -40,6 +40,9 @@ namespace SIR
                 if (found != null)
                 {
                     MessageBox.Show("Login successful!");
+                    frmMainMenu mainmenu = new frmMainMenu();
+                    Hide();
+                    mainmenu.ShowDialog();
                 }
                 else
                 {
