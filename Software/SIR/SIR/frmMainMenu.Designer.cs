@@ -39,7 +39,7 @@
             this.MaximizeBox = false;
             this.Name = "frmMainMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmMainMenu";
+            this.Text = "Main menu";
             this.ResumeLayout(false);
 
         }
