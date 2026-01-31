@@ -1,10 +1,5 @@
 using EntityLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -12,45 +7,25 @@ namespace DataAccessLayer
     {
         public ProductRepository() : base(new Model1())
         {
-
         }
 
-        public override IQueryable<Product> GetAll()
+        public override int Update(Product product, bool saveChanges = true)
         {
-            var query = from p in Entities.Include("Supplier")
-                        select p;
-            return query;
-        }
-
-        public IQueryable<Product> GetProductsByName(string phrase)
-        {
-            var query = from p in Entities.Include("Supplier")
-                        where p.Name.Contains(phrase)
-                        select p;
-
-            return query;
-        }
-
-        public override int Update(Product entity, bool saveChanges = true)
-        {
-            var product = Entities.SingleOrDefault(p => p.Id == entity.Id);
-
-            product.ProductCode = entity.ProductCode;
-            product.Name = entity.Name;
-            product.Description = entity.Description;
-            product.SupplierId = entity.SupplierId;
-            product.ReorderLevel = entity.ReorderLevel;
-            product.IsActive = entity.IsActive;
-            product.CreatedAt = entity.CreatedAt;
-
-            if (saveChanges)
-            {
-                return SaveChanges();
-            }
-            else
+            var existing = Entities.SingleOrDefault(p => p.Id == product.Id);
+            if (existing == null)
             {
                 return 0;
             }
+
+            existing.ProductCode = product.ProductCode;
+            existing.Name = product.Name;
+            existing.Description = product.Description;
+            existing.SupplierId = product.SupplierId;
+            existing.ReorderLevel = product.ReorderLevel;
+            existing.IsActive = product.IsActive;
+            existing.CreatedAt = product.CreatedAt;
+
+            return saveChanges ? SaveChanges() : 0;
         }
     }
 }

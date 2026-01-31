@@ -1,10 +1,7 @@
 using DataAccessLayer;
 using EntityLayer.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogicLayer
 {
@@ -20,7 +17,6 @@ namespace BusinessLogicLayer
 
         public bool AddSupplier(Supplier supplier)
         {
-            bool isSuccessful = false;
             if (supplier == null)
             {
                 return false;
@@ -29,49 +25,12 @@ namespace BusinessLogicLayer
             using (var repo = new SupplierRepository())
             {
                 int affectedRows = repo.Add(supplier);
-                isSuccessful = affectedRows > 0;
-            }
-            return isSuccessful;
-        }
-
-        public bool RemoveSupplier(Supplier supplier)
-        {
-            bool isSuccessful = false;
-
-            bool canRemove = CheckIfSupplierCanBeRemoved(supplier);
-            if (canRemove == true)
-            {
-                using (var repo = new SupplierRepository())
-                {
-                    int affectedRows = repo.Remove(supplier);
-                    isSuccessful = affectedRows > 0;
-                }
-            }
-
-            return isSuccessful;
-        }
-
-        private bool CheckIfSupplierCanBeRemoved(Supplier supplier)
-        {
-            if (supplier == null) return false;
-
-            using (var repo = new SupplierRepository())
-            {
-                int productCount = repo.GetProductCount(supplier).Single();
-                if (productCount > 0)
-                {
-                    return false;
-                }
-                else
-                {
-                    return true;
-                }
+                return affectedRows > 0;
             }
         }
 
         public bool UpdateSupplier(Supplier supplier)
         {
-            bool isSuccessful = false;
             if (supplier == null)
             {
                 return false;
@@ -80,16 +39,40 @@ namespace BusinessLogicLayer
             using (var repo = new SupplierRepository())
             {
                 int affectedRows = repo.Update(supplier);
-                isSuccessful = affectedRows > 0;
+                return affectedRows > 0;
             }
-            return isSuccessful;
         }
 
-        public List<Supplier> GetSuppliersByName(string phrase)
+        public bool RemoveSupplier(Supplier supplier)
         {
+            if (supplier == null)
+            {
+                return false;
+            }
+
+            if (!CanRemoveSupplier(supplier))
+            {
+                return false;
+            }
+
             using (var repo = new SupplierRepository())
             {
-                return repo.GetSuppliersByName(phrase).ToList();
+                int affectedRows = repo.Remove(supplier);
+                return affectedRows > 0;
+            }
+        }
+
+        private bool CanRemoveSupplier(Supplier supplier)
+        {
+            if (supplier.Id == 0)
+            {
+                return false;
+            }
+
+            using (var repo = new SupplierRepository())
+            {
+                int productCount = repo.GetProductCount(supplier);
+                return productCount == 0;
             }
         }
     }

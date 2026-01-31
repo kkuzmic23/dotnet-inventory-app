@@ -1,10 +1,5 @@
 using EntityLayer.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
@@ -12,33 +7,22 @@ namespace DataAccessLayer
     {
         public OrderRepository() : base(new Model1())
         {
-
         }
 
-        public override IQueryable<Order> GetAll()
+        public override int Update(Order order, bool saveChanges = true)
         {
-            var query = from o in Entities.Include("Supplier")
-                        select o;
-            return query;
-        }
-
-        public override int Update(Order entity, bool saveChanges = true)
-        {
-            var order = Entities.SingleOrDefault(o => o.Id == entity.Id);
-
-            order.SupplierId = entity.SupplierId;
-            order.Status = entity.Status;
-            order.CreatedAt = entity.CreatedAt;
-            order.ReceivedAt = entity.ReceivedAt;
-
-            if (saveChanges)
-            {
-                return SaveChanges();
-            }
-            else
+            var existing = Entities.SingleOrDefault(o => o.Id == order.Id);
+            if (existing == null)
             {
                 return 0;
             }
+
+            existing.SupplierId = order.SupplierId;
+            existing.Status = order.Status;
+            existing.CreatedAt = order.CreatedAt;
+            existing.ReceivedAt = order.ReceivedAt;
+
+            return saveChanges ? SaveChanges() : 0;
         }
     }
 }
