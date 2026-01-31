@@ -21,6 +21,7 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button Name="btnLoadImports" Height=" 25" Content="Show All Imports" Click="btnLoadImports_Click"></Button>
             <Button Name="btnFilter" Height="25" Content="Filter" Click="btnFilter_Click"></Button>
+            <Button Name="btnClearFilters" Height="25" Content="Clear Filters" Click="btnClearFilters_Click"></Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Name="btnDetails" Height="25" Content="Details" Click="btnDetails_Click"></Button>
