@@ -18,6 +18,6 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Name="btnDetails" Height="25" Content="Details" Click="btnDetails_Click"></Button>
         </StackPanel>
-        <DataGrid />
+        <DataGrid Name="dgImports"/>
     </DockPanel>
 </UserControl>
