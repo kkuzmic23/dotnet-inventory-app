@@ -74,6 +74,27 @@ namespace WPFLayer
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
+            var product = GetSelectedProduct();
+            if (product == null || product.Id == 0)
+            {
+                MessageBox.Show("Select a product first");
+                return;
+            }
+
+            if (!product.IsActive)
+            {
+                MessageBox.Show("This product is discontinued. Bringing it back");
+            }
+
+            product.IsActive = !product.IsActive;
+
+            bool isSuccessful = productService.UpdateProduct(product);
+            if (!isSuccessful)
+            {
+                MessageBox.Show("Fatal flaw while updating product");
+            }
+
+            LoadProducts();
         }
 
         private Product GetSelectedProduct()
