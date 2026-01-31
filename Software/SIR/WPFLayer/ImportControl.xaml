@@ -29,7 +29,7 @@
                                     <DataTemplate>
                                         <DockPanel Margin="0,4,0,0">
                                             <TextBlock DockPanel.Dock="Left" Text="{Binding ProductName}" />
-                                            <TextBlock DockPanel.Dock="Right" Text="{Binding TotalQuantity}" FontWeight="Bold" />
+                                            <TextBlock DockPanel.Dock="Right" FontWeight="Bold" Text="{Binding TotalQuantity, StringFormat=Amount: {0}}" />
                                         </DockPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
