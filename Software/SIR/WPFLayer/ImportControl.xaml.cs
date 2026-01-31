@@ -35,12 +35,31 @@ namespace WPFLayer
 
         private void btnDetails_Click(object sender, RoutedEventArgs e)
         {
-
+            if (lvImports.SelectedItem is SupplierImportSummary summary)
+            {
+                var service = new ImportService();
+                var details = service.GetImportDetailsBySupplier(summary.SupplierId);
+                var window = new ImportDetailsWindow(summary, details);
+                window.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Select a supplier import to view details.");
+            }
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
         {
             lvImports.ItemsSource = ApplyFilters(_allSummaries);
+        }
+
+        private void btnClearFilters_Click(object sender, RoutedEventArgs e)
+        {
+            txtSupplierFilter.Text = string.Empty;
+            txtProductFilter.Text = string.Empty;
+            txtAmountMin.Text = string.Empty;
+            txtAmountMax.Text = string.Empty;
+            lvImports.ItemsSource = _allSummaries;
         }
 
         private List<SupplierImportSummary> ApplyFilters(List<SupplierImportSummary> source)
