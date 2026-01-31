@@ -1,63 +1,40 @@
-﻿using EntityLayer.Entities;
-using System;
+using EntityLayer.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal class OrderRepository
+    public class OrderRepository : Repository<Order>
     {
-        public List<Order> GetAll()
+        public OrderRepository() : base(new Model1())
         {
-            using (var context = new Model1())
-            {
-                return context.Orders.ToList();
-            }
         }
 
-        public int Add(Order order)
+        public override int Update(Order order, bool saveChanges = true)
         {
-            using (var context = new Model1())
+            var existing = Entities.SingleOrDefault(o => o.Id == order.Id);
+            if (existing == null)
             {
-                context.Orders.Add(order);
-                return context.SaveChanges();
+                return 0;
             }
+
+            existing.SupplierId = order.SupplierId;
+            existing.Status = order.Status;
+            existing.CreatedAt = order.CreatedAt;
+            existing.ReceivedAt = order.ReceivedAt;
+
+            return saveChanges ? SaveChanges() : 0;
         }
 
-        public int Update(Order order)
+        public int SetStatusForOrders(IEnumerable<int> orderIds, string status, bool saveChanges = true)
         {
-            using (var context = new Model1())
+            var orders = Entities.Where(o => orderIds.Contains(o.Id)).ToList();
+            foreach (var order in orders)
             {
-                var existing = context.Orders.FirstOrDefault(o => o.Id == order.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                existing.SupplierId = order.SupplierId;
-                existing.Status = order.Status;
-                existing.CreatedAt = order.CreatedAt;
-                existing.ReceivedAt = order.ReceivedAt;
-
-                return context.SaveChanges();
+                order.Status = status;
             }
-        }
 
-        public int Remove(Order order)
-        {
-            using (var context = new Model1())
-            {
-                var existing = context.Orders.FirstOrDefault(o => o.Id == order.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                context.Orders.Remove(existing);
-                return context.SaveChanges();
-            }
+            return saveChanges ? SaveChanges() : 0;
         }
     }
 }

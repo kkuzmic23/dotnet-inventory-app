@@ -45,7 +45,8 @@ namespace WPFLayer
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new ImportControl();
+            lblWelcome.Content = "Import";
         }
 
         private void btnStock_Click(object sender, RoutedEventArgs e)

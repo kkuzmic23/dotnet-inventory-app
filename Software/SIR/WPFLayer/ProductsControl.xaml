@@ -14,11 +14,18 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Width="50" Height="25">Load</Button>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button x:Name="btnLoad" Width="50" Height="25" Margin="0,0,15,0" Click="btnLoad_Click">Load</Button>
+
+                <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Search</TextBlock>
+
+                <TextBox Width="140" Height="23" x:Name="txtSearchProducts" TextChanged="txtSearchProducts_TextChanged"/>
+            </StackPanel>
+
 
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock VerticalAlignment="Center" Margin="0,0,6,0"> Filter by supplier</TextBlock>
-                <ComboBox Width="140"/>
+                <ComboBox x:Name="cmbFilter" Width="140" SelectionChanged="cmbFilter_SelectionChanged"/>
             </StackPanel>
         </Grid>
 
@@ -28,15 +35,25 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Width="90" Height="25">Find supplier</Button>
+            <Button x:Name="btnFindSupplier" Grid.Column="0" Width="90" Height="25" HorizontalAlignment="Left" Click="btnFindSupplier_Click">Find supplier</Button>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Width="50" Height="25">Add</Button>
-                <Button Width="50" Height="25">Update</Button>
-                <Button Width="50" Height="25">Delete</Button>
+                <Button x:Name="btnAdd" Width="50" Height="25" Click="btnAdd_Click">Add</Button>
+                <Button x:Name="btnUpdate" Width="50" Height="25" Click="btnUpdate_Click">Update</Button>
+                <Button x:Name="btnDelete" Width="70" Height="25" Click="btnDelete_Click">Discontinue</Button>
             </StackPanel>
         </Grid>
 
-        <DataGrid />
+        <DataGrid x:Name="dgProducts" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Product Code" Binding="{Binding ProductCode}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Supplier Name" Binding="{Binding SupplierName}"/>
+                <DataGridTextColumn Header="Reorder Level" Binding="{Binding ReorderLevel}"/>
+                <DataGridCheckBoxColumn Header="Is Active" Binding="{Binding IsActive}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>
