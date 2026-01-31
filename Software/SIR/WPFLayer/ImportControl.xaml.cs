@@ -25,7 +25,7 @@ namespace WPFLayer
         private void btnLoadImports_Click(object sender, RoutedEventArgs e)
         {
             var service = new ImportService();
-            dgImports.ItemsSource = service.GetImports();
+            lvImports.ItemsSource = service.GetImportSummaries();
         }
 
         private void btnDetails_Click(object sender, RoutedEventArgs e)
