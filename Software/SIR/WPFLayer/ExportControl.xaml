@@ -6,11 +6,17 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel Background="#FFEFEFEF">
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,6">
-            <ComboBox Name="cmbProducts" Width="240" DisplayMemberPath="Name" SelectedValuePath="Id" />
-            <TextBox Name="txtQuantity" Width="80" Margin="6,0,0,0" />
-            <Button Name="btnAddItem" Height="25" Content="Add" Margin="6,0,0,0" Click="btnAddItem_Click" />
-            <Button Name="btnRemoveItem" Height="25" Content="Remove" Margin="6,0,0,0" Click="btnRemoveItem_Click" />
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Margin="0,0,0,6">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                <ComboBox Name="cmbProducts" Width="240" DisplayMemberPath="Name" SelectedValuePath="Id" />
+                <TextBox Name="txtQuantity" Width="80" Margin="6,0,0,0" />
+                <Button Name="btnAddItem" Height="25" Content="Add" Margin="6,0,0,0" Click="btnAddItem_Click" />
+                <Button Name="btnRemoveItem" Height="25" Content="Remove" Margin="6,0,0,0" Click="btnRemoveItem_Click" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Notes:" VerticalAlignment="Center" Margin="0,0,6,0" />
+                <TextBox Name="txtNotes" Width="420" />
+            </StackPanel>
         </StackPanel>
 
         <DataGrid Name="dgExportItems" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,0,0,6">

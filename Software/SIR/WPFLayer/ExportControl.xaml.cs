@@ -107,6 +107,7 @@ namespace WPFLayer
 
             var request = new ExportRequest
             {
+                Notes = txtNotes.Text?.Trim(),
                 Items = exportItems.ToList()
             };
 
@@ -119,6 +120,7 @@ namespace WPFLayer
 
             MessageBox.Show("Export completed.");
             exportItems.Clear();
+            txtNotes.Text = string.Empty;
             LoadStock();
         }
     }
