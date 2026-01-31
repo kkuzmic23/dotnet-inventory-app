@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Height="50" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Products</Label>
+        <Label x:Name="lblProducts" Grid.Row="0" Height="50" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Products</Label>
         <DockPanel Grid.Row="1">
             <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
@@ -21,11 +21,11 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Width="50" Height="25">Load</Button>
+                <Button x:Name="btnLoad" Grid.Column="0" Width="50" Height="25">Load</Button>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock VerticalAlignment="Center" Margin="0,0,6,0"> Filter by supplier </TextBlock>
-                    <ComboBox Width="140"/>
+                    <TextBlock x:Name="lblSupplierFilter" VerticalAlignment="Center" Margin="0,0,6,0"> Filter by supplier </TextBlock>
+                    <ComboBox x:Name="cmbSupplier" Width="140"/>
                 </StackPanel>
             </Grid>
 
@@ -35,16 +35,16 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Width="90" Height="25">Find supplier</Button>
+                <Button x:Name="btnFindSupplier" Grid.Column="0" Width="90" Height="25">Find supplier</Button>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Width="50" Height="25">Add</Button>
-                    <Button Width="50" Height="25">Update</Button>
-                    <Button Width="50" Height="25">Delete</Button>
+                    <Button x:Name="btnAdd" Width="50" Height="25">Add</Button>
+                    <Button x:Name="btnUpdate" Width="50" Height="25">Update</Button>
+                    <Button x:Name="btnDelete" Width="50" Height="25">Delete</Button>
                 </StackPanel>
             </Grid>
 
-            <DataGrid />
+            <DataGrid x:Name="dgProducts" />
         </DockPanel>
 
     </Grid>

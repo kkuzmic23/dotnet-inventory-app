@@ -13,17 +13,17 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Height="50" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Orders</Label>
+        <Label x:Name="lblOrders" Grid.Row="0" Height="50" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Orders</Label>
         <DockPanel Grid.Row="1">
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Width="50" Height=" 25">Load</Button>
+                <Button x:Name="btnLoad" Width="50" Height=" 25">Load</Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-                <Button Width="50" Height=" 25">Add</Button>
-                <Button Width="50" Height=" 25">Update</Button>
-                <Button Width="50" Height=" 25">Delete</Button>
+                <Button x:Name="btnAdd" Width="50" Height=" 25">Add</Button>
+                <Button x:Name="btnUpdate" Width="50" Height=" 25">Update</Button>
+                <Button x:Name="btnDelete" Width="50" Height=" 25">Delete</Button>
             </StackPanel>
-            <DataGrid />
+            <DataGrid x:Name="dgOrders" />
         </DockPanel>
     </Grid>
 </Window>
