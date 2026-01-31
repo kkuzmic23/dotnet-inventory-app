@@ -27,17 +27,17 @@ namespace WPFLayer
 
         private void btnOrders_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new OrdersControl();
         }
 
         private void btnProducts_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new ProductsControl();
         }
 
         private void btnSuppliers_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new SuppliersControl();
         }
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
