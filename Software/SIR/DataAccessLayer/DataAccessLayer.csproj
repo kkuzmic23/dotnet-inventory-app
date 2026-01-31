@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model1.cs" />
+    <Compile Include="InventoryTransactionRepository.cs" />
     <Compile Include="OrderRepository.cs" />
     <Compile Include="OrderHasProductRepository.cs" />
     <Compile Include="ProductRepository.cs" />
