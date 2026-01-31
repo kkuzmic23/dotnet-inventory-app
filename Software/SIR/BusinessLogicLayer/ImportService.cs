@@ -43,6 +43,57 @@ namespace BusinessLogicLayer
                     .ToList();
             }
         }
+
+        public List<ImportItemDetail> GetImportDetailsBySupplier(int supplierId)
+        {
+            using (var repo = new OrderHasProductRepository())
+            {
+                return repo.GetAll()
+                    .Where(x => x.Order != null && x.Order.SupplierId == supplierId && x.Product != null)
+                    .Select(x => new ImportItemDetail
+                    {
+                        OrderId = x.OrderId,
+                        ProductId = x.ProductId,
+                        ProductName = x.Product.Name,
+                        Quantity = x.Quantity
+                    })
+                    .OrderBy(x => x.OrderId)
+                    .ThenBy(x => x.ProductName)
+                    .ToList();
+            }
+        }
+
+        public bool ApplyImport(SupplierImportSummary summary)
+        {
+            if (summary == null || summary.Products == null || summary.Products.Count == 0)
+            {
+                return false;
+            }
+
+            using (var repo = new StockRepository())
+            {
+                foreach (var product in summary.Products)
+                {
+                    var stock = repo.GetByProductId(product.ProductId);
+                    if (stock == null)
+                    {
+                        repo.Add(new Stock
+                        {
+                            ProductId = product.ProductId,
+                            Quantity = product.TotalQuantity
+                        }, saveChanges: false);
+                    }
+                    else
+                    {
+                        stock.Quantity += product.TotalQuantity;
+                    }
+                }
+
+                repo.SaveChanges();
+            }
+
+            return true;
+        }
     }
 
     public class SupplierImportSummary
@@ -57,5 +108,13 @@ namespace BusinessLogicLayer
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public int TotalQuantity { get; set; }
+    }
+
+    public class ImportItemDetail
+    {
+        public int OrderId { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
     }
 }
