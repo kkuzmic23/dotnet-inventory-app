@@ -38,8 +38,13 @@ namespace WPFLayer
             }
 
             var service = new ImportService();
-            bool ok = service.ApplyImport(_summary);
+            bool ok = service.ApplyImport(_summary.SupplierId);
             MessageBox.Show(ok ? "Import applied." : "Import could not be applied.");
+            if (ok)
+            {
+                DialogResult = true;
+                Close();
+            }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
