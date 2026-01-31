@@ -1,6 +1,5 @@
 using System;
 using System.Security.Cryptography;
-
 namespace BusinessLogicLayer
 {
     internal static class PasswordHasher
@@ -13,9 +12,10 @@ namespace BusinessLogicLayer
         public static string HashPassword(string password)
         {
             var salt = new byte[SaltSize];
-            using (var rng = new RNGCryptoServiceProvider())
+            var rng = new Random();
+            for (var i = 0; i < salt.Length; i++)
             {
-                rng.GetBytes(salt);
+                salt[i] = (byte)rng.Next(0, 256);
             }
 
             using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, Iterations))
