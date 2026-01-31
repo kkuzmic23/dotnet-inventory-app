@@ -183,6 +183,32 @@ namespace WPFLayer
             mainWindow.lblWelcome.Content = "Suppliers";
         }
 
+        public void LoadAndSelectSupplier(int supplierId)
+        {
+            if (cmbFilter.ItemsSource == null)
+            {
+                LoadSuppliers();
+            }
+
+            LoadProducts();
+
+            var suppliers = cmbFilter.ItemsSource as IEnumerable<Supplier>;
+            if (suppliers != null)
+            {
+                var supplier = suppliers.FirstOrDefault(x => x.Id == supplierId);
+                if (supplier != null)
+                {
+                    cmbFilter.SelectedItem = supplier;
+                }
+                else
+                {
+                    cmbFilter.SelectedIndex = 0;
+                }
+            }
+
+            ApplyFilter();
+        }
+
         private void txtSearchProducts_TextChanged(object sender, TextChangedEventArgs e)
         {
             ApplyFilter();

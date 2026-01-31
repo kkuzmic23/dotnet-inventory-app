@@ -78,7 +78,25 @@ namespace WPFLayer
 
         private void btnAllProductsFromSupplier_Click(object sender, RoutedEventArgs e)
         {
+            var supplier = GetSelectedSupplier();
+            if (supplier == null || supplier.Id == 0)
+            {
+                MessageBox.Show("Select a supplier first.");
+                return;
+            }
 
+            var productsControl = new ProductsControl();
+            productsControl.LoadAndSelectSupplier(supplier.Id);
+
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            if (mainWindow == null)
+            {
+                MessageBox.Show("Main window not found");
+                return;
+            }
+
+            mainWindow.Sadrzaj.Content = productsControl;
+            mainWindow.lblWelcome.Content = "Products";
         }
     }
 }
