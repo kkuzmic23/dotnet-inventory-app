@@ -1,0 +1,27 @@
+<UserControl x:Class="WPFLayer.ExportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel Background="#FFEFEFEF">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,6">
+            <ComboBox Name="cmbProducts" Width="240" DisplayMemberPath="Name" SelectedValuePath="Id" />
+            <TextBox Name="txtQuantity" Width="80" Margin="6,0,0,0" />
+            <Button Name="btnAddItem" Height="25" Content="Add" Margin="6,0,0,0" Click="btnAddItem_Click" />
+            <Button Name="btnRemoveItem" Height="25" Content="Remove" Margin="6,0,0,0" Click="btnRemoveItem_Click" />
+        </StackPanel>
+
+        <DataGrid Name="dgExportItems" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,0,0,6">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Name="btnExport" Height="26" Content="Export" Width="90" Click="btnExport_Click" />
+        </StackPanel>
+    </DockPanel>
+</UserControl>
