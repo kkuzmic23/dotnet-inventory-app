@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BusinessLogicLayer;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,7 +24,8 @@ namespace WPFLayer
 
         private void btnLoadImports_Click(object sender, RoutedEventArgs e)
         {
-
+            var service = new ImportService();
+            dgImports.ItemsSource = service.GetImports();
         }
 
         private void btnDetails_Click(object sender, RoutedEventArgs e)
