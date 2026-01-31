@@ -18,6 +18,12 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Name="btnDetails" Height="25" Content="Details" Click="btnDetails_Click"></Button>
         </StackPanel>
-        <DataGrid Name="dgImports"/>
+        <DataGrid Name="dgImports" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Order" Binding="{Binding Order.Supplier.Name}" />
+                <DataGridTextColumn Header="Product" Binding="{Binding Product.Name}" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>
