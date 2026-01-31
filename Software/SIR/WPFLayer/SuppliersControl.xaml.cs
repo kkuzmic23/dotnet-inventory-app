@@ -1,5 +1,8 @@
-﻿using System;
+﻿using BusinessLogicLayer;
+using EntityLayer.Entities;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +23,48 @@ namespace WPFLayer
     /// </summary>
     public partial class SuppliersControl : UserControl
     {
+        private SupplierService supplierService = new SupplierService();
+        private ObservableCollection<Supplier> suppliers = new ObservableCollection<Supplier>();
         public SuppliersControl()
         {
             InitializeComponent();
+            dgSupplier.ItemsSource = suppliers;
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            LoadSuppliers();
+        }
+
+        private void LoadSuppliers()
+        {
+            suppliers = new ObservableCollection<Supplier>(supplierService.GetSuppliers());
+            dgSupplier.ItemsSource = suppliers;
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            LoadSuppliers();
+        }
+
+        private Supplier GetSelectedSupplier()
+        {
+            return dgSupplier.SelectedItem as Supplier;
+        }
+
+        private void btnAllProductsFromSupplier_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

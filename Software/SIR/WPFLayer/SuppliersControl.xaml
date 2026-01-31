@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel Grid.Row="1">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#FFEFEFEF">
-            <Button Width="50" Height="25">Load</Button>
+            <Button x:Name="btnLoad" Width="50" Height="25" Click="btnLoad_Click">Load</Button>
         </StackPanel>
 
         <Grid DockPanel.Dock="Bottom" Background="#FFEFEFEF">
@@ -17,15 +17,15 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button Grid.Column="0" Width="180" Height="25">All products from this supplier</Button>
+            <Button x:Name="btnAllProductsFromSupplier" Grid.Column="0" Width="180" Height="25" Click="btnAllProductsFromSupplier_Click">All products from this supplier</Button>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Width="50" Height="25">Add</Button>
-                <Button Width="50" Height="25">Update</Button>
-                <Button Width="50" Height="25">Delete</Button>
+                <Button x:Name="btnAdd" Width="50" Height="25" Click="btnAdd_Click">Add</Button>
+                <Button x:Name="btnUpdate" Width="50" Height="25" Click="btnUpdate_Click">Update</Button>
+                <Button x:Name="btnDelete" Width="70" Height="25" Click="btnDelete_Click">Discontinue</Button>
             </StackPanel>
         </Grid>
 
-        <DataGrid />
+        <DataGrid x:Name="dgSupplier" />
     </DockPanel>
 </UserControl>

@@ -40,7 +40,7 @@
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="btnAdd" Width="50" Height="25" Click="btnAdd_Click">Add</Button>
                 <Button x:Name="btnUpdate" Width="50" Height="25" Click="btnUpdate_Click">Update</Button>
-                <Button x:Name="btnDelete" Width="50" Height="25" Click="btnDelete_Click">Delete</Button>
+                <Button x:Name="btnDelete" Width="70" Height="25" Click="btnDelete_Click">Discontinue</Button>
             </StackPanel>
         </Grid>
 

@@ -54,20 +54,6 @@ namespace WPFLayer
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var product = GetSelectedProduct();
-            if (product == null || product.Id == 0)
-            {
-                MessageBox.Show("Select a product first");
-                return;
-            }
-
-            bool isSuccessful = productService.RemoveProduct(product);
-            if (!isSuccessful)
-            {
-                MessageBox.Show("Fatal failure while deleting product");
-            }
-
-            LoadProducts();
         }
 
         private Product GetSelectedProduct()
