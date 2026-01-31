@@ -35,20 +35,16 @@ namespace WPFLayer
 
         private void btnDetails_Click(object sender, RoutedEventArgs e)
         {
-            if (!(lvImports.SelectedItem is SupplierImportSummary summary))
+            if (lvImports.SelectedItem is SupplierImportSummary summary)
+            {
+                var service = new ImportService();
+                var details = service.GetImportDetailsBySupplier(summary.SupplierId);
+                var window = new ImportDetailsWindow(summary, details);
+                window.ShowDialog();
+            }
+            else
             {
                 MessageBox.Show("Select a supplier import to view details.");
-                return;
-            }
-
-            var service = new ImportService();
-            var details = service.GetImportDetailsBySupplier(summary.SupplierId);
-            var window = new ImportDetailsWindow(summary, details);
-            bool? result = window.ShowDialog();
-            if (result == true)
-            {
-                _allSummaries = service.GetImportSummaries();
-                lvImports.ItemsSource = _allSummaries;
             }
         }
 
