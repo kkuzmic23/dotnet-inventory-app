@@ -24,5 +24,63 @@ namespace WPFLayer
         {
             InitializeComponent();
         }
+
+        private void btnOrders_Click(object sender, RoutedEventArgs e)
+        {
+            Sadrzaj.Content = new OrdersControl();
+            lblWelcome.Content = "Orders";
+        }
+
+        private void btnProducts_Click(object sender, RoutedEventArgs e)
+        {
+            Sadrzaj.Content = new ProductsControl();
+            lblWelcome.Content = "Products";
+        }
+
+        private void btnSuppliers_Click(object sender, RoutedEventArgs e)
+        {
+            Sadrzaj.Content = new SuppliersControl();
+            lblWelcome.Content = "Suppliers";
+        }
+
+        private void btnImport_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnStock_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnExport_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnAlerts_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnStatistics_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnReports_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

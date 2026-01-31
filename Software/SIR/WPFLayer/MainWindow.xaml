@@ -8,7 +8,24 @@
         Title="MainWindow" Height="450" Width="800">
 
     <DockPanel>
-        <Label Height="50" DockPanel.Dock="Top" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Main Window</Label>
-        <Rectangle></Rectangle>
+        <Label Height="50" DockPanel.Dock="Top" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Welcome" Name="lblWelcome"></Label>
+        <StackPanel DockPanel.Dock="Left" Name="nav" Background="Gray" Width="100">
+          
+            <Button Name="btnOrders" Content="Orders" Click="btnOrders_Click"></Button>
+            <Button Name="btnProducts" Content="Products" Click="btnProducts_Click"></Button>
+            <Button Name="btnSuppliers" Content="Suppliers" Click="btnSuppliers_Click" Margin="0,0,0,20"></Button>
+            
+            <Button Name="btnImport" Content="Import" Click="btnImport_Click"></Button>
+            <Button Name="btnStock" Content="Stock" Click="btnStock_Click"></Button>
+            <Button Name="btnExport" Content="Export" Click="btnExport_Click" Margin="0,0,0,20"></Button>
+            
+            <Button Name="btnAlerts" Content="Alerts" Click="btnAlerts_Click"></Button>
+            <Button Name="btnStatistics" Content="Statistics" Click="btnStatistics_Click"></Button>
+            <Button Name="btnReports" Content="Reports" Click="btnReports_Click" Margin="0,0,0,100"></Button>
+            
+            <Button Name="btnLogout" Content="Log out" Click="btnLogout_Click"></Button>
+            <Button Name="btnExit" Content="Exit" Click="btnExit_Click"></Button>
+        </StackPanel>
+        <ContentControl Name="Sadrzaj"></ContentControl>
     </DockPanel>
 </Window>

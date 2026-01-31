@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace WPFLayer
 {
     /// <summary>
-    /// Interaction logic for OrdersWindow.xaml
+    /// Interaction logic for SuppliersControl.xaml
     /// </summary>
-    public partial class OrdersWindow : Window
+    public partial class SuppliersControl : UserControl
     {
-        public OrdersWindow()
+        public SuppliersControl()
         {
             InitializeComponent();
         }
