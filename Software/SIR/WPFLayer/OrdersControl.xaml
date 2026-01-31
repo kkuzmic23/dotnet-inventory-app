@@ -9,13 +9,13 @@
 
     <DockPanel Grid.Row="1" Background="#FFEFEFEF">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-            <Button Width="50" Height=" 25">Load</Button>
+            <Button x:Name="btnLoad" Width="50" Height=" 25" Click="Button_Click">Load</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-            <Button Width="50" Height=" 25">Add</Button>
-            <Button Width="50" Height=" 25">Update</Button>
-            <Button Width="50" Height=" 25">Delete</Button>
+            <Button x:Name="btnAdd" Width="50" Height=" 25" Click="btnAdd_Click">Add</Button>
+            <Button x:Name="btnUpdate" Width="50" Height=" 25" Click="btnUpdate_Click">Update</Button>
+            <Button x:Name="btnDelete" Width="50" Height=" 25" Click="btnDelete_Click">Delete</Button>
         </StackPanel>
-        <DataGrid />
+        <DataGrid x:Name="dgOrders" />
     </DockPanel>
 </UserControl>
