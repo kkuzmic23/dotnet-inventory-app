@@ -14,12 +14,12 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0,0,0">
-                <Button x:Name="btnLoad" Width="50" Height="25" Margin="0,0,8,0" Click="btnLoad_Click">Load</Button>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button x:Name="btnLoad" Width="50" Height="25" Margin="0,0,15,0" Click="btnLoad_Click">Load</Button>
 
-                <TextBlock VerticalAlignment="Center" Margin="0,0,4,0">Search</TextBlock>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,5,0">Search</TextBlock>
 
-                <TextBox Width="140" Height="23" x:Name="txtSearchProducts"/>
+                <TextBox Width="140" Height="23" x:Name="txtSearchProducts" TextChanged="txtSearchProducts_TextChanged"/>
             </StackPanel>
 
 

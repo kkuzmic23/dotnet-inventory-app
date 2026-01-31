@@ -43,7 +43,7 @@ namespace WPFLayer
         private void LoadProducts()
         {
             allProducts = productService.GetProducts();
-            products = new ObservableCollection<Product>(productService.GetProducts());
+            products = new ObservableCollection<Product>(allProducts);
             dgProducts.ItemsSource = products;
         }
 
@@ -83,23 +83,40 @@ namespace WPFLayer
 
         private void ApplyFilter()
         {
-            if (cmbFilter == null)
+            if (cmbFilter == null || txtSearchProducts == null)
             {
                 return;
             }
 
-            var selectedSupplier = cmbFilter.SelectedItem as Supplier;
-            if (selectedSupplier == null || selectedSupplier.Id == 0)
+            if (allProducts == null || allProducts.Count == 0)
             {
-                products = new ObservableCollection<Product>(allProducts);
-            }
-            else
-            {
-                products = new ObservableCollection<Product>(allProducts.Where(p => p.SupplierId == selectedSupplier.Id));
+                return;
             }
 
+            IEnumerable<Product> filtered = allProducts;
+
+            var selectedSupplier = cmbFilter.SelectedItem as Supplier;
+            if (selectedSupplier != null && selectedSupplier.Id != 0)
+            {
+                filtered = filtered.Where(x => x.SupplierId == selectedSupplier.Id);
+            }
+
+            string phrase = txtSearchProducts.Text?.Trim();
+            if (!string.IsNullOrWhiteSpace(phrase))
+            {
+                filtered = filtered.Where(x =>
+                    (!string.IsNullOrWhiteSpace(x.Name) &&
+                     x.Name.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
+                    ||
+                    (!string.IsNullOrWhiteSpace(x.ProductCode) &&
+                     x.ProductCode.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
+                );
+            }
+
+            products = new ObservableCollection<Product>(filtered);
             dgProducts.ItemsSource = products;
         }
+
 
         private void cmbFilter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -143,6 +160,11 @@ namespace WPFLayer
 
             mainWindow.Sadrzaj.Content = suppliersControl;
             mainWindow.lblWelcome.Content = "Suppliers";
+        }
+
+        private void txtSearchProducts_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            ApplyFilter();
         }
     }
 }
