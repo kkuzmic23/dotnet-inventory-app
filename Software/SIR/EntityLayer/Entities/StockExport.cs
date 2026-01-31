@@ -1,26 +1,27 @@
-namespace DataAccessLayer
+namespace EntityLayer.Entities
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
-    public partial class Role
+    public partial class StockExport
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Role()
+        public StockExport()
         {
-            Users = new HashSet<User>();
+            StockExportHasProducts = new HashSet<StockExportHasProduct>();
         }
 
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string Name { get; set; }
+        [Column(TypeName = "datetime2")]
+        public DateTime CreatedAt { get; set; }
+
+        [StringLength(250)]
+        public string Notes { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<StockExportHasProduct> StockExportHasProducts { get; set; }
     }
 }
