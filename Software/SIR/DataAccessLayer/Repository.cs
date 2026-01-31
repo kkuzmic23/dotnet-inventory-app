@@ -1,19 +1,15 @@
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
     public abstract class Repository<T> : IDisposable where T : class
     {
         protected Model1 Context { get; set; }
-
         protected DbSet<T> Entities { get; set; }
 
-        public Repository(Model1 context)
+        protected Repository(Model1 context)
         {
             Context = context;
             Entities = Context.Set<T>();
@@ -38,10 +34,8 @@ namespace DataAccessLayer
             {
                 return SaveChanges();
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
 
         public abstract int Update(T entity, bool saveChanges = true);
@@ -54,10 +48,8 @@ namespace DataAccessLayer
             {
                 return SaveChanges();
             }
-            else
-            {
-                return 0;
-            }
+
+            return 0;
         }
 
         public virtual int SaveChanges()
