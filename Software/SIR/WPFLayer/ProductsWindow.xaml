@@ -14,15 +14,38 @@
 
         <Label Grid.Row="0" Height="50" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Products</Label>
         <DockPanel Grid.Row="1">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Button Width="50" Height=" 25">Load</Button>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
-                <Button Width="50" Height=" 25">Add</Button>
-                <Button Width="50" Height=" 25">Update</Button>
-                <Button Width="50" Height=" 25">Delete</Button>
-            </StackPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Width="50" Height="25">Load</Button>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,6,0"> Filter by supplier </TextBlock>
+                    <ComboBox Width="140"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid DockPanel.Dock="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Width="90" Height="25">Find supplier</Button>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Width="50" Height="25">Add</Button>
+                    <Button Width="50" Height="25">Update</Button>
+                    <Button Width="50" Height="25">Delete</Button>
+                </StackPanel>
+            </Grid>
+
             <DataGrid />
         </DockPanel>
+
     </Grid>
 </Window>
