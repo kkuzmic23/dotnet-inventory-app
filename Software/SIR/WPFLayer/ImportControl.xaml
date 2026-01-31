@@ -7,9 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel Grid.Row="1" Background="#FFEFEFEF">
-        <StackPanel Name="filterOptions" DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray">
+        <StackPanel Name="filterOptions" DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray" Width="180">
             <Label Content="Filter options" BorderThickness="2" BorderBrush="Black"></Label>
-            
+            <TextBlock Text="Supplier name" Margin="6,8,6,2"/>
+            <TextBox Name="txtSupplierFilter" Margin="6,0,6,4"/>
+            <TextBlock Text="Product type" Margin="6,6,6,2"/>
+            <TextBox Name="txtProductFilter" Margin="6,0,6,4"/>
+            <TextBlock Text="Amount min" Margin="6,6,6,2"/>
+            <TextBox Name="txtAmountMin" Margin="6,0,6,4"/>
+            <TextBlock Text="Amount max" Margin="6,6,6,2"/>
+            <TextBox Name="txtAmountMax" Margin="6,0,6,4"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button Name="btnLoadImports" Height=" 25" Content="Show All Imports" Click="btnLoadImports_Click"></Button>
