@@ -25,7 +25,7 @@
 
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock VerticalAlignment="Center" Margin="0,0,6,0"> Filter by supplier</TextBlock>
-                <ComboBox x:Name="cmbFilter" Width="140"/>
+                <ComboBox x:Name="cmbFilter" Width="140" SelectionChanged="cmbFilter_SelectionChanged"/>
             </StackPanel>
         </Grid>
 
@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnFindSupplier" Grid.Column="0" Width="90" Height="25">Find supplier</Button>
+            <Button x:Name="btnFindSupplier" Grid.Column="0" Width="90" Height="25" HorizontalAlignment="Left" Click="btnFindSupplier_Click">Find supplier</Button>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button x:Name="btnAdd" Width="50" Height="25" Click="btnAdd_Click">Add</Button>

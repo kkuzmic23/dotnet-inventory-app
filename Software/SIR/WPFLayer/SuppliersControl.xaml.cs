@@ -42,6 +42,20 @@ namespace WPFLayer
             dgSupplier.ItemsSource = suppliers;
         }
 
+        public void LoadAndSelectSupplier(int id)
+        {
+            LoadSuppliers();
+
+            var supplier = suppliers.FirstOrDefault(x => x.Id == id);
+            if (supplier == null)
+            {
+                return;
+            }
+
+            dgSupplier.SelectedItem = supplier;
+            dgSupplier.ScrollIntoView(supplier);
+        }
+
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
 
