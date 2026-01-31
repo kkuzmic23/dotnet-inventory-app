@@ -19,7 +19,7 @@
         </StackPanel>
 
         <TextBlock DockPanel.Dock="Top" Text="Order items" FontWeight="Bold" Margin="0,4,0,4" />
-        <DataGrid Name="dgDetails" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+        <DataGrid Name="dgDetails" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Width="508">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order Id" Binding="{Binding OrderId}" />
                 <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
