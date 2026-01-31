@@ -1,62 +1,43 @@
-﻿using EntityLayer.Entities;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal class OrderRepository
+    public class OrderRepository : Repository<Order>
     {
-        public List<Order> GetAll()
+        public OrderRepository() : base(new Model1())
         {
-            using (var context = new Model1())
-            {
-                return context.Orders.ToList();
-            }
+
         }
 
-        public int Add(Order order)
+        public override IQueryable<Order> GetAll()
         {
-            using (var context = new Model1())
-            {
-                context.Orders.Add(order);
-                return context.SaveChanges();
-            }
+            var query = from o in Entities.Include("Supplier")
+                        select o;
+            return query;
         }
 
-        public int Update(Order order)
+        public override int Update(Order entity, bool saveChanges = true)
         {
-            using (var context = new Model1())
+            var order = Entities.SingleOrDefault(o => o.Id == entity.Id);
+
+            order.SupplierId = entity.SupplierId;
+            order.Status = entity.Status;
+            order.CreatedAt = entity.CreatedAt;
+            order.ReceivedAt = entity.ReceivedAt;
+
+            if (saveChanges)
             {
-                var existing = context.Orders.FirstOrDefault(o => o.Id == order.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                existing.SupplierId = order.SupplierId;
-                existing.Status = order.Status;
-                existing.CreatedAt = order.CreatedAt;
-                existing.ReceivedAt = order.ReceivedAt;
-
-                return context.SaveChanges();
+                return SaveChanges();
             }
-        }
-
-        public int Remove(Order order)
-        {
-            using (var context = new Model1())
+            else
             {
-                var existing = context.Orders.FirstOrDefault(o => o.Id == order.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                context.Orders.Remove(existing);
-                return context.SaveChanges();
+                return 0;
             }
         }
     }

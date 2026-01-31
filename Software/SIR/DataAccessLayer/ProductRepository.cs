@@ -1,65 +1,55 @@
-﻿using EntityLayer.Entities;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal class ProductRepository
+    public class ProductRepository : Repository<Product>
     {
-        public List<Product> GetAll()
+        public ProductRepository() : base(new Model1())
         {
-            using (var context = new Model1())
-            {
-                return context.Products.ToList();
-            }
+
         }
 
-        public int Add(Product product)
+        public override IQueryable<Product> GetAll()
         {
-            using (var context = new Model1())
-            {
-                context.Products.Add(product);
-                return context.SaveChanges();
-            }
+            var query = from p in Entities.Include("Supplier")
+                        select p;
+            return query;
         }
 
-        public int Update(Product product)
+        public IQueryable<Product> GetProductsByName(string phrase)
         {
-            using (var context = new Model1())
-            {
-                var existing = context.Products.FirstOrDefault(p => p.Id == product.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
+            var query = from p in Entities.Include("Supplier")
+                        where p.Name.Contains(phrase)
+                        select p;
 
-                existing.ProductCode = product.ProductCode;
-                existing.Name = product.Name;
-                existing.Description = product.Description;
-                existing.SupplierId = product.SupplierId;
-                existing.ReorderLevel = product.ReorderLevel;
-                existing.IsActive = product.IsActive;
-                existing.CreatedAt = product.CreatedAt;
-
-                return context.SaveChanges();
-            }
+            return query;
         }
 
-        public int Remove(Product product)
+        public override int Update(Product entity, bool saveChanges = true)
         {
-            using (var context = new Model1())
-            {
-                var existing = context.Products.FirstOrDefault(p => p.Id == product.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
+            var product = Entities.SingleOrDefault(p => p.Id == entity.Id);
 
-                context.Products.Remove(existing);
-                return context.SaveChanges();
+            product.ProductCode = entity.ProductCode;
+            product.Name = entity.Name;
+            product.Description = entity.Description;
+            product.SupplierId = entity.SupplierId;
+            product.ReorderLevel = entity.ReorderLevel;
+            product.IsActive = entity.IsActive;
+            product.CreatedAt = entity.CreatedAt;
+
+            if (saveChanges)
+            {
+                return SaveChanges();
+            }
+            else
+            {
+                return 0;
             }
         }
     }

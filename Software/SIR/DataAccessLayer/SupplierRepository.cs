@@ -1,64 +1,55 @@
-﻿using EntityLayer.Entities;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DataAccessLayer
 {
-    internal class SupplierRepository
+    public class SupplierRepository : Repository<Supplier>
     {
-        public List<Supplier> GetAll()
+        public SupplierRepository() : base(new Model1())
         {
-            using (var context = new Model1())
+
+        }
+
+        public override int Update(Supplier entity, bool saveChanges = true)
+        {
+            var supplier = Entities.SingleOrDefault(s => s.Id == entity.Id);
+
+            supplier.Name = entity.Name;
+            supplier.Email = entity.Email;
+            supplier.Phone = entity.Phone;
+            supplier.Address = entity.Address;
+            supplier.CreatedAt = entity.CreatedAt;
+
+            if (saveChanges)
             {
-                return context.Suppliers.ToList();
+                return SaveChanges();
+            }
+            else
+            {
+                return 0;
             }
         }
 
-        public int Add(Supplier supplier)
+        public IQueryable<Supplier> GetSuppliersByName(string phrase)
         {
-            using (var context = new Model1())
-            {
-                context.Suppliers.Add(supplier);
-                return context.SaveChanges();
-            }
+            var query = from s in Entities
+                        where s.Name.Contains(phrase)
+                        select s;
+
+            return query;
         }
 
-        public int Update(Supplier supplier)
+        public IQueryable<int> GetProductCount(Supplier supplier)
         {
-            using (var context = new Model1())
-            {
-                var existing = context.Suppliers.FirstOrDefault(s => s.Id == supplier.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                existing.Name = supplier.Name;
-                existing.Email = supplier.Email;
-                existing.Phone = supplier.Phone;
-                existing.Address = supplier.Address;
-                existing.CreatedAt = supplier.CreatedAt;
-
-                return context.SaveChanges();
-            }
-        }
-
-        public int Remove(Supplier supplier)
-        {
-            using (var context = new Model1())
-            {
-                var existing = context.Suppliers.FirstOrDefault(s => s.Id == supplier.Id);
-                if (existing == null)
-                {
-                    return 0;
-                }
-
-                context.Suppliers.Remove(existing);
-                return context.SaveChanges();
-            }
+            var query = from s in Entities
+                        where s.Id == supplier.Id
+                        select s.Products.Count;
+            return query;
         }
     }
 }
