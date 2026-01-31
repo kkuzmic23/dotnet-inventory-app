@@ -8,6 +8,9 @@
     <DockPanel Background="#FFEFEFEF">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button Name="btnLoadStock" Height="25" Content="Show Stock" Click="btnLoadStock_Click" />
+            <TextBox Name="txtSearch" Width="200" Margin="8,0,0,0" />
+            <Button Name="btnSearch" Height="25" Content="Search" Margin="6,0,0,0" Click="btnSearch_Click" />
+            <Button Name="btnClearFilters" Height="25" Content="Clear Filters" Margin="6,0,0,0" Click="btnClearFilters_Click" />
         </StackPanel>
         <DataGrid Name="dgStock" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
