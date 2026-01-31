@@ -18,12 +18,26 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Name="btnDetails" Height="25" Content="Details" Click="btnDetails_Click"></Button>
         </StackPanel>
-        <DataGrid Name="dgImports" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Order" Binding="{Binding Order.Supplier.Name}" />
-                <DataGridTextColumn Header="Product" Binding="{Binding Product.Name}" />
-                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListView Name="lvImports" BorderThickness="0" Background="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="8" Padding="10" BorderBrush="#FFC7C7C7" BorderThickness="1" CornerRadius="6" Background="White">
+                        <StackPanel>
+                            <TextBlock Text="{Binding SupplierName}" FontSize="16" FontWeight="DemiBold" />
+                            <ItemsControl ItemsSource="{Binding Products}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="0,4,0,0">
+                                            <TextBlock DockPanel.Dock="Left" Text="{Binding ProductName}" />
+                                            <TextBlock DockPanel.Dock="Right" Text="{Binding TotalQuantity}" FontWeight="Bold" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </DockPanel>
 </UserControl>
