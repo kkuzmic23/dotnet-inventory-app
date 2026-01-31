@@ -51,7 +51,8 @@ namespace WPFLayer
 
         private void btnStock_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new StockControl();
+            lblWelcome.Content = "Stock";
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
