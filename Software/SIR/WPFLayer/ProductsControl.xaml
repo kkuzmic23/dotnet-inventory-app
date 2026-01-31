@@ -44,6 +44,16 @@
             </StackPanel>
         </Grid>
 
-        <DataGrid x:Name="dgProducts" />
+        <DataGrid x:Name="dgProducts" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Product Code" Binding="{Binding ProductCode}"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                <DataGridTextColumn Header="Supplier Name" Binding="{Binding SupplierName}"/>
+                <DataGridTextColumn Header="Reorder Level" Binding="{Binding ReorderLevel}"/>
+                <DataGridCheckBoxColumn Header="Is Active" Binding="{Binding IsActive}"/>
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>

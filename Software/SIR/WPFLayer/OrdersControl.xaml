@@ -16,6 +16,14 @@
             <Button x:Name="btnUpdate" Width="50" Height=" 25" Click="btnUpdate_Click">Update</Button>
             <Button x:Name="btnDelete" Width="50" Height=" 25" Click="btnDelete_Click">Delete</Button>
         </StackPanel>
-        <DataGrid x:Name="dgOrders" />
+        <DataGrid x:Name="dgOrders" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}" />
+                <DataGridTextColumn Header="Recieved At" Binding="{Binding ReceivedAt}" />
+                <DataGridTextColumn Header="Supplier Name" Binding="{Binding Supplier.Name}" />
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>
