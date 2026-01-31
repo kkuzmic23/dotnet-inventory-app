@@ -53,6 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImportService.cs" />
+    <Compile Include="IProductService.cs" />
+    <Compile Include="MockProductService.cs" />
     <Compile Include="OrderService.cs" />
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="ProductService.cs" />

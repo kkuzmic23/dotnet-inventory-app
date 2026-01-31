@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IProductRepository.cs" />
+    <Compile Include="MockProductRepository.cs" />
     <Compile Include="Model1.cs" />
     <Compile Include="InventoryTransactionRepository.cs" />
     <Compile Include="OrderRepository.cs" />
