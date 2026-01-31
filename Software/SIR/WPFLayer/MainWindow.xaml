@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:WPFLayer"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+
+    <DockPanel>
+        <Label Height="50" DockPanel.Dock="Top" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">Main Window</Label>
+        <Rectangle></Rectangle>
+    </DockPanel>
 </Window>
