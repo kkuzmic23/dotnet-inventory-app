@@ -1,12 +1,18 @@
-﻿using System;
+using DataAccessLayer;
+using EntityLayer.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BusinessLogicLayer
 {
-    internal class ImportService
+    public class ImportService
     {
+        public List<OrderHasProduct> GetImports()
+        {
+            using (var repo = new OrderHasProductRepository())
+            {
+                return repo.GetAll().ToList();
+            }
+        }
     }
 }
