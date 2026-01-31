@@ -1,4 +1,5 @@
 using EntityLayer.Entities;
+using System.Data.Entity;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -7,6 +8,13 @@ namespace DataAccessLayer
     {
         public StockRepository() : base(new Model1())
         {
+        }
+
+        public override IQueryable<Stock> GetAll()
+        {
+            return Entities
+                .Include(s => s.Product)
+                .Include(s => s.Product.Supplier);
         }
 
         public Stock GetByProductId(int productId)
