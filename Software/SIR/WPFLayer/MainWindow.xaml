@@ -8,7 +8,7 @@
         Title="MainWindow" Height="450" Width="800">
 
     <DockPanel>
-        <Label Height="50" DockPanel.Dock="Top" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Main Window"></Label>
+        <Label Height="50" DockPanel.Dock="Top" Background="#FFFF3D3D" Foreground="White" FontSize="25" FontWeight="DemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Content="Welcome" Name="lblWelcome"></Label>
         <StackPanel DockPanel.Dock="Left" Name="nav" Background="Gray" Width="100">
           
             <Button Name="btnOrders" Content="Orders" Click="btnOrders_Click"></Button>

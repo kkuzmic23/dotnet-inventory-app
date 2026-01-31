@@ -7,11 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <DockPanel Grid.Row="1">
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#FFEFEFEF">
+    <DockPanel Grid.Row="1" Background="#FFEFEFEF">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button Width="50" Height=" 25">Load</Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" Background="#FFEFEFEF">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
             <Button Width="50" Height=" 25">Add</Button>
             <Button Width="50" Height=" 25">Update</Button>
             <Button Width="50" Height=" 25">Delete</Button>

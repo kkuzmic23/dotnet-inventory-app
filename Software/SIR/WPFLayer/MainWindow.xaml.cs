@@ -28,16 +28,19 @@ namespace WPFLayer
         private void btnOrders_Click(object sender, RoutedEventArgs e)
         {
             Sadrzaj.Content = new OrdersControl();
+            lblWelcome.Content = "Orders";
         }
 
         private void btnProducts_Click(object sender, RoutedEventArgs e)
         {
             Sadrzaj.Content = new ProductsControl();
+            lblWelcome.Content = "Products";
         }
 
         private void btnSuppliers_Click(object sender, RoutedEventArgs e)
         {
             Sadrzaj.Content = new SuppliersControl();
+            lblWelcome.Content = "Suppliers";
         }
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
