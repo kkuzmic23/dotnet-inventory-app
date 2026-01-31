@@ -19,17 +19,21 @@
         </StackPanel>
 
         <TextBlock DockPanel.Dock="Top" Text="Order items" FontWeight="Bold" Margin="0,4,0,4" />
-        <DataGrid Name="dgDetails" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Width="508">
+        <DataGrid Name="dgDetails" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Order Id" Binding="{Binding OrderId}" />
+                <DataGridTextColumn Header="Status" Binding="{Binding OrderStatus}" />
+                <DataGridTextColumn Header="Created" Binding="{Binding OrderCreatedAt, StringFormat=\{0:yyyy-MM-dd\}}" />
+                <DataGridTextColumn Header="Received" Binding="{Binding OrderReceivedAt, StringFormat=\{0:yyyy-MM-dd\}}" />
+                <DataGridTextColumn Header="Product Code" Binding="{Binding ProductCode}" />
                 <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
-            <Button Name="btnImport" Content="Import" Width="80" Margin="0,0,6,0" Click="btnImport_Click" />
-            <Button Name="btnClose" Content="Close" Width="80" Click="btnClose_Click" />
+            <Button Name="btnImport" Content="Import" Width="80" Height="26" Margin="0,0,6,0" Click="btnImport_Click" />
+            <Button Name="btnClose" Content="Close" Width="80" Height="26" Click="btnClose_Click" />
         </StackPanel>
     </DockPanel>
 </Window>
