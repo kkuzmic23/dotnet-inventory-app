@@ -58,12 +58,35 @@ namespace WPFLayer
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            var window = new SupplierModal
+            {
+                Owner = Window.GetWindow(this)
+            };
 
+            if (window.ShowDialog() == true)
+            {
+                LoadSuppliers();
+            }
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            var supplier = GetSelectedSupplier();
+            if (supplier == null || supplier.Id == 0)
+            {
+                MessageBox.Show("Select a supplier first");
+                return;
+            }
 
+            var window = new SupplierModal(supplier)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (window.ShowDialog() == true)
+            {
+                LoadSuppliers();
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
