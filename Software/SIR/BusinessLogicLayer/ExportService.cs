@@ -15,6 +15,14 @@ namespace BusinessLogicLayer
             }
         }
 
+        public List<StockExport> GetExports()
+        {
+            using (var repo = new StockExportRepository())
+            {
+                return repo.GetAll().OrderByDescending(e => e.CreatedAt).ToList();
+            }
+        }
+
         public bool Export(ExportRequest request)
         {
             if (request == null || request.Items == null || request.Items.Count == 0)
