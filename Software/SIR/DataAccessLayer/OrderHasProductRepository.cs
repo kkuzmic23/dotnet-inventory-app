@@ -32,5 +32,17 @@ namespace DataAccessLayer
 
             return saveChanges ? SaveChanges() : 0;
         }
+
+        public int RemoveByOrderId(int orderId)
+        {
+            var items = Entities.Where(x => x.OrderId == orderId).ToList();
+            if (items.Count == 0)
+            {
+                return 0;
+            }
+
+            Entities.RemoveRange(items);
+            SaveChanges();
+        }
     }
 }

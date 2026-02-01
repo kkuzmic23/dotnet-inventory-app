@@ -1,4 +1,5 @@
-﻿using EntityLayer.Entities;
+﻿using BusinessLogicLayer;
+using EntityLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,12 @@ namespace WPFLayer
     /// </summary>
     public partial class OrderModal : Window
     {
+        private readonly OrderService orderService = new OrderService();
+        private readonly ProductService productservice = new ProductService();
+
+
+
+        //private readonly IObservableCollection<OrderItem> items = new IObservableCollection<OrderItem>();
         public OrderModal()
         {
             InitializeComponent();
