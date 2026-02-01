@@ -121,6 +121,10 @@ namespace BusinessLogicLayer
                 transactionRepo.SaveChanges();
                 orderRepo.SaveChanges();
             }
+            // Notify stock changes for all affected products for alerts
+            foreach (var t in totals) {
+                StockChangeNotifier.Notify(t.ProductId);
+            }
 
             return true;
         }
