@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFLayer"
         mc:Ignorable="d"
-        Title="SupplierModal" Height="230" Width="350">
+        Title="SupplierModal" Height="230" Width="350"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,8 +34,8 @@
         <TextBox x:Name="txtAddress" Grid.Row="3" Grid.Column="1" Height="70" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,8"/>
 
         <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0" Click="btnSave_Click">Save</Button>
-            <Button x:Name="btnCancel" Width="80" Height="26" Click="btnCancel_Click">Cancel</Button>
+            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0">Save</Button>
+            <Button x:Name="btnCancel" Width="80" Height="26">Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFLayer"
         mc:Ignorable="d"
-        Title="ProductModal" Height="300" Width="400">
+        Title="ProductModal" Height="300" Width="400"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
+    
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

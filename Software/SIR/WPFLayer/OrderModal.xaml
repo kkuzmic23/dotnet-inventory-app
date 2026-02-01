@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFLayer"
         mc:Ignorable="d"
-        Title="OrderModal" Height="450" Width="800">
+        Title="OrderModal" Height="450" Width="800"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner">
     <Grid Margin="12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -41,22 +43,19 @@
 
         <DataGrid x:Name="dgItems" Grid.Row="1" AutoGenerateColumns="False" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridComboBoxColumn x:Name="colProduct"
-                                    Header="Product"
-                                    DisplayMemberPath="Name"
-                                    SelectedItemBinding="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridComboBoxColumn x:Name="colProduct" Header="Product" DisplayMemberPath="Name" SelectedItemBinding="{Binding Product, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,8">
-            <Button x:Name="btnAddItem" Width="90" Height="26" Margin="0,0,8,0" Click="btnAddItem_Click">Add Item</Button>
-            <Button x:Name="btnRemoveItem" Width="100" Height="26" Click="btnRemoveItem_Click">Remove Item</Button>
+            <Button x:Name="btnAddItem" Width="90" Height="26" Margin="0,0,8,0">Add Item</Button>
+            <Button x:Name="btnRemoveItem" Width="100" Height="26">Remove Item</Button>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0" Click="btnSave_Click">Save</Button>
-            <Button x:Name="btnCancel" Width="80" Height="26" Click="btnCancel_Click">Cancel</Button>
+            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0">Save</Button>
+            <Button x:Name="btnCancel" Width="80" Height="26">Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>

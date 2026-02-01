@@ -42,7 +42,7 @@ namespace DataAccessLayer
             }
 
             Entities.RemoveRange(items);
-            SaveChanges();
+            return SaveChanges();
         }
     }
 }
