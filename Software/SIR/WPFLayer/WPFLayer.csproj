@@ -65,6 +65,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AlertsControl.xaml.cs">
+      <DependentUpon>AlertsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImportDetailsWindow.xaml.cs">
+      <DependentUpon>ImportDetailsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImportControl.xaml.cs">
+      <DependentUpon>ImportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OrderModal.xaml.cs">
       <DependentUpon>OrderModal.xaml</DependentUpon>
     </Compile>
@@ -77,12 +86,27 @@
     <Compile Include="ProductsControl.xaml.cs">
       <DependentUpon>ProductsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StockControl.xaml.cs">
+      <DependentUpon>StockControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SupplierModal.xaml.cs">
       <DependentUpon>SupplierModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="SuppliersControl.xaml.cs">
       <DependentUpon>SuppliersControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="ImportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImportDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AlertsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +140,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ProductsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StockControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -45,12 +45,14 @@ namespace WPFLayer
 
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new ImportControl();
+            lblWelcome.Content = "Import";
         }
 
         private void btnStock_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new StockControl();
+            lblWelcome.Content = "Stock";
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
@@ -58,9 +60,10 @@ namespace WPFLayer
 
         }
 
-        private void btnAlerts_Click(object sender, RoutedEventArgs e)
+        private void BtnAlerts_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new AlertsControl();
+            lblWelcome.Content = "Alerts";
         }
 
         private void btnStatistics_Click(object sender, RoutedEventArgs e)

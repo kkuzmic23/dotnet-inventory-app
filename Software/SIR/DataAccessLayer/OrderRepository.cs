@@ -1,4 +1,5 @@
 using EntityLayer.Entities;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -21,6 +22,17 @@ namespace DataAccessLayer
             existing.Status = order.Status;
             existing.CreatedAt = order.CreatedAt;
             existing.ReceivedAt = order.ReceivedAt;
+
+            return saveChanges ? SaveChanges() : 0;
+        }
+
+        public int SetStatusForOrders(IEnumerable<int> orderIds, string status, bool saveChanges = true)
+        {
+            var orders = Entities.Where(o => orderIds.Contains(o.Id)).ToList();
+            foreach (var order in orders)
+            {
+                order.Status = status;
+            }
 
             return saveChanges ? SaveChanges() : 0;
         }
