@@ -1,4 +1,5 @@
 using EntityLayer.Entities;
+using System.Data.Entity;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -7,6 +8,11 @@ namespace DataAccessLayer
     {
         public StockExportRepository() : base(new Model1())
         {
+        }
+
+        public override IQueryable<StockExport> GetAll()
+        {
+            return Entities.Include(e => e.StockExportHasProducts);
         }
 
         public override int Update(StockExport export, bool saveChanges = true)
