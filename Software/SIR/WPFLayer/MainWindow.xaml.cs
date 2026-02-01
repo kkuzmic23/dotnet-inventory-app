@@ -57,7 +57,8 @@ namespace WPFLayer
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new ExportControl();
+            lblWelcome.Content = "Export";
         }
 
         private void BtnAlerts_Click(object sender, RoutedEventArgs e)

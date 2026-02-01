@@ -64,12 +64,37 @@ namespace WPFLayer
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            var window = new ProductModal
+            {
+                Owner = Window.GetWindow(this)
+            };
 
+            if (window.ShowDialog() == true)
+            {
+                LoadProducts();
+                ApplyFilter();
+            }
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            var product = GetSelectedProduct();
+            if (product == null || product.Id == 0)
+            {
+                MessageBox.Show("Select a product first");
+                return;
+            }
 
+            var window = new ProductModal(product)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (window.ShowDialog() == true)
+            {
+                LoadProducts();
+                ApplyFilter();
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

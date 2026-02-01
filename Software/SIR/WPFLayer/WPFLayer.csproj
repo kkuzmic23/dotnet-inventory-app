@@ -72,21 +72,34 @@
     <Compile Include="AlertsControl.xaml.cs">
       <DependentUpon>AlertsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportControl.xaml.cs">
+      <DependentUpon>ExportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImportDetailsWindow.xaml.cs">
       <DependentUpon>ImportDetailsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImportControl.xaml.cs">
       <DependentUpon>ImportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OrderItem.cs" />
+    <Compile Include="OrderModal.xaml.cs">
+      <DependentUpon>OrderModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Notifications.cs" />
     <Compile Include="OrdersControl.xaml.cs">
       <DependentUpon>OrdersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ProductModal.xaml.cs">
+      <DependentUpon>ProductModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProductsControl.xaml.cs">
       <DependentUpon>ProductsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="StockControl.xaml.cs">
       <DependentUpon>StockControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierModal.xaml.cs">
+      <DependentUpon>SupplierModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="SuppliersControl.xaml.cs">
       <DependentUpon>SuppliersControl.xaml</DependentUpon>
@@ -96,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ImportDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -123,7 +140,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="OrderModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OrdersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProductModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -132,6 +157,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StockControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplierModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
