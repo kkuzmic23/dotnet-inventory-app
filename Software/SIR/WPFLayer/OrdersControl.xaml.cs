@@ -44,12 +44,36 @@ namespace WPFLayer
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            var window = new OrderModal
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (window.ShowDialog() == true)
+            {
+                LoadOrders();
+            }
 
         }
 
         private void btnUpdate_Click(object sender, RoutedEventArgs e)
         {
+            var order = GetSelectedOrder();
+            if (order == null || order.Id == 0)
+            {
+                MessageBox.Show("Select an order first");
+                return;
+            }
 
+            var window = new OrderModal(order)
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (window.ShowDialog() == true)
+            {
+                LoadOrders();
+            }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

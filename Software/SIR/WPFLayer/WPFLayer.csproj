@@ -65,11 +65,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="OrderModal.xaml.cs">
+      <DependentUpon>OrderModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="OrdersControl.xaml.cs">
       <DependentUpon>OrdersControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ProductModal.xaml.cs">
+      <DependentUpon>ProductModal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ProductsControl.xaml.cs">
       <DependentUpon>ProductsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierModal.xaml.cs">
+      <DependentUpon>SupplierModal.xaml</DependentUpon>
     </Compile>
     <Compile Include="SuppliersControl.xaml.cs">
       <DependentUpon>SuppliersControl.xaml</DependentUpon>
@@ -94,11 +103,23 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="OrderModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OrdersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ProductModal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ProductsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplierModal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
