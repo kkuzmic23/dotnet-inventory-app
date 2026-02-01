@@ -68,6 +68,9 @@
     <Compile Include="AlertsControl.xaml.cs">
       <DependentUpon>AlertsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExportControl.xaml.cs">
+      <DependentUpon>ExportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImportDetailsWindow.xaml.cs">
       <DependentUpon>ImportDetailsWindow.xaml</DependentUpon>
     </Compile>
@@ -100,6 +103,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ImportDetailsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ExportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

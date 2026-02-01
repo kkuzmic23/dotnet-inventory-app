@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ImportService.cs" />
+    <Compile Include="ExportService.cs" />
     <Compile Include="IProductService.cs" />
     <Compile Include="MockProductService.cs" />
     <Compile Include="OrderItemService.cs" />
