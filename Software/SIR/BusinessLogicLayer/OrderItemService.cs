@@ -8,9 +8,8 @@ using DataAccessLayer;
 
 namespace BusinessLogicLayer
 {
-    internal class OrderItemService
+    public class OrderItemService
     {
-        /*
         public List<OrderHasProduct> GetItemsByOrderId(int orderId)
         {
             using (var repo = new OrderHasProductRepository())
@@ -33,6 +32,5 @@ namespace BusinessLogicLayer
                 return repo.SaveChanges() > 0;
             }
         }
-        */
     }
 }

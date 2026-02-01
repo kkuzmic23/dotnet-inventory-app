@@ -77,6 +77,7 @@
     <Compile Include="ImportControl.xaml.cs">
       <DependentUpon>ImportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OrderItem.cs" />
     <Compile Include="OrderModal.xaml.cs">
       <DependentUpon>OrderModal.xaml</DependentUpon>
     </Compile>
