@@ -22,6 +22,7 @@ namespace WPFLayer
             dgExportItems.ItemsSource = exportItems;
             LoadProducts();
             LoadStock();
+            LoadExports();
         }
 
         private void LoadProducts()
@@ -38,6 +39,11 @@ namespace WPFLayer
         {
             var stock = stockService.GetStock();
             stockByProductId = stock.ToDictionary(s => s.ProductId, s => s.Quantity);
+        }
+
+        private void LoadExports()
+        {
+            dgExports.ItemsSource = exportService.GetExports();
         }
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
@@ -122,6 +128,7 @@ namespace WPFLayer
             exportItems.Clear();
             txtNotes.Text = string.Empty;
             LoadStock();
+            LoadExports();
         }
     }
 }
