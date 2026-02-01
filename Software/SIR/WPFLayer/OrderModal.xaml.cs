@@ -25,6 +25,7 @@ namespace WPFLayer
         private readonly OrderService orderService = new OrderService();
         private readonly ProductService productservice = new ProductService();
         private readonly OrderItemService orderItemService = new OrderItemService();
+        private readonly SupplierService supplierService = new SupplierService();
 
 
         private readonly ObservableCollection<OrderItem> items = new ObservableCollection<OrderItem>();
@@ -44,20 +45,51 @@ namespace WPFLayer
 
         public OrderModal(Order order) : this()
         {
-            cmbSupplier.SelectedValue = existingOrder.SupplierId;
-            txtStatus.Text = existingOrder.Status;
-            dpCreatedAt.SelectedDate = existingOrder.CreatedAt;
-            dpReceivedAt.SelectedDate = existingOrder.ReceivedAt;
+            existingOrder = order;
+            Title = "Update order";
+
+            if (existingOrder != null)
+            {
+                cmbSupplier.SelectedValue = existingOrder.SupplierId;
+                txtStatus.Text = existingOrder.Status;
+                dpCreatedAt.SelectedDate = existingOrder.CreatedAt;
+                dpReceivedAt.SelectedDate = existingOrder.ReceivedAt;
+                LoadItemsForOrder(existingOrder.Id);
+            }
         }
 
         private void LoadSuppliers()
         {
-
+            var suppliers = supplierService.GetSuppliers();
+            cmbSupplier.DisplayMemberPath = "Name";
+            cmbSupplier.SelectedValuePath = "Id";
+            cmbSupplier.ItemsSource = suppliers;
         }
 
         private void LoadProducts()
         {
+            products = productservice.GetProducts();
+            colProduct.ItemsSource = products;
+        }
 
+        private void LoadItemsForOrder(int orderId)
+        {
+            items.Clear();
+            var existingItems = orderItemService.GetItemsByOrderId(orderId);
+            foreach (var item in existingItems)
+            {
+                var product = products.FirstOrDefault(p => p.Id == item.ProductId) ?? item.Product;
+                items.Add(new OrderItem
+                {
+                    Product = product,
+                    Quantity = item.Quantity
+                });
+            }
+
+            if (items.Count == 0)
+            {
+                items.Add(new OrderItem());
+            }
         }
     }
 }
