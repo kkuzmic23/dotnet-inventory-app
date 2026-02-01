@@ -91,5 +91,120 @@ namespace WPFLayer
                 items.Add(new OrderItem());
             }
         }
+
+        private void btnAddItem_Click(object sender, RoutedEventArgs e)
+        {
+            items.Add(new OrderItem());
+        }
+
+        private void btnRemoveItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = dgItems.SelectedItem as OrderItem;
+            if (selected != null)
+            {
+                items.Remove(selected);
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedSupplier = cmbSupplier.SelectedItem as Supplier;
+            if (selectedSupplier == null)
+            {
+                MessageBox.Show("Select a supplier first");
+                return;
+            }
+
+            var status = txtStatus.Text?.Trim();
+            if (string.IsNullOrWhiteSpace(status))
+            {
+                MessageBox.Show("Status is required");
+                return;
+            }
+
+            if (!dpCreatedAt.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Created date is required");
+                return;
+            }
+
+            if (items.Count == 0)
+            {
+                MessageBox.Show("Add at least one item");
+                return;
+            }
+
+            var invalidProduct = items.FirstOrDefault(x => x.Product == null);
+            if (invalidProduct != null)
+            {
+                MessageBox.Show("An order item cannot be empty");
+                return;
+            }
+
+            var invalidQuantity = items.FirstOrDefault(x => x.Quantity <= 0);
+            if (invalidQuantity != null)
+            {
+                MessageBox.Show("An order item cannot have 0 or less");
+                return;
+            }
+
+            var duplicateProduct = items.GroupBy(x => x.Product.Id).FirstOrDefault(g => g.Count() > 1);
+
+            if (duplicateProduct != null)
+            {
+                MessageBox.Show("Cannot have the same product more than once");
+                return;
+            }
+
+
+
+            var order = new Order
+            {
+                Id = existingOrder?.Id ?? 0,
+                SupplierId = selectedSupplier.Id,
+                Status = status,
+                CreatedAt = dpCreatedAt.SelectedDate.Value,
+                ReceivedAt = dpReceivedAt.SelectedDate
+            };
+
+            bool isSuccessful;
+
+            if (existingOrder != null)
+            {
+                isSuccessful = orderService.UpdateOrder(order);
+            }
+            else
+            {
+                isSuccessful = orderService.AddOrder(order);
+            }
+
+            if (!isSuccessful || order.Id <= 0)
+            {
+                MessageBox.Show("Fatal flaw while saving order");
+                return;
+            }
+
+            var orderItems = items.Select(x => new OrderHasProduct
+            {
+                OrderId = order.Id,
+                ProductId = x.Product.Id,
+                Quantity = x.Quantity
+            }).ToList();
+
+            bool itemsSaved = orderItemService.ReplaceItems(order.Id, orderItems);
+            if (!itemsSaved)
+            {
+                MessageBox.Show("Order saved, but items save failed");
+                return;
+            }
+
+            DialogResult = true;
+            Close();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

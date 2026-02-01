@@ -49,13 +49,13 @@
         </DataGrid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,8">
-            <Button x:Name="btnAddItem" Width="90" Height="26" Margin="0,0,8,0">Add Item</Button>
-            <Button x:Name="btnRemoveItem" Width="100" Height="26">Remove Item</Button>
+            <Button x:Name="btnAddItem" Width="90" Height="26" Margin="0,0,8,0" Click="btnAddItem_Click">Add Item</Button>
+            <Button x:Name="btnRemoveItem" Width="100" Height="26" Click="btnRemoveItem_Click">Remove Item</Button>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0">Save</Button>
-            <Button x:Name="btnCancel" Width="80" Height="26">Cancel</Button>
+            <Button x:Name="btnSave" Width="80" Height="26" Margin="0,0,8,0" Click="btnSave_Click">Save</Button>
+            <Button x:Name="btnCancel" Width="80" Height="26" Click="btnCancel_Click">Cancel</Button>
         </StackPanel>
     </Grid>
 </Window>
