@@ -26,6 +26,8 @@ namespace WPFLayer
         public SupplierModal()
         {
             InitializeComponent();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
         }
 
         public SupplierModal(Supplier supplier) : this()
@@ -85,6 +87,11 @@ namespace WPFLayer
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
     }
 }

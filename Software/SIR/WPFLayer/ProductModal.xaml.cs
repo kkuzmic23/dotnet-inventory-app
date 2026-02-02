@@ -28,6 +28,8 @@ namespace WPFLayer
         public ProductModal()
         {
             InitializeComponent();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
             LoadSuppliers();
             txtCreatedAt.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
             chkIsActive.IsChecked = true;
@@ -133,6 +135,11 @@ namespace WPFLayer
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
     }
 }
