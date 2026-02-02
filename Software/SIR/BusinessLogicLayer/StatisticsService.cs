@@ -12,6 +12,7 @@ namespace BusinessLogicLayer {
             return Task.Run(() => {
                 using (var orderRepo = new OrderRepository())
                 using (var exportRepo = new StockExportRepository())
+                using (var txRepo = new InventoryTransactionRepository())
                 using (var stockRepo = new StockRepository()) {
                     var s = new StatisticsSummary();
 
@@ -26,6 +27,7 @@ namespace BusinessLogicLayer {
                     s.TopSuppliers = orderRepo.TopSuppliersByCreatedOrders(fromDate, toExclusive, 5);
                     s.TopProductsExport = exportRepo.TopProductsByOutgoingQty(fromDate, toExclusive, 5);
 
+                    s.Activity = txRepo.Latest(fromDate, toExclusive);
                     return s;
                 }
             });

@@ -29,12 +29,11 @@ namespace DataAccessLayer
             return saveChanges ? SaveChanges() : 0;
         }
 
-        public List<ActivityRow> Latest(DateTime from, DateTime toExclusive, int take) {
+        public List<ActivityRow> Latest(DateTime from, DateTime toExclusive) {
             return Entities
                 .Include("Product")
                 .Where(t => t.CreatedAt >= from && t.CreatedAt < toExclusive)
                 .OrderByDescending(t => t.CreatedAt)
-                .Take(take)
                 .Select(t => new ActivityRow {
                     CreatedAt = t.CreatedAt,
                     Type = t.Type,

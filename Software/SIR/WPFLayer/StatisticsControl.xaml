@@ -33,13 +33,23 @@
                                    Margin="0,3,0,0"/>
                     </StackPanel>
 
-                    <Button Grid.Column="1"
-                            x:Name="btnRefresh"
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button x:Name="btnReport"
+                            Style="{StaticResource GhostButton}"
+                            Content="Report"
+                            Height="34"
+                            MinWidth="90"
+                            Margin="0,0,10,0"
+                            Click="BtnReport_Click"/>
+
+                        <Button x:Name="btnRefresh"
                             Style="{StaticResource PrimaryButton}"
                             Content="Refresh"
                             Height="34"
                             MinWidth="90"
                             Click="BtnRefresh_Click"/>
+                    </StackPanel>
+
                 </Grid>
 
                 <!-- FILTERS -->

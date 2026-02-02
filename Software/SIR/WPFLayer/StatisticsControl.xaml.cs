@@ -1,11 +1,14 @@
 ﻿using BusinessLogicLayer;
 using EntityLayer.Entities;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -15,6 +18,10 @@ namespace WPFLayer {
         private string _breakdownMode = "Top suppliers";
         private string _lastTipKey = null;
         private int _tipToken = 0;
+        private StatisticsSummary _currentSummary;
+        private DateTime _currentFrom;
+        private DateTime _currentTo;
+
 
         public Statistics() {
             InitializeComponent();
@@ -96,9 +103,15 @@ namespace WPFLayer {
             btnRefresh.IsEnabled = false;
             btnApply.IsEnabled = false;
             btnReset.IsEnabled = false;
+            btnReport.IsEnabled = false;
+
 
             try {
                 StatisticsSummary s = await _service.GetSummaryAsync(from, to);
+                _currentSummary = s;
+                _currentFrom = from;
+                _currentTo = to;
+                btnReport.IsEnabled = true;
 
                 txtLowStock.Text = s.LowStockCount.ToString();
                 txtIncoming.Text = s.IncomingUnits.ToString();
@@ -284,6 +297,17 @@ namespace WPFLayer {
             _lastTipKey = null;
         }
 
+        private void BtnReport_Click(object sender, RoutedEventArgs e) {
+            if (_currentSummary == null) {
+                MessageBox.Show("No data loaded yet.");
+                return;
+            }
+
+            string generatedBy = Environment.UserName; // ili tvoj login user
+            var win = new ReportWindow(_currentSummary, _currentFrom, _currentTo, generatedBy);
+            win.Owner = Window.GetWindow(this);
+            win.ShowDialog();
+        }
 
     }
 }

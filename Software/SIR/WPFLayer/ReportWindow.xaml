@@ -1,0 +1,79 @@
+﻿<Window x:Class="WPFLayer.ReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Statistics Report"
+        Width="960" Height="740"
+        WindowStartupLocation="CenterOwner"
+        MinWidth="800" MinHeight="600">
+
+    <Window.Resources>
+        <Style x:Key="ExportMenuItem" TargetType="MenuItem">
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Padding" Value="12,0"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{StaticResource Bg}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" 
+                Padding="16,12" 
+                Background="White" 
+                BorderBrush="#FFE5E7EB" 
+                BorderThickness="0,0,0,1">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Statistics Report Preview" 
+                               FontSize="17" 
+                               FontWeight="SemiBold"/>
+                    <TextBlock Text="Review and export your report" 
+                               FontSize="11" 
+                               Foreground="#FF6B7280" 
+                               Margin="0,2,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" 
+                           DockPanel.Dock="Right"
+                           HorizontalAlignment="Right">
+                    <Button Content="🖨️ Print" 
+                            MinWidth="100" 
+                            Height="36"
+                            Margin="0,0,8,0"
+                            Style="{StaticResource GhostButton}" 
+                            Click="BtnPrint_Click"/>
+                    <Menu Background="Transparent" VerticalAlignment="Center" Margin="0,0,8,0">
+                        <MenuItem Height="36" Padding="16,0">
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="💾 Export" VerticalAlignment="Center"/>
+                                    <TextBlock Text=" ▼" FontSize="10" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                                </StackPanel>
+                            </MenuItem.Header>
+
+                            <MenuItem Header="📄 Save as XPS" 
+                                     Click="BtnSaveXps_Click"
+                                     Style="{StaticResource ExportMenuItem}"/>
+
+                            <MenuItem Header="📝 Save as Word (.docx)" 
+                                     Click="BtnSaveDocx_Click"
+                                     Style="{StaticResource ExportMenuItem}"/>
+                        </MenuItem>
+                    </Menu>
+                    <Button Content="Close" 
+                            MinWidth="90" 
+                            Height="36"
+                            Style="{StaticResource PrimaryButton}" 
+                            Click="BtnClose_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+        <FlowDocumentScrollViewer Grid.Row="1"
+                                  x:Name="viewer"
+                                  Margin="16"
+                                  Background="White"
+                                  BorderBrush="#FFE5E7EB"
+                                  BorderThickness="1"/>
+    </Grid>
+</Window>
