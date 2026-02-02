@@ -25,6 +25,8 @@ namespace WPFLayer
         {
             InitializeComponent();
             _listener.Start();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
         }
         protected override void OnClosed(EventArgs e) {
             _listener.Stop();
@@ -91,6 +93,11 @@ namespace WPFLayer
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(Sadrzaj.Content ?? this);
         }
     }
 }

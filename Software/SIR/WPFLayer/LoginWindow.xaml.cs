@@ -1,5 +1,6 @@
 using BusinessLogicLayer;
 using System.Windows;
+using System.Windows.Input;
 
 namespace WPFLayer
 {
@@ -12,6 +13,8 @@ namespace WPFLayer
             InitializeComponent();
             userService = new UserService();
             txtUsername.Focus();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -34,6 +37,11 @@ namespace WPFLayer
             Application.Current.MainWindow = mainWindow;
             mainWindow.Show();
             Close();
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
 
     }

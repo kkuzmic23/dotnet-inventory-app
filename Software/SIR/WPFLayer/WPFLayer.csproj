@@ -77,6 +77,7 @@
       <DependentUpon>ExportControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="GlobalStockAlertListener.cs" />
+    <Compile Include="HelpService.cs" />
     <Compile Include="ImportDetailsWindow.xaml.cs">
       <DependentUpon>ImportDetailsWindow.xaml</DependentUpon>
     </Compile>
@@ -193,6 +194,10 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="..\User Manual.pdf">
+      <Link>User Manual.pdf</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
