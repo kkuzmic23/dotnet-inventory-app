@@ -195,10 +195,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="..\User Manual.pdf">
-      <Link>User Manual.pdf</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="User manual.pdf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
