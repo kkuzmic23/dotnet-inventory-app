@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WPFLayer
 {
@@ -20,6 +21,8 @@ namespace WPFLayer
         {
             InitializeComponent();
             dgExportItems.ItemsSource = exportItems;
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
             LoadProducts();
             LoadStock();
             LoadExports();
@@ -129,6 +132,11 @@ namespace WPFLayer
             txtNotes.Text = string.Empty;
             LoadStock();
             LoadExports();
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
     }
 }
