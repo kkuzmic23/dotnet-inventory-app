@@ -8,7 +8,7 @@ namespace WPFLayer {
     public partial class AlertsControl : UserControl {
         private readonly AlertsService _alertsService = new AlertsService();
 
-        // pamti za koje proizvode je već poslan CRITICAL notify
+        private readonly HashSet<int> _lowNotified = new HashSet<int>();
         private readonly HashSet<int> _criticalNotified = new HashSet<int>();
 
         public AlertsControl() {
@@ -25,26 +25,28 @@ namespace WPFLayer {
         }
 
         private void OnStockChanged(int productId) {
-            Dispatcher.Invoke(() => {
-                // 1) provjeri samo taj proizvod
+            Dispatcher.Invoke(() =>
+            {
                 var p = _alertsService.GetProductWithStockAndLastRestock(productId);
-                if (p == null) return;
+                if (p == null || !p.IsActive) return;
 
-                // 2) critical pravilo
-                bool isCritical = p.IsActive && p.CurrentQuantity < 0;
-
-                // 3) notify samo kad prvi put uđe u critical
+                bool isLow = p.CurrentQuantity < p.ReorderLevel;
+                bool isCritical = p.CurrentQuantity <= 0;
                 if (isCritical && !_criticalNotified.Contains(productId)) {
-                    Notifications.ShowLowStock(p); // već imaš warning/error unutra
+                    Notifications.ShowLowStock(p);
                     _criticalNotified.Add(productId);
                 }
 
-                // 4) ako se oporavio, dopusti budući notify
-                if (!isCritical && _criticalNotified.Contains(productId)) {
+                if (!isCritical && isLow && !_lowNotified.Contains(productId)) {
+                    Notifications.ShowLowStock(p);
+                    _lowNotified.Add(productId);
+                }
+
+                if (!isLow) {
+                    _lowNotified.Remove(productId);
                     _criticalNotified.Remove(productId);
                 }
 
-                // 5) opcionalno: osvježi listu (da se UI ažurira)
                 RefreshList();
             });
         }
