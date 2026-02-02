@@ -77,7 +77,8 @@ namespace WPFLayer
 
         private void btnStatistics_Click(object sender, RoutedEventArgs e)
         {
-
+            Sadrzaj.Content = new Statistics();
+            lblWelcome.Content = "Statistics";
         }
 
         private void btnReports_Click(object sender, RoutedEventArgs e)

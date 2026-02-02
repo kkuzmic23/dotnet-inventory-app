@@ -51,11 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\DailyProductQty.cs" />
     <Compile Include="Entities\InventoryTransaction.cs" />
     <Compile Include="Entities\Order.cs" />
     <Compile Include="Entities\OrderHasProduct.cs" />
     <Compile Include="Entities\Product.cs" />
     <Compile Include="Entities\Product.Extensions.cs" />
+    <Compile Include="Entities\Reports.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\Stock.cs" />
     <Compile Include="Entities\StockExport.cs" />
