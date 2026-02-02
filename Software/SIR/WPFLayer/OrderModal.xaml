@@ -31,9 +31,6 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Supplier" VerticalAlignment="Center" Margin="0,0,8,8"/>
             <ComboBox x:Name="cmbSupplier" Grid.Row="0" Grid.Column="1" Margin="0,0,12,8"/>
 
-            <TextBlock Grid.Row="0" Grid.Column="2" Text="Status" VerticalAlignment="Center" Margin="0,0,8,8"/>
-            <TextBox x:Name="txtStatus" Grid.Row="0" Grid.Column="3" Margin="0,0,0,8"/>
-
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Created At" VerticalAlignment="Center" Margin="0,0,8,0"/>
             <DatePicker x:Name="dpCreatedAt" Grid.Row="1" Grid.Column="1" Margin="0,0,12,0"/>
 

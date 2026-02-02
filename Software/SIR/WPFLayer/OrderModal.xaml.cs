@@ -40,7 +40,6 @@ namespace WPFLayer
             LoadSuppliers();
             LoadProducts();
 
-            txtStatus.Text = "Created";
             dpCreatedAt.SelectedDate = DateTime.Now;
             items.Add(new OrderItem());
         }
@@ -53,7 +52,6 @@ namespace WPFLayer
             if (existingOrder != null)
             {
                 cmbSupplier.SelectedValue = existingOrder.SupplierId;
-                txtStatus.Text = existingOrder.Status;
                 dpCreatedAt.SelectedDate = existingOrder.CreatedAt;
                 dpReceivedAt.SelectedDate = existingOrder.ReceivedAt;
                 LoadItemsForOrder(existingOrder.Id);
@@ -117,12 +115,7 @@ namespace WPFLayer
                 return;
             }
 
-            var status = txtStatus.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(status))
-            {
-                MessageBox.Show("Status is required");
-                return;
-            }
+            var status = string.IsNullOrWhiteSpace(existingOrder?.Status) ? "Pending" : existingOrder.Status;
 
             if (!dpCreatedAt.SelectedDate.HasValue)
             {
