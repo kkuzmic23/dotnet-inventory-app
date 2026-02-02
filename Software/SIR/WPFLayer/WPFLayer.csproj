@@ -49,6 +49,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -75,6 +76,7 @@
     <Compile Include="ExportControl.xaml.cs">
       <DependentUpon>ExportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GlobalStockAlertListener.cs" />
     <Compile Include="ImportDetailsWindow.xaml.cs">
       <DependentUpon>ImportDetailsWindow.xaml</DependentUpon>
     </Compile>

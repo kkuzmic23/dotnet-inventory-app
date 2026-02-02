@@ -14,7 +14,7 @@ namespace EntityLayer.Entities {
         public bool IsLowStock => IsActive && CurrentQuantity < ReorderLevel;
 
         [NotMapped]
-        public bool IsCriticalStock => IsActive && CurrentQuantity < 0;
+        public bool IsCriticalStock => IsActive && CurrentQuantity <= 0;
 
         [NotMapped]
         public int MissingToMinimum {

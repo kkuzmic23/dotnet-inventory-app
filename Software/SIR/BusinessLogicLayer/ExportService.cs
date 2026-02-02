@@ -111,6 +111,9 @@ namespace BusinessLogicLayer
                 exportItemRepo.SaveChanges();
                 stockRepo.SaveChanges();
                 transactionRepo.SaveChanges();
+                foreach (var productId in grouped.Select(x => x.ProductId).Distinct()) {
+                    StockChangeNotifier.Notify(productId);
+                }
             }
 
             return true;

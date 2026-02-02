@@ -20,9 +20,15 @@ namespace WPFLayer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly GlobalStockAlertListener _listener = new GlobalStockAlertListener();
         public MainWindow()
         {
             InitializeComponent();
+            _listener.Start();
+        }
+        protected override void OnClosed(EventArgs e) {
+            _listener.Stop();
+            base.OnClosed(e);
         }
 
         private void btnOrders_Click(object sender, RoutedEventArgs e)

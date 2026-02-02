@@ -28,8 +28,8 @@ namespace BusinessLogicLayer
                 {
                     repo.Add(item);
                 }
-
-                return repo.SaveChanges() > 0;
+                repo.SaveChanges();
+                return true;
             }
         }
     }
