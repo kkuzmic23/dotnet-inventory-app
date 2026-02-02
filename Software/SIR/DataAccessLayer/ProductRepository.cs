@@ -1,4 +1,5 @@
 using EntityLayer.Entities;
+using System.Data.Entity;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -7,6 +8,11 @@ namespace DataAccessLayer
     {
         public ProductRepository() : base(new Model1())
         {
+        }
+
+        public override IQueryable<Product> GetAll()
+        {
+            return Entities.Include(p => p.Supplier);
         }
 
         public override int Update(Product product, bool saveChanges = true)

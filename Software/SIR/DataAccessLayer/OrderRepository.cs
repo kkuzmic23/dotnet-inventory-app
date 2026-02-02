@@ -1,5 +1,6 @@
 using EntityLayer.Entities;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace DataAccessLayer
@@ -8,6 +9,11 @@ namespace DataAccessLayer
     {
         public OrderRepository() : base(new Model1())
         {
+        }
+
+        public override IQueryable<Order> GetAll()
+        {
+            return Entities.Include(o => o.Supplier);
         }
 
         public override int Update(Order order, bool saveChanges = true)

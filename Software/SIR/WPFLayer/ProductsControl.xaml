@@ -49,7 +49,7 @@
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Product Code" Binding="{Binding ProductCode}"/>
                 <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                <DataGridTextColumn Header="Supplier Name" Binding="{Binding SupplierName}"/>
+                <DataGridTextColumn Header="Supplier Name" Binding="{Binding Supplier.Name}"/>
                 <DataGridTextColumn Header="Reorder Level" Binding="{Binding ReorderLevel}"/>
                 <DataGridCheckBoxColumn Header="Is Active" Binding="{Binding IsActive}"/>
                 <DataGridTextColumn Header="Created At" Binding="{Binding CreatedAt}"/>
