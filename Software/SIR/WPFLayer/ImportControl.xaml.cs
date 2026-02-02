@@ -24,6 +24,8 @@ namespace WPFLayer
         public ImportControl()
         {
             InitializeComponent();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
         }
 
         private void btnLoadImports_Click(object sender, RoutedEventArgs e)
@@ -106,6 +108,11 @@ namespace WPFLayer
             }
 
             return null;
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
     }
 }
