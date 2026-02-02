@@ -21,9 +21,8 @@
             <Button Name="btnExport" Content="Export" Click="btnExport_Click" Margin="0,0,0,20"></Button>
             
             <Button Name="btnAlerts" Content="Alerts" Click="BtnAlerts_Click"></Button>
-            <Button Name="btnStatistics" Content="Statistics" Click="btnStatistics_Click"></Button>
-            <Button Name="btnReports" Content="Reports" Click="btnReports_Click" Margin="0,0,0,100"></Button>
-            
+            <Button Name="btnStatistics" Content="Statistics" Click="btnStatistics_Click" Margin="0,0,0,100"></Button>
+
             <Button Name="btnLogout" Content="Log out" Click="btnLogout_Click"></Button>
             <Button Name="btnExit" Content="Exit" Click="btnExit_Click"></Button>
         </StackPanel>
