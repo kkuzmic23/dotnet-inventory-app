@@ -33,5 +33,10 @@ namespace DataAccessLayer
             existing.Quantity = stock.Quantity;
             return saveChanges ? SaveChanges() : 0;
         }
+
+        public int CountLowStock() {
+            return Entities.Count(s => s.Quantity <= s.Product.ReorderLevel);
+        }
+
     }
 }
