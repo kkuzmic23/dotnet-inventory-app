@@ -20,7 +20,11 @@ namespace WPFLayer
             { typeof(ProductsControl), 8 },
             { typeof(ProductModal), 9 },
             { typeof(SuppliersControl), 10 },
-            { typeof(SupplierModal), 11 }
+            { typeof(SupplierModal), 11 },
+            { typeof(StockControl), 12 },
+            { typeof(ImportControl), 13 },
+            { typeof(ImportDetailsWindow), 14 },
+            { typeof(ExportControl), 15 }
         };
 
         public static void ShowHelpForContext(object context)
