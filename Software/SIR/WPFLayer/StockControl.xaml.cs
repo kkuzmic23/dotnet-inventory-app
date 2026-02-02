@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace WPFLayer
 {
@@ -14,6 +15,8 @@ namespace WPFLayer
         public StockControl()
         {
             InitializeComponent();
+            CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
+            InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
         }
 
         private void btnLoadStock_Click(object sender, RoutedEventArgs e)
@@ -54,6 +57,11 @@ namespace WPFLayer
                     (s.Product?.Description ?? string.Empty).ToLowerInvariant().Contains(term) ||
                     (s.Product?.Supplier?.Name ?? string.Empty).ToLowerInvariant().Contains(term))
                 .ToList();
+        }
+
+        private void OnHelp(object sender, ExecutedRoutedEventArgs e)
+        {
+            HelpService.ShowHelpForContext(this);
         }
     }
 }
