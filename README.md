@@ -1,42 +1,32 @@
-**(ERASMUS students please see the english version (README_ENG.md) of this document)**
-
-# Inicijalne upute za prijavu 1. projekta iz kolegija Testiranje i kvaliteta programskih proizvoda
-
-Poštovane kolegice i kolege, 
-
-čestitamo vam jer ste uspješno prijavili svoj projektni tim na kolegiju Testiranje i kvaliteta programskih proizvoda, te je za vas automatski kreiran repozitorij koji ćete koristiti za verzioniranje vašega koda, testova, ali i za pisanje dokumentacije.
-
-Ovaj dokument (README.md) predstavlja **osobnu iskaznicu vašeg projekta**. Vaš prvi zadatak je **prijaviti vlastiti projektni prijedlog** na način da ćete prijavu vašeg projekta, sukladno uputama danim u ovom tekstu, napisati upravo u ovaj dokument, umjesto ovoga teksta.
-
-Za upute o sintaksi koju možete koristiti u ovom dokumentu i kod pisanje vaše projektne dokumentacije pogledajte [ovaj link](https://guides.github.com/features/mastering-markdown/).
-Sav programski kod i testove je potrebno verzionirati u glavnoj **master** grani i **obvezno** smjestiti u mapu Software. Sve artefakte (npr. slike) koje ćete koristiti u vašoj dokumentaciju smjestiti u mapu Documentation.
-
-Povratnu informaciju na samu prijavu tima i projekta, kao i na završnu predaju ćete od nastavnika dobiti kroz sekciju Discussions (također dostupnu na GitHubu vašeg projekta). A sada, vrijeme je da prijavite vaš projekt. Za prijavu vašeg projektnog prijedloga molimo vas koristite **predložak** koji je naveden u nastavku, a započnite tako da kliknete na *olovku* u desnom gornjem kutu ovoga dokumenta :) 
-
-# Naziv projekta
-(u redak iznad navedite kratki proizvoljni naziv projekta prikladan akademskoj zajednici, a ovaj tekst obrišite)
+# Sustav za Inventar i Resurse - S.I.R.
 
 ## Model rada na projektu
-(Ovdje navedite model rada na projektu, pri čemu su dostupne opcije: (1) Nastavak rada na projektu iz kolegija "Naziv kolegija", (2) Nastavak rada na nekom drugom projektu (npr. neki projekt otvorenog kôda), (3) Rad u suradnji s nastavnicima (na projektima nastavnika).
+Nastavak rada na projektu iz kolegija RPP.<br>
 
 ## Opis projekta
-(Ovdje ukratko opišite projekt na kojem radite, uključujući temu i domenu projekta, kolegij na kojem ste inicijalno započeli projekt, te inicijalne tehnologije koje ste koristili za prethodnu izradu projekta.)
+Aplikacija na kojoj radimo namijenjena je za praćenje zaliha u poslovnicama. Glavni korisnici bi bili menadžeri ili voditelji smjena kako bi olakšali praćenje inputa i outputa robe. <br>
+Projekt je bio izrađen na kolegiju RPP, korištenjem C#, WPF i EntityFramework + MSSQL.
 
 ## Projektni tim
 
 Ime i prezime | E-mail adresa (FOI) | JMBAG | Github korisničko ime
 ------------  | ------------------- | ----- | ---------------------
-Ime i prezime | mojaadresa@foi.hr | 000000000 | githubuser
-Ime i prezime | ... | ... | ...
+Karlo Kuzmić | kkuzmic23@foi.hr | 0016165158 | kkuzmic23
+Tibor Levanić | tlevanic23@foi.hr | 0016165686 | tlevanic23
 
 ## Specifikacija projekta
-Ovdje navedite funkcionalne i nefunkcionalne zahtjeve koje je vaš projekt do sada obuhvaćao:
+Na RPP projektu imali smo trećeg člana koji je imao svoj dio funkcionalnih zahtjeva.<br>
+On nije upisao ovaj kolegij pa ćemo mi samo nastaviti rad na svojim djelovima.
 
 Oznaka | Naziv | Kratki opis | Odgovorni član tima
 ------ | ----- | ----------- | -------------------
-F01 | Login | Sustav omogućava prijavu korisnika ... | Ivan Horvat
-F02 | Registracija | Sustav omogućava registraciju novog korisnika... | Pero Perić
-...
+F01 | Login | Program omogućava prijavu korisnika uz provjeru vjerodajnica, čime se osigurava da samo ovlašteni menadžeri i voditelji smjene mogu pristupiti sustavu i njegovim funkcionalnostima. | Karlo Kuzmić
+F02 | Upravljanje narudžbama | Program omogućava unos, pregled i praćenje narudžbi prema dobavljačima. Korisnik može označiti je li narudžba ispunjena i je li roba isporučena, čime se osigurava bolja organizacija nabave bez utjecaja na stanje zaliha. | Karlo Kuzmić
+F03 | Upravljanje proizvodima | Program omogućava dodavanje, uređivanje, brisanje i pregled proizvoda koji se prodaju u poslovnici, uključujući osnovne informacije poput naziva, tipa i opisa proizvoda. | Karlo Kuzmić
+F04 | Upravljanje partnerskim poduzećima | Program omogućava dodavanje, uređivanje, brisanje i pregled informacija o poduzećima s kojima poslovnica surađuje. Korisnik može evidentirati kontaktne podatke, tip  i uvjete suradnje sa poduzećem. | Karlo Kuzmić
+F05 | Upravljanje uvozom robe | Program omogućava unos informacija o uvozu proizvoda, uključujući količinu i datum unosa. Sustav automatski ažurira stanje zaliha i stvara bilješku o uvozu. | Tibor Levanić
+F06 | Prikaz zaliha | Program omogućava prikaz trenutnog stanja zaliha za sve proizvode u poslovnici. Korisnik u svakom trenutku može pregledati količine dostupnih artikala i njihovu ažuriranu evidenciju.  | Tibor Levanić
+F07 | Upravljanje izvozom robe | Program omogućava unos podataka o dnevnom izvozu proizvoda, uključujući prodaju, veleprodaju, gubitke zbog krađe ili isteka roka trajanja. Svaki unos automatski smanjuje stanje zaliha i stvara bilješku o izvozu. | Tibor Levanić
 
 ## Tehnologije i oprema
-Ovdje opišite tehnologije i alate koje koje ćete koristit u realizaciji projekta na kolegiju Testiranje i kvaliteta programskih proizvoda. Naravno, ovu sekciju možete naknadno i ažurirati. 
+Za projektiranje sustava ponajprije će biti korišten Visual Paradigm. Program će biti Windows Forms aplikacija razvijena pomoću .NET Framework razvojnog okvira. Za verzioniranje programskog koda bit će korišten GitHub, dok će dokumentacija biti pisana u GitHub Wiki. Projektni zadatak će biti planiran u alatu GitHub projects.
