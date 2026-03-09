@@ -2,6 +2,7 @@
 
 ## Model rada na projektu
 Nastavak rada na projektu iz kolegija RPP.<br>
+Oba člana će pohađat FINA akademiju za testiranje.
 
 ## Opis projekta
 Aplikacija na kojoj radimo namijenjena je za praćenje zaliha u poslovnicama. Glavni korisnici bi bili menadžeri ili voditelji smjena kako bi olakšali praćenje inputa i outputa robe. <br>
