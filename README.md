@@ -1,3 +1,45 @@
+# Projekt 2
+
+##Ispravak pogrešaka i unaprijeđenje programskog koda
+
+Oba člana tima su sudjelovala u FINA akademiji za testiranje te nisu imali analizirani kod za ispraviti/unaprijediti.
+
+## Jedinično testiranje
+
+### kkuzmic23
+
+### tlevanic23
+
+## Integracijsko testiranje
+
+### kkuzmic23
+
+### tlevanic23
+
+## Uspostavljanje CI/CD cjevovoda
+
+### kkuzmic23
+
+### tlevanic23
+
+## Razvoj vođen testiranjem (TDD)
+
+### kkuzmic23
+
+### tlevanic23
+
+## Recenzija programskog koda
+
+### kkuzmic23
+
+### tlevanic23
+
+## Upotreba umjetne inteligencije
+
+### kkuzmic23
+
+### tlevanic23
+
 # Sustav za Inventar i Resurse - S.I.R.
 
 ## Model rada na projektu
