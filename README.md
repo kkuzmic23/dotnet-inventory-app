@@ -1,6 +1,6 @@
 # Projekt 2
 
-##Ispravak pogrešaka i unaprijeđenje programskog koda
+## Ispravak pogrešaka i unaprijeđenje programskog koda
 
 Oba člana tima su sudjelovala u FINA akademiji za testiranje te nisu imali analizirani kod za ispraviti/unaprijediti.
 
