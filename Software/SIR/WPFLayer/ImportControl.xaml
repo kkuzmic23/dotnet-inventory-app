@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="WPFLayer.ImportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFLayer"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel Grid.Row="1" Background="#FFEFEFEF">
+        <StackPanel Name="filterOptions" DockPanel.Dock="Left" Orientation="Vertical" Background="LightGray" Width="180">
+            <Label Content="Filter options" BorderThickness="2" BorderBrush="Black"></Label>
+            <TextBlock Text="Supplier name" Margin="6,8,6,2"/>
+            <TextBox Name="txtSupplierFilter" Margin="6,0,6,4"/>
+            <TextBlock Text="Product type" Margin="6,6,6,2"/>
+            <TextBox Name="txtProductFilter" Margin="6,0,6,4"/>
+            <TextBlock Text="Amount min" Margin="6,6,6,2"/>
+            <TextBox Name="txtAmountMin" Margin="6,0,6,4"/>
+            <TextBlock Text="Amount max" Margin="6,6,6,2"/>
+            <TextBox Name="txtAmountMax" Margin="6,0,6,4"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Name="btnLoadImports" Height=" 25" Content="Show All Imports" Click="btnLoadImports_Click"></Button>
+            <Button Name="btnFilter" Height="25" Content="Filter" Click="btnFilter_Click"></Button>
+            <Button Name="btnClearFilters" Height="25" Content="Clear Filters" Click="btnClearFilters_Click"></Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right">
+            <Button Name="btnDetails" Height="25" Content="Details" Click="btnDetails_Click"></Button>
+        </StackPanel>
+        <ListView Name="lvImports" BorderThickness="0" Background="Transparent">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="8" Padding="10" BorderBrush="#FFC7C7C7" BorderThickness="1" CornerRadius="6" Background="White">
+                        <StackPanel>
+                            <TextBlock Text="{Binding SupplierName}" FontSize="16" FontWeight="DemiBold" />
+                            <ItemsControl ItemsSource="{Binding Products}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="0,4,0,0">
+                                            <TextBlock DockPanel.Dock="Left" Text="{Binding ProductName}" Margin="0,0,5,0"/>
+                                            <TextBlock DockPanel.Dock="Right" FontWeight="Bold" Text="{Binding TotalQuantity, StringFormat=Amount: {0}}" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </DockPanel>
+</UserControl>
