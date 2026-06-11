@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
-    public class ExportService
+    public class ExportService : IExportService
     {
         public List<Product> GetProducts()
         {
