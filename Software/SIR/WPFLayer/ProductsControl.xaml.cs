@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
-    /// <summary>
-    /// Interaction logic for ProductsControl.xaml
-    /// </summary>
     public partial class ProductsControl : UserControl
     {
         private readonly ProductService productService = new ProductService();

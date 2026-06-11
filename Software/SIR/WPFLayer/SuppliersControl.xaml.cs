@@ -18,9 +18,6 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
-    /// <summary>
-    /// Interaction logic for SuppliersControl.xaml
-    /// </summary>
     public partial class SuppliersControl : UserControl
     {
         private SupplierService supplierService = new SupplierService();

@@ -17,9 +17,6 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
-    /// <summary>
-    /// Interaction logic for OrderModal.xaml
-    /// </summary>
     public partial class OrderModal : Window
     {
         private readonly OrderService orderService = new OrderService();
