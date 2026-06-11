@@ -23,17 +23,17 @@ namespace BusinessLogicLayer
             }
         }
 
-        public bool Export(ExportRequest request)
+        public ExportResult Export(ExportRequest request)
         {
             if (request == null || request.Items == null || request.Items.Count == 0)
             {
-                return false;
+                return new ExportResult { Success = false, ErrorMessage = "Add at least one item to export." };
             }
 
             var items = request.Items.Where(i => i != null).ToList();
             if (items.Count == 0)
             {
-                return false;
+                return new ExportResult { Success = false, ErrorMessage = "Add at least one item to export." };
             }
 
             var grouped = items
@@ -57,22 +57,22 @@ namespace BusinessLogicLayer
                 {
                     if (item.ProductId <= 0)
                     {
-                        return false;
+                        return new ExportResult { Success = false, ErrorMessage = "Invalid product." };
                     }
 
                     if (item.Quantity <= 0)
                     {
-                        return false;
+                        return new ExportResult { Success = false, ErrorMessage = "Enter a valid quantity." };
                     }
 
                     if (!stockByProduct.TryGetValue(item.ProductId, out var stock))
                     {
-                        return false;
+                        return new ExportResult { Success = false, ErrorMessage = "Product not in stock." };
                     }
 
                     if (stock.Quantity < item.Quantity)
                     {
-                        return false;
+                        return new ExportResult { Success = false, ErrorMessage = "Not enough stock." };
                     }
                 }
 
@@ -116,7 +116,7 @@ namespace BusinessLogicLayer
                 }
             }
 
-            return true;
+            return new ExportResult { Success = true };
         }
     }
 
