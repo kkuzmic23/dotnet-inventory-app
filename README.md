@@ -44,7 +44,7 @@ Oba člana tima su sudjelovala u FINA akademiji za testiranje te nisu imali anal
 
 ## Model rada na projektu
 Nastavak rada na projektu iz kolegija RPP.<br>
-Oba člana će pohađat FINA akademiju za testiranje.
+Oba člana će pohađati FINA akademiju za testiranje.
 
 ## Opis projekta
 Aplikacija na kojoj radimo namijenjena je za praćenje zaliha u poslovnicama. Glavni korisnici bi bili menadžeri ili voditelji smjena kako bi olakšali praćenje inputa i outputa robe. <br>
