@@ -25,7 +25,7 @@ namespace BusinessLogicLayer
 
         public bool AddSupplier(Supplier supplier)
         {
-            if (supplier == null)
+            if (!ValidateSupplier(supplier).IsSuccessful)
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace BusinessLogicLayer
 
         public bool UpdateSupplier(Supplier supplier)
         {
-            if (supplier == null)
+            if (!ValidateSupplier(supplier).IsSuccessful)
             {
                 return false;
             }
@@ -70,6 +70,21 @@ namespace BusinessLogicLayer
 
             int productCount = repo.GetProductCount(supplier);
             return productCount == 0;
+        }
+
+        public ServiceResult ValidateSupplier(Supplier supplier)
+        {
+            if (supplier == null)
+            {
+                return ServiceResult.Failure("Supplier is required");
+            }
+
+            if (string.IsNullOrWhiteSpace(supplier.Name))
+            {
+                return ServiceResult.Failure("Name is required");
+            }
+
+            return ServiceResult.Success();
         }
     }
 }
