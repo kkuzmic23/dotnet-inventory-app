@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
-    public class ImportService
+    public class ImportService : IImportService
     {
         public List<OrderHasProduct> GetImports()
         {
