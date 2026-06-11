@@ -111,9 +111,7 @@ namespace WPFLayer
                 MessageBox.Show("This product is discontinued. Bringing it back");
             }
 
-            product.IsActive = !product.IsActive;
-
-            bool isSuccessful = productService.UpdateProduct(product);
+            bool isSuccessful = productService.ToggleProductActiveStatus(product);
             if (!isSuccessful)
             {
                 MessageBox.Show("Fatal flaw while updating product");
@@ -139,27 +137,11 @@ namespace WPFLayer
                 return;
             }
 
-            IEnumerable<Product> filtered = allProducts;
-
             var selectedSupplier = cmbFilter.SelectedItem as Supplier;
-            if (selectedSupplier != null && selectedSupplier.Id != 0)
-            {
-                filtered = filtered.Where(x => x.SupplierId == selectedSupplier.Id);
-            }
+            int supplierId = selectedSupplier?.Id ?? 0;
+            string phrase = txtSearchProducts.Text;
 
-            string phrase = txtSearchProducts.Text?.Trim();
-            if (!string.IsNullOrWhiteSpace(phrase))
-            {
-                filtered = filtered.Where(x =>
-                    (!string.IsNullOrWhiteSpace(x.Name) &&
-                     x.Name.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
-                    ||
-                    (!string.IsNullOrWhiteSpace(x.ProductCode) &&
-                     x.ProductCode.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
-                );
-            }
-
-            products = new ObservableCollection<Product>(filtered);
+            products = new ObservableCollection<Product>(productService.FilterProducts(allProducts, supplierId, phrase));
             dgProducts.ItemsSource = products;
         }
 
