@@ -128,6 +128,37 @@ namespace BusinessLogicLayer
 
             return true;
         }
+
+        public List<SupplierImportSummary> FilterSummaries(List<SupplierImportSummary> source, string supplierFilter, string productFilter, int? minAmount, int? maxAmount)
+        {
+            if (source == null || source.Count == 0)
+            {
+                return new List<SupplierImportSummary>();
+            }
+
+            supplierFilter = (supplierFilter ?? string.Empty).Trim().ToLowerInvariant();
+            productFilter = (productFilter ?? string.Empty).Trim().ToLowerInvariant();
+
+            return source
+                .Where(s => string.IsNullOrEmpty(supplierFilter) ||
+                            (!string.IsNullOrEmpty(s.SupplierName) &&
+                             s.SupplierName.ToLowerInvariant().Contains(supplierFilter)))
+                .Select(s => new SupplierImportSummary
+                {
+                    SupplierId = s.SupplierId,
+                    SupplierName = s.SupplierName,
+                    Products = s.Products
+                        .Where(p =>
+                            (string.IsNullOrEmpty(productFilter) ||
+                             (!string.IsNullOrEmpty(p.ProductName) &&
+                              p.ProductName.ToLowerInvariant().Contains(productFilter))) &&
+                            (!minAmount.HasValue || p.TotalQuantity >= minAmount.Value) &&
+                            (!maxAmount.HasValue || p.TotalQuantity <= maxAmount.Value))
+                        .ToList()
+                })
+                .Where(s => s.Products.Count > 0)
+                .ToList();
+        }
     }
 
     public class SupplierImportSummary
