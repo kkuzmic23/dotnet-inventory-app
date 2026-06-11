@@ -81,48 +81,22 @@ namespace WPFLayer
                 return;
             }
 
-            var grouped = exportItems
-                .GroupBy(i => i.ProductId)
-                .Select(g => new
-                {
-                    ProductId = g.Key,
-                    ProductName = g.First().ProductName,
-                    Quantity = g.Sum(x => x.Quantity)
-                })
-                .ToList();
-
-            foreach (var item in grouped)
-            {
-                if (!stockByProductId.TryGetValue(item.ProductId, out int available))
-                {
-                    MessageBox.Show($"Product not in stock: {item.ProductName}.");
-                    return;
-                }
-
-                if (available < item.Quantity)
-                {
-                    MessageBox.Show($"Not enough stock for {item.ProductName}. Available: {available}.");
-                    return;
-                }
-            }
-
             var request = new ExportRequest
             {
                 Notes = txtNotes.Text?.Trim(),
                 Items = exportItems.ToList()
             };
 
-            bool ok = exportService.Export(request);
-            if (!ok)
+            var result = exportService.Export(request);
+            if (!result.Success)
             {
-                MessageBox.Show("Export failed.");
+                MessageBox.Show(result.ErrorMessage ?? "Export failed.");
                 return;
             }
 
             MessageBox.Show("Export completed.");
             exportItems.Clear();
             txtNotes.Text = string.Empty;
-            LoadStock();
             LoadExports();
         }
 
