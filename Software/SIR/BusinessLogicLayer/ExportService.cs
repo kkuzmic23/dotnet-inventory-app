@@ -120,6 +120,12 @@ namespace BusinessLogicLayer
         }
     }
 
+    public class ExportResult
+    {
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
+    }
+
     public class ExportItemRequest
     {
         public int ProductId { get; set; }
