@@ -15,7 +15,6 @@ namespace WPFLayer
         private readonly ExportService exportService = new ExportService();
         private readonly StockService stockService = new StockService();
         private readonly ObservableCollection<ExportItemRequest> exportItems = new ObservableCollection<ExportItemRequest>();
-        private Dictionary<int, int> stockByProductId = new Dictionary<int, int>();
 
         public ExportControl()
         {
@@ -24,7 +23,6 @@ namespace WPFLayer
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
             InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
             LoadProducts();
-            LoadStock();
             LoadExports();
         }
 
@@ -36,12 +34,6 @@ namespace WPFLayer
             {
                 cmbProducts.SelectedIndex = 0;
             }
-        }
-
-        private void LoadStock()
-        {
-            var stock = stockService.GetStock();
-            stockByProductId = stock.ToDictionary(s => s.ProductId, s => s.Quantity);
         }
 
         private void LoadExports()
