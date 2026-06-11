@@ -47,12 +47,6 @@ namespace WPFLayer
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             var name = txtName.Text?.Trim();
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                MessageBox.Show("Name is required");
-                return;
-            }
-
             var supplier = new Supplier
             {
                 Id = existingSupplier?.Id ?? 0,
@@ -62,6 +56,13 @@ namespace WPFLayer
                 Address = txtAddress.Text?.Trim(),
                 CreatedAt = existingSupplier?.CreatedAt ?? DateTime.Now
             };
+
+            var validation = supplierService.ValidateSupplier(supplier);
+            if (!validation.IsSuccessful)
+            {
+                MessageBox.Show(validation.ErrorMessage);
+                return;
+            }
 
             bool isSuccessful;
 
