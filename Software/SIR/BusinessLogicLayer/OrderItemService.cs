@@ -20,6 +20,11 @@ namespace BusinessLogicLayer
 
         public bool ReplaceItems(int orderId, IEnumerable<OrderHasProduct> items)
         {
+            if (!ValidateOrderItems(items).IsSuccessful)
+            {
+                return false;
+            }
+
             using (var repo = new OrderHasProductRepository())
             {
                 repo.RemoveByOrderId(orderId);
@@ -31,6 +36,31 @@ namespace BusinessLogicLayer
                 repo.SaveChanges();
                 return true;
             }
+        }
+
+        public ServiceResult ValidateOrderItems(IEnumerable<OrderHasProduct> items)
+        {
+            if (items == null || !items.Any())
+            {
+                return ServiceResult.Failure("Add at least one item");
+            }
+
+            if (items.Any(x => x.ProductId <= 0))
+            {
+                return ServiceResult.Failure("An order item cannot be empty");
+            }
+
+            if (items.Any(x => x.Quantity <= 0))
+            {
+                return ServiceResult.Failure("An order item cannot have 0 or less");
+            }
+
+            if (items.GroupBy(x => x.ProductId).Any(g => g.Count() > 1))
+            {
+                return ServiceResult.Failure("Cannot have the same product more than once");
+            }
+
+            return ServiceResult.Success();
         }
     }
 }
