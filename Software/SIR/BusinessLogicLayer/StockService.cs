@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
-    public class StockService
+    public class StockService : IStockService
     {
         public List<Stock> GetStock()
         {
