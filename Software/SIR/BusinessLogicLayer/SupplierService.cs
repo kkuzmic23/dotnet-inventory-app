@@ -7,12 +7,20 @@ namespace BusinessLogicLayer
 {
     public class SupplierService
     {
+        ISupplierCRUDRepository repo;
+
+        public SupplierService() : this(new SupplierRepository())
+        {
+        }
+
+        public SupplierService(ISupplierCRUDRepository supplierRepository)
+        {
+            repo = supplierRepository;
+        }
+
         public List<Supplier> GetSuppliers()
         {
-            using (var repo = new SupplierRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return repo.GetAll().ToList();
         }
 
         public bool AddSupplier(Supplier supplier)
@@ -22,11 +30,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new SupplierRepository())
-            {
-                int affectedRows = repo.Add(supplier);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Add(supplier);
+            return affectedRows > 0;
         }
 
         public bool UpdateSupplier(Supplier supplier)
@@ -36,11 +41,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new SupplierRepository())
-            {
-                int affectedRows = repo.Update(supplier);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Update(supplier);
+            return affectedRows > 0;
         }
 
         public bool RemoveSupplier(Supplier supplier)
@@ -55,11 +57,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new SupplierRepository())
-            {
-                int affectedRows = repo.Remove(supplier);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Remove(supplier);
+            return affectedRows > 0;
         }
 
         private bool CanRemoveSupplier(Supplier supplier)
@@ -69,11 +68,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new SupplierRepository())
-            {
-                int productCount = repo.GetProductCount(supplier);
-                return productCount == 0;
-            }
+            int productCount = repo.GetProductCount(supplier);
+            return productCount == 0;
         }
 
         public ServiceResult ValidateSupplier(Supplier supplier)

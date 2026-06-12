@@ -7,7 +7,7 @@ using EntityLayer.Entities;
 
 namespace DataAccessLayer
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         public User GetByUsername(string username)
         {
