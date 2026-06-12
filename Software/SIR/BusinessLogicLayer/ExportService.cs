@@ -109,7 +109,7 @@ namespace BusinessLogicLayer
                     return new ExportResult { Success = false, ErrorMessage = "Enter a valid quantity." };
                 }
 
-                if (!stockByProduct.TryGetValue(item.ProductId, out var stock))
+                if (!stockByProduct.TryGetValue((int)item.ProductId, out Stock stock))
                 {
                     return new ExportResult { Success = false, ErrorMessage = "Product not in stock." };
                 }
