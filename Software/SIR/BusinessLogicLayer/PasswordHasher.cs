@@ -2,7 +2,7 @@ using System;
 using System.Security.Cryptography;
 namespace BusinessLogicLayer
 {
-    internal static class PasswordHasher
+    public static class PasswordHasher
     {
         private const int SaltSize = 16;
         private const int KeySize = 32;

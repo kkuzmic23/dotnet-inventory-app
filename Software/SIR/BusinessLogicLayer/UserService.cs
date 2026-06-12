@@ -11,7 +11,6 @@ namespace BusinessLogicLayer
 {
     public class UserService
     {
-
         IUserRepository repo;
 
         public UserService() : this(new UserRepository())
