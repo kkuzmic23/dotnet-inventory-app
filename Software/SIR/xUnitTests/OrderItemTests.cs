@@ -108,7 +108,7 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void GetItemsByOrderId_ShouldReturnOnlyItemsMatchingOrderId()
+        public void GetItemsByOrderId_ReturnsOnlyItemsMatchingOrderId()
         {
             var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
             var service = new OrderItemService(fakeRepo);
@@ -128,7 +128,7 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void GetItemsByOrderId_ShouldReturnEmptyList_WhenNoItemsMatchOrderId()
+        public void GetItemsByOrderId_WhenNoItemsMatchOrderId_ReturnsEmptyList()
         {
             var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
             var service = new OrderItemService(fakeRepo);
@@ -141,7 +141,7 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void ReplaceItems_ShouldReturnFalse_WhenValidationFails()
+        public void ReplaceItems_WhenValidationFails_ReturnsFalse()
         {
             var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
             var service = new OrderItemService(fakeRepo);
@@ -164,7 +164,7 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void ReplaceItems_ShouldRemoveOldItems_AndAddNewOnes_WhenValidationPasses()
+        public void ReplaceItems_WhenValidationPasses_RemovesOldItems_AndAddNewOnes()
         {
             var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
             var service = new OrderItemService(fakeRepo);
@@ -184,7 +184,7 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void ReplaceItems_ShouldReturnTrue_WhenItemsAreSuccessfullyReplaced()
+        public void ReplaceItems_WhenItemsAreSuccessfullyReplaced_ReturnsTrue()
         {
             var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
             var service = new OrderItemService(fakeRepo);
