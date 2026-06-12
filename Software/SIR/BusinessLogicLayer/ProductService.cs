@@ -8,6 +8,17 @@ namespace BusinessLogicLayer
 {
     public class ProductService
     {
+        IProductCRUDRepository repo;
+
+        public ProductService() : this(new ProductRepository())
+        {
+        }
+
+        public ProductService(IProductCRUDRepository productRepository)
+        {
+            repo = productRepository;
+        }
+
         public List<Product> GetProducts()
         {
             using (var repo = new ProductRepository())
