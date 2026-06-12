@@ -1,5 +1,7 @@
 ﻿using BusinessLogicLayer;
+using DataAccessLayer;
 using EntityLayer.Entities;
+using FakeItEasy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +105,102 @@ namespace xUnitTests
 
             Assert.False(result.IsSuccessful);
             Assert.Equal("Add at least one item", result.ErrorMessage);
+        }
+
+        [Fact]
+        public void GetItemsByOrderId_ShouldReturnOnlyItemsMatchingOrderId()
+        {
+            var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
+            var service = new OrderItemService(fakeRepo);
+
+            var allItems = new List<OrderHasProduct>
+        {
+            new OrderHasProduct { OrderId = 1, ProductId = 10 },
+            new OrderHasProduct { OrderId = 1, ProductId = 11 },
+            new OrderHasProduct { OrderId = 2, ProductId = 20 }
+        };
+            A.CallTo(() => fakeRepo.GetAll()).Returns(allItems.AsQueryable());
+
+            var result = service.GetItemsByOrderId(1);
+
+            Assert.Equal(2, result.Count);
+            Assert.All(result, item => Assert.Equal(1, item.OrderId));
+        }
+
+        [Fact]
+        public void GetItemsByOrderId_ShouldReturnEmptyList_WhenNoItemsMatchOrderId()
+        {
+            var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
+            var service = new OrderItemService(fakeRepo);
+
+            A.CallTo(() => fakeRepo.GetAll()).Returns(new List<OrderHasProduct>().AsQueryable());
+
+            var result = service.GetItemsByOrderId(99);
+
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ReplaceItems_ShouldReturnFalse_WhenValidationFails()
+        {
+            var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
+            var service = new OrderItemService(fakeRepo);
+
+            var invalidItems = new List<OrderHasProduct>
+            {
+                new OrderHasProduct {
+                    OrderId = 1,
+                    ProductId = 0,
+                    Quantity = -1
+                }
+            };
+
+            var result = service.ReplaceItems(1, invalidItems);
+
+            Assert.False(result);
+            A.CallTo(() => fakeRepo.RemoveByOrderId(A<int>._)).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.Add(A<OrderHasProduct>._, true)).MustNotHaveHappened();
+            A.CallTo(() => fakeRepo.SaveChanges()).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void ReplaceItems_ShouldRemoveOldItems_AndAddNewOnes_WhenValidationPasses()
+        {
+            var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
+            var service = new OrderItemService(fakeRepo);
+
+            var items = new List<OrderHasProduct>
+        {
+            new OrderHasProduct {OrderId = 1, ProductId = 10, Quantity = 2 },
+            new OrderHasProduct { OrderId = 1, ProductId = 11, Quantity = 1 }
+        };
+
+            var result = service.ReplaceItems(1, items);
+
+            Assert.True(result);
+            A.CallTo(() => fakeRepo.RemoveByOrderId(1)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => fakeRepo.Add(A<OrderHasProduct>._, true)).MustHaveHappenedANumberOfTimesMatching(n => n == 2);
+            A.CallTo(() => fakeRepo.SaveChanges()).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void ReplaceItems_ShouldReturnTrue_WhenItemsAreSuccessfullyReplaced()
+        {
+            var fakeRepo = A.Fake<IOrderItemCRUDRepository>();
+            var service = new OrderItemService(fakeRepo);
+
+            var items = new List<OrderHasProduct>
+            {
+                new OrderHasProduct {
+                    OrderId = 1,
+                    ProductId = 10,
+                    Quantity = 2
+                }
+            };
+
+            var result = service.ReplaceItems(1, items);
+
+            Assert.True(result);
         }
     }
 }
