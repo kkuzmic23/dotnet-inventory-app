@@ -1,19 +1,17 @@
-# Projekt 2
+# Ispravak pogrešaka i unaprijeđenje programskog koda
 
-## Ispravak pogrešaka i unaprijeđenje programskog koda
-
-### kkuzmic23
+## kkuzmic23
 
 Prije pisanja testova bilo je potrebno refaktorirati WPFLayer i BusinessLogicLayer. Aplikacija nije bila najbolje izrađena, primjer loše prakse koja je korištena je korištenje poslovne logike u frontend-u.<br>
 <img width="859" height="851" alt="validation-product" src="https://github.com/user-attachments/assets/d5012a89-0659-41a0-912c-2b6ace8df24a" /><br>
 Većina logike u pitanju je validacija stvorenih objekata i filtriranje rezultata pretraživanja, potrebno je i za to napisati testove. Na slici je vidljiv primjer novih metoda, one sadrže logiku koja se prije nalazila u WPFLayer prozorima za Proizvode.
 
 
-### tlevanic23
+## tlevanic23
 
-## Jedinično testiranje
+# Jedinično testiranje
 
-### kkuzmic23
+## kkuzmic23
 
 Prvi korak je stvaranje xUnit projekta. Dodao sam dependency na BLL i EntityLayer. Stvorio sam sljedeće datoteke:<br>
 <img width="196" height="163" alt="test-datoteke" src="https://github.com/user-attachments/assets/09f18d77-6d3a-48a5-bf3d-76ebb1aa6ae1" /><br>
@@ -45,37 +43,37 @@ Rezultat izvođenja unit testova:<br>
 <img width="510" height="259" alt="rezultati-unit-testova" src="https://github.com/user-attachments/assets/e636134c-2ddf-4e25-9068-27b9f477adca" /><br>
 
 
-### tlevanic23
+## tlevanic23
 
-## Integracijsko testiranje
+# Integracijsko testiranje
 
-### kkuzmic23
+## kkuzmic23
 
-### tlevanic23
+## tlevanic23
 
-## Uspostavljanje CI/CD cjevovoda
+# Uspostavljanje CI/CD cjevovoda
 
-### kkuzmic23
+## kkuzmic23
 
-### tlevanic23
+## tlevanic23
 
-## Razvoj vođen testiranjem (TDD)
+# Razvoj vođen testiranjem (TDD)
 
-### kkuzmic23
+## kkuzmic23
 
-### tlevanic23
+## tlevanic23
 
-## Recenzija programskog koda
+# Recenzija programskog koda
 
-### kkuzmic23
+## kkuzmic23
 
-### tlevanic23
+## tlevanic23
 
-## Upotreba umjetne inteligencije
+# Upotreba umjetne inteligencije
 
-### kkuzmic23
+## kkuzmic23
 
-### tlevanic23
+## tlevanic23
 
 # Sustav za Inventar i Resurse - S.I.R.
 
