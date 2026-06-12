@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
-    /// <summary>
-    /// Interaction logic for SupplierModal.xaml
-    /// </summary>
     public partial class SupplierModal : Window
     {
         private readonly SupplierService supplierService = new SupplierService();

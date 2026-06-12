@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
-    /// <summary>
-    /// Interaction logic for ProductModal.xaml
-    /// </summary>
     public partial class ProductModal : Window
     {
         private readonly ProductService productService = new ProductService();
