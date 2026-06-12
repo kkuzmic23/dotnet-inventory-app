@@ -3,6 +3,7 @@ using DataAccessLayer;
 using EntityLayer.Entities;
 using FakeItEasy;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace xUnitTests
@@ -190,7 +191,40 @@ namespace xUnitTests
         }
 
         [Fact]
-        public void ToggleProductActiveStatus_ProvidedProduct_ReturnsTrue()
+        public void AddProduct_InvalidProduct_ReturnsFalse()
+        {
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.AddProduct(null);
+
+            Assert.False(result);
+            A.CallTo(() => fakeRepository.Add(A<Product>.Ignored, true)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void AddProduct_RepositoryReturnsZero_ReturnsFalse()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Add(product, true)).Returns(0);
+
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.AddProduct(product);
+
+            Assert.False(result);
+            A.CallTo(() => fakeRepository.Add(product, true)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void ToggleProductActiveStatus_ProvidedActiveProduct_ReturnsTrue()
         {
             Product product = new Product
             {
@@ -216,13 +250,153 @@ namespace xUnitTests
         }
 
         [Fact]
+        public void ToggleProductActiveStatus_ProvidedNonActiveProduct_ReturnsTrue()
+        {
+            Product product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                Description = "Milk description",
+                SupplierId = 1,
+                ReorderLevel = 5,
+                IsActive = false,
+                CreatedAt = new System.DateTime()
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Update(product, true)).Returns(1);
+
+            ProductService service = new ProductService(fakeRepository);
+
+            bool result = service.ToggleProductActiveStatus(product);
+
+            Assert.True(result);
+            Assert.True(product.IsActive);
+            A.CallTo(() => fakeRepository.Update(product, true)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
         public void ToggleProductActiveStatus_NullProduct_ReturnsFalse()
         {
             var fakeRepository = A.Fake<IProductCRUDRepository>();
             ProductService service = new ProductService(fakeRepository);
 
             Assert.False(service.ToggleProductActiveStatus(null));
-            A.CallTo(fakeRepository).MustNotHaveHappened();
+            A.CallTo(() => fakeRepository.Update(A<Product>.Ignored, true)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void GetProducts_ReturnsAllProducts()
+        {
+            var products = new List<Product>
+            {
+                new Product { ProductCode = "P001", Name = "Milk", ReorderLevel = 5 },
+                new Product { ProductCode = "P002", Name = "Coca-Cola", ReorderLevel = 3 }
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.GetAll()).Returns(products.AsQueryable());
+
+            var service = new ProductService(fakeRepository);
+
+            List<Product> result = service.GetProducts();
+
+            Assert.Equal(products, result);
+            A.CallTo(() => fakeRepository.GetAll()).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void UpdateProduct_ValidProduct_ReturnsTrue()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Update(product, true)).Returns(1);
+
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.UpdateProduct(product);
+
+            Assert.True(result);
+            A.CallTo(() => fakeRepository.Update(product, true)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void UpdateProduct_RepositoryReturnsZero_ReturnsFalse()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Update(product, true)).Returns(0);
+
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.UpdateProduct(product);
+
+            Assert.False(result);
+            A.CallTo(() => fakeRepository.Update(product, true)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void RemoveProduct_NullProduct_ReturnsFalse()
+        {
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            var service = new ProductService(fakeRepository);
+
+            Assert.False(service.RemoveProduct(null));
+            A.CallTo(() => fakeRepository.Remove(A<Product>.Ignored, true)).MustNotHaveHappened();
+        }
+
+        [Fact]
+        public void RemoveProduct_ValidProduct_ReturnsTrue()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Remove(product, true)).Returns(1);
+
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.RemoveProduct(product);
+
+            Assert.True(result);
+            A.CallTo(() => fakeRepository.Remove(product, true)).MustHaveHappenedOnceExactly();
+        }
+
+        [Fact]
+        public void RemoveProduct_RepositoryReturnsZero_ReturnsFalse()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Remove(product, true)).Returns(0);
+
+            var service = new ProductService(fakeRepository);
+
+            bool result = service.RemoveProduct(product);
+
+            Assert.False(result);
+            A.CallTo(() => fakeRepository.Remove(product, true)).MustHaveHappenedOnceExactly();
         }
     }
 }

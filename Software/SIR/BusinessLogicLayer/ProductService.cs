@@ -8,7 +8,7 @@ namespace BusinessLogicLayer
 {
     public class ProductService
     {
-        IProductCRUDRepository repo;
+        private readonly IProductCRUDRepository repo;
 
         public ProductService() : this(new ProductRepository())
         {
@@ -21,10 +21,7 @@ namespace BusinessLogicLayer
 
         public List<Product> GetProducts()
         {
-            using (var repo = new ProductRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return repo.GetAll().ToList();
         }
 
         public bool AddProduct(Product product)
@@ -34,11 +31,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new ProductRepository())
-            {
-                int affectedRows = repo.Add(product);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Add(product);
+            return affectedRows > 0;
         }
 
         public bool UpdateProduct(Product product)
@@ -48,11 +42,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new ProductRepository())
-            {
-                int affectedRows = repo.Update(product);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Update(product);
+            return affectedRows > 0;
         }
 
         public bool RemoveProduct(Product product)
@@ -62,11 +53,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new ProductRepository())
-            {
-                int affectedRows = repo.Remove(product);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Remove(product);
+            return affectedRows > 0;
         }
 
         public ServiceResult ValidateProduct(Product product)
