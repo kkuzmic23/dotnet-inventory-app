@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class SupplierRepository : Repository<Supplier>
+    public class SupplierRepository : Repository<Supplier>, ISupplierCRUDRepository
     {
         public SupplierRepository() : base(new Model1())
         {

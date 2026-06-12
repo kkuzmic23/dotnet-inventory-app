@@ -11,11 +11,16 @@ namespace BusinessLogicLayer
 {
     public class UserService
     {
-        private readonly UserRepository _userRepository;
 
-        public UserService()
+        IUserRepository repo;
+
+        public UserService() : this(new UserRepository())
         {
-            _userRepository = new UserRepository();
+        }
+
+        public UserService(IUserRepository userRepository)
+        {
+            repo = userRepository;
         }
 
         public User Authenticate(string username, string password)
@@ -25,7 +30,7 @@ namespace BusinessLogicLayer
                 return null;
             }
 
-            var user = _userRepository.GetByUsername(username);
+            var user = repo.GetByUsername(username);
             if (user == null)
             {
                 return null;
@@ -39,7 +44,7 @@ namespace BusinessLogicLayer
             if (user.Password == password)
             {
                 var hashed = PasswordHasher.HashPassword(password);
-                _userRepository.UpdatePasswordHash(user.Id, hashed);
+                repo.UpdatePasswordHash(user.Id, hashed);
                 user.Password = hashed;
                 return user;
             }

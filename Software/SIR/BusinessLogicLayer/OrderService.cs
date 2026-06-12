@@ -7,12 +7,20 @@ namespace BusinessLogicLayer
 {
     public class OrderService
     {
+        IOrderCRUDRepository repo;
+
+        public OrderService() : this(new OrderRepository())
+        {
+        }
+
+        public OrderService(IOrderCRUDRepository orderRepository)
+        {
+            repo = orderRepository;
+        }
+
         public List<Order> GetOrders()
         {
-            using (var repo = new OrderRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return repo.GetAll().ToList();
         }
 
         public bool AddOrder(Order order)
@@ -22,11 +30,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new OrderRepository())
-            {
-                int affectedRows = repo.Add(order);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Add(order);
+            return affectedRows > 0;
         }
 
         public bool UpdateOrder(Order order)
@@ -36,11 +41,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new OrderRepository())
-            {
-                int affectedRows = repo.Update(order);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Update(order);
+            return affectedRows > 0;
         }
 
         public bool RemoveOrder(Order order)
@@ -50,11 +52,8 @@ namespace BusinessLogicLayer
                 return false;
             }
 
-            using (var repo = new OrderRepository())
-            {
-                int affectedRows = repo.Remove(order);
-                return affectedRows > 0;
-            }
+            int affectedRows = repo.Remove(order);
+            return affectedRows > 0;
         }
     }
 }
