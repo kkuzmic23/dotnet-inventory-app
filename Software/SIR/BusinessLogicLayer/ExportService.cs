@@ -25,6 +25,42 @@ namespace BusinessLogicLayer
 
         public ExportResult Export(ExportRequest request)
         {
+            var validationResult = ValidateExportRequest(request);
+            if (!validationResult.Success)
+            {
+                return validationResult;
+            }
+
+            var groupedItems = GroupExportItems(request.Items);
+
+            using (var stockRepo = new StockRepository())
+            using (var exportRepo = new StockExportRepository())
+            using (var exportItemRepo = new StockExportHasProductRepository())
+            using (var transactionRepo = new InventoryTransactionRepository())
+            {
+                var stockByProduct = GetStockForProducts(stockRepo, groupedItems.Select(i => (int)i.ProductId));
+
+                var stockValidation = ValidateStockAvailability(groupedItems, stockByProduct);
+                if (!stockValidation.Success)
+                {
+                    return stockValidation;
+                }
+
+                var export = CreateExportRecord(exportRepo, request.Notes);
+                ProcessExportItems(groupedItems, export.Id, stockByProduct, exportItemRepo, transactionRepo);
+
+                exportItemRepo.SaveChanges();
+                stockRepo.SaveChanges();
+                transactionRepo.SaveChanges();
+
+                NotifyStockChanges(groupedItems.Select(x => (int)x.ProductId));
+            }
+
+            return new ExportResult { Success = true };
+        }
+
+        private ExportResult ValidateExportRequest(ExportRequest request)
+        {
             if (request == null || request.Items == null || request.Items.Count == 0)
             {
                 return new ExportResult { Success = false, ErrorMessage = "Add at least one item to export." };
@@ -36,87 +72,102 @@ namespace BusinessLogicLayer
                 return new ExportResult { Success = false, ErrorMessage = "Add at least one item to export." };
             }
 
-            var grouped = items
+            return new ExportResult { Success = true };
+        }
+
+        private List<dynamic> GroupExportItems(IEnumerable<ExportItemRequest> items)
+        {
+            return items
                 .GroupBy(i => i.ProductId)
-                .Select(g => new
+                .Select(g => (dynamic)new
                 {
                     ProductId = g.Key,
                     Quantity = g.Sum(x => x.Quantity)
                 })
                 .ToList();
+        }
 
-            using (var stockRepo = new StockRepository())
-            using (var exportRepo = new StockExportRepository())
-            using (var exportItemRepo = new StockExportHasProductRepository())
-            using (var transactionRepo = new InventoryTransactionRepository())
+        private Dictionary<int, Stock> GetStockForProducts(StockRepository stockRepo, IEnumerable<int> productIds)
+        {
+            return stockRepo.GetAll()
+                .Where(s => productIds.Contains(s.ProductId))
+                .ToList()
+                .ToDictionary(s => s.ProductId, s => s);
+        }
+
+        private ExportResult ValidateStockAvailability(List<dynamic> groupedItems, Dictionary<int, Stock> stockByProduct)
+        {
+            foreach (var item in groupedItems)
             {
-                var stockByProduct = stockRepo.GetAll().ToList()
-                    .ToDictionary(s => s.ProductId, s => s);
-
-                foreach (var item in grouped)
+                if (item.ProductId <= 0)
                 {
-                    if (item.ProductId <= 0)
-                    {
-                        return new ExportResult { Success = false, ErrorMessage = "Invalid product." };
-                    }
-
-                    if (item.Quantity <= 0)
-                    {
-                        return new ExportResult { Success = false, ErrorMessage = "Enter a valid quantity." };
-                    }
-
-                    if (!stockByProduct.TryGetValue(item.ProductId, out var stock))
-                    {
-                        return new ExportResult { Success = false, ErrorMessage = "Product not in stock." };
-                    }
-
-                    if (stock.Quantity < item.Quantity)
-                    {
-                        return new ExportResult { Success = false, ErrorMessage = "Not enough stock." };
-                    }
+                    return new ExportResult { Success = false, ErrorMessage = "Invalid product." };
                 }
 
-                var export = new StockExport
+                if (item.Quantity <= 0)
                 {
-                    CreatedAt = System.DateTime.Now,
-                    Notes = request.Notes
-                };
-
-                exportRepo.Add(export, saveChanges: false);
-                exportRepo.SaveChanges();
-
-                foreach (var item in grouped)
-                {
-                    exportItemRepo.Add(new StockExportHasProduct
-                    {
-                        StockExportId = export.Id,
-                        ProductId = item.ProductId,
-                        Quantity = item.Quantity
-                    }, saveChanges: false);
-
-                    var stock = stockByProduct[item.ProductId];
-                    stock.Quantity -= item.Quantity;
-
-                    transactionRepo.Add(new InventoryTransaction
-                    {
-                        ProductId = item.ProductId,
-                        QuantityDelta = -item.Quantity,
-                        Type = "Export",
-                        ReferenceId = export.Id,
-                        Notes = "Exported from stock",
-                        CreatedAt = System.DateTime.Now
-                    }, saveChanges: false);
+                    return new ExportResult { Success = false, ErrorMessage = "Enter a valid quantity." };
                 }
 
-                exportItemRepo.SaveChanges();
-                stockRepo.SaveChanges();
-                transactionRepo.SaveChanges();
-                foreach (var productId in grouped.Select(x => x.ProductId).Distinct()) {
-                    StockChangeNotifier.Notify(productId);
+                if (!stockByProduct.TryGetValue(item.ProductId, out var stock))
+                {
+                    return new ExportResult { Success = false, ErrorMessage = "Product not in stock." };
+                }
+
+                if (stock.Quantity < item.Quantity)
+                {
+                    return new ExportResult { Success = false, ErrorMessage = "Not enough stock." };
                 }
             }
 
             return new ExportResult { Success = true };
+        }
+
+        private StockExport CreateExportRecord(StockExportRepository exportRepo, string notes)
+        {
+            var export = new StockExport
+            {
+                CreatedAt = System.DateTime.Now,
+                Notes = notes
+            };
+
+            exportRepo.Add(export, saveChanges: false);
+            exportRepo.SaveChanges();
+            return export;
+        }
+
+        private void ProcessExportItems(List<dynamic> groupedItems, int exportId, Dictionary<int, Stock> stockByProduct, StockExportHasProductRepository exportItemRepo, InventoryTransactionRepository transactionRepo)
+        {
+            foreach (var item in groupedItems)
+            {
+                exportItemRepo.Add(new StockExportHasProduct
+                {
+                    StockExportId = exportId,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity
+                }, saveChanges: false);
+
+                var stock = stockByProduct[item.ProductId];
+                stock.Quantity -= item.Quantity;
+
+                transactionRepo.Add(new InventoryTransaction
+                {
+                    ProductId = item.ProductId,
+                    QuantityDelta = -item.Quantity,
+                    Type = "Export",
+                    ReferenceId = exportId,
+                    Notes = "Exported from stock",
+                    CreatedAt = System.DateTime.Now
+                }, saveChanges: false);
+            }
+        }
+
+        private void NotifyStockChanges(IEnumerable<int> productIds)
+        {
+            foreach (var productId in productIds.Distinct())
+            {
+                StockChangeNotifier.Notify(productId);
+            }
         }
     }
 
