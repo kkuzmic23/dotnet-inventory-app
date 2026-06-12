@@ -15,34 +15,34 @@ Većina logike u pitanju je validacija stvorenih objekata i filtriranje rezultat
 
 ### kkuzmic23
 
-Prvi korak je stvaranje xUnit projekta. Dodao sam dependency na BLL i EntityLayer. Stvorio sam sljedeće datoteke:
-<img width="196" height="163" alt="test-datoteke" src="https://github.com/user-attachments/assets/09f18d77-6d3a-48a5-bf3d-76ebb1aa6ae1" />
+Prvi korak je stvaranje xUnit projekta. Dodao sam dependency na BLL i EntityLayer. Stvorio sam sljedeće datoteke:<br>
+<img width="196" height="163" alt="test-datoteke" src="https://github.com/user-attachments/assets/09f18d77-6d3a-48a5-bf3d-76ebb1aa6ae1" /><br>
 Svaka testna datoteka pokreće i testira servise. Npr. SupplierTests testira SupplierService. Jedina iznimka je UserTests, koja testira i PasswordHasher.cs datoteku.
 
-Sljedeća slika prikazuje jednu metodu koja se testira:
-<img width="788" height="360" alt="metoda-bez-repozitorija" src="https://github.com/user-attachments/assets/f1685f8a-3809-48ee-99f9-289005bd308d" />
+Sljedeća slika prikazuje jednu metodu koja se testira:<br>
+<img width="788" height="360" alt="metoda-bez-repozitorija" src="https://github.com/user-attachments/assets/f1685f8a-3809-48ee-99f9-289005bd308d" /><br>
 Ovo je prvi tip metode. Ona ne poziva repozitorij te ne zahtjeva implementaiju dependency injection-a (niti FakeItEasy). Zbog toga, pisanje testova za ovakve metode znatno je brže i jednostavije.
 
-Sljedeća slika prikazuje test takve neovisne metode:
-<img width="499" height="309" alt="fact-test-bez-fakeiteasy" src="https://github.com/user-attachments/assets/70794cb8-cfa3-4549-9e62-c1e717a8e941" />
+Sljedeća slika prikazuje test takve neovisne metode:<br>
+<img width="499" height="309" alt="fact-test-bez-fakeiteasy" src="https://github.com/user-attachments/assets/70794cb8-cfa3-4549-9e62-c1e717a8e941" /><br>
 Ovaj test provjerava metodu ValidateProduct() koja provjerava ispravnost stvorenog proizvoda. Konkretno, metoda rukuje validnim objektom proizvoda te od servisa očekuje pozitivni rezultat.
 
-Sljedeća slika prikazuje test koji je napisan pomoću [Theory]:
-<img width="788" height="435" alt="theory-bez-fakeiteasy" src="https://github.com/user-attachments/assets/9db53f35-ef4c-42c9-b646-cf810f2fa039" />
+Sljedeća slika prikazuje test koji je napisan pomoću [Theory]:<br>
+<img width="788" height="435" alt="theory-bez-fakeiteasy" src="https://github.com/user-attachments/assets/9db53f35-ef4c-42c9-b646-cf810f2fa039" /><br>
 Rsazlika u [Theory] i [Fact] je to da [Fact] provjerava samo jedan slučaj, dok [Theory] u jednom kodu provjerava više slučajeva. Svaki [InlineData()] redak predstavlja jedan slučaj. Korišenje [Theory] je prikladno kad testiramo nedostajuće ili neispravne unose jer možemo napraviti kombinaciju svih mogućnosti.
 
-Problem kod unit testova je što neke metode ipak pozivaju repozitorij:
-<img width="425" height="215" alt="metoda-sa-repozitorijem" src="https://github.com/user-attachments/assets/1e0bc97a-25e6-4a6e-a651-2c86020ac6fc" />
-Ova metoda servisa je vrlo jednostavna, no ovisna je o ProductRepository-ju. Kako bi ju mogli testirati, potrebno je implementirati dependency-injection u servisnoj klasi. Prvi korak toga je stvaranje sučelja koje sadrži sve potrebne metode:
-<img width="478" height="246" alt="i-product-crud-repository" src="https://github.com/user-attachments/assets/ea258c5e-7ac7-4461-a93d-58ae097edf0f" />
-Sada u servisu možemo staviti atribut sučelja i konstruktor koji inicijalizira atribut:
-<img width="555" height="265" alt="novi-dependency-injection" src="https://github.com/user-attachments/assets/0ccb7fbc-fbc1-425f-ab01-e6c1b1a9c456" />
-Važno je istaknuti korištenje constructor-chaining-a. Dobit ove izvedbe je da u WPF-u netreba promjeniti stvaranje servisa. Efekt ovog konstruktor overloading-a je da default konstruktor bez argumenta inicijalizira stvarni servis. U sljedećoj slici, u testu koristimo konstruktor sa jednim argumentom:
-<img width="708" height="469" alt="fact-test-sa-fakeiteasy" src="https://github.com/user-attachments/assets/8503e4a7-8c43-4f49-90fc-6b5d2a250c74" />
+Problem kod unit testova je što neke metode ipak pozivaju repozitorij:<br>
+<img width="425" height="215" alt="metoda-sa-repozitorijem" src="https://github.com/user-attachments/assets/1e0bc97a-25e6-4a6e-a651-2c86020ac6fc" /><br>
+Ova metoda servisa je vrlo jednostavna, no ovisna je o ProductRepository-ju. Kako bi ju mogli testirati, potrebno je implementirati dependency-injection u servisnoj klasi. Prvi korak toga je stvaranje sučelja koje sadrži sve potrebne metode:<br>
+<img width="478" height="246" alt="i-product-crud-repository" src="https://github.com/user-attachments/assets/ea258c5e-7ac7-4461-a93d-58ae097edf0f" /><br>
+Sada u servisu možemo staviti atribut sučelja i konstruktor koji inicijalizira atribut:<br>
+<img width="555" height="265" alt="novi-dependency-injection" src="https://github.com/user-attachments/assets/0ccb7fbc-fbc1-425f-ab01-e6c1b1a9c456" /><br>
+Važno je istaknuti korištenje constructor-chaining-a. Dobit ove izvedbe je da u WPF-u netreba promjeniti stvaranje servisa. Efekt ovog konstruktor overloading-a je da default konstruktor bez argumenta inicijalizira stvarni servis. U sljedećoj slici, u testu koristimo konstruktor sa jednim argumentom:<br>
+<img width="708" height="469" alt="fact-test-sa-fakeiteasy" src="https://github.com/user-attachments/assets/8503e4a7-8c43-4f49-90fc-6b5d2a250c74" /><br>
 Sada konstruktor overloading odabire konstuktor koji ima argument te koji stvara lažni servis pomoću FakeItEasy. 
 
-Rezultat izvođenja unit testova:
-<img width="510" height="259" alt="rezultati-unit-testova" src="https://github.com/user-attachments/assets/e636134c-2ddf-4e25-9068-27b9f477adca" />
+Rezultat izvođenja unit testova:<br>
+<img width="510" height="259" alt="rezultati-unit-testova" src="https://github.com/user-attachments/assets/e636134c-2ddf-4e25-9068-27b9f477adca" /><br>
 
 
 ### tlevanic23
