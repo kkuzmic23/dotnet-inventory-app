@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class ProductRepository : Repository<Product>
+    public class ProductRepository : Repository<Product>, IProductCRUDRepository
     {
         public ProductRepository() : base(new Model1())
         {

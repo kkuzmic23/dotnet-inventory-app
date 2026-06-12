@@ -54,6 +54,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IProductRepository.cs" />
+    <Compile Include="IProductCRUDRepository.cs" />
+    <Compile Include="IOrderCRUDRepository.cs" />
+    <Compile Include="IOrderItemCRUDRepository.cs" />
+    <Compile Include="ISupplierCRUDRepository.cs" />
     <Compile Include="MockProductRepository.cs" />
     <Compile Include="Model1.cs" />
     <Compile Include="InventoryTransactionRepository.cs" />
