@@ -4,8 +4,8 @@
 
 ### kkuzmic23
 
-Prije pisanja testova bilo je potrebno refaktorirati WPFLayer i BusinessLogicLayer. Aplikacija nije bila najbolje izrađena, primjer loše prakse koja je korištena je korištenje poslovne logike u frontend-u.
-<img width="859" height="851" alt="validation-product" src="https://github.com/user-attachments/assets/d5012a89-0659-41a0-912c-2b6ace8df24a" />
+Prije pisanja testova bilo je potrebno refaktorirati WPFLayer i BusinessLogicLayer. Aplikacija nije bila najbolje izrađena, primjer loše prakse koja je korištena je korištenje poslovne logike u frontend-u.<br>
+<img width="859" height="851" alt="validation-product" src="https://github.com/user-attachments/assets/d5012a89-0659-41a0-912c-2b6ace8df24a" /><br>
 Većina logike u pitanju je validacija stvorenih objekata i filtriranje rezultata pretraživanja, potrebno je i za to napisati testove. Na slici je vidljiv primjer novih metoda, one sadrže logiku koja se prije nalazila u WPFLayer prozorima za Proizvode.
 
 
@@ -29,7 +29,7 @@ Ovaj test provjerava metodu ValidateProduct() koja provjerava ispravnost stvoren
 
 Sljedeća slika prikazuje test koji je napisan pomoću [Theory]:<br>
 <img width="788" height="435" alt="theory-bez-fakeiteasy" src="https://github.com/user-attachments/assets/9db53f35-ef4c-42c9-b646-cf810f2fa039" /><br>
-Rsazlika u [Theory] i [Fact] je to da [Fact] provjerava samo jedan slučaj, dok [Theory] u jednom kodu provjerava više slučajeva. Svaki [InlineData()] redak predstavlja jedan slučaj. Korišenje [Theory] je prikladno kad testiramo nedostajuće ili neispravne unose jer možemo napraviti kombinaciju svih mogućnosti.
+Razlika u [Theory] i [Fact] je to da [Fact] provjerava samo jedan slučaj, dok [Theory] u jednom kodu provjerava više slučajeva. Svaki [InlineData()] redak predstavlja jedan slučaj. Korišenje [Theory] je prikladno kad testiramo nedostajuće ili neispravne unose jer možemo napraviti kombinaciju svih mogućnosti.
 
 Problem kod unit testova je što neke metode ipak pozivaju repozitorij:<br>
 <img width="425" height="215" alt="metoda-sa-repozitorijem" src="https://github.com/user-attachments/assets/1e0bc97a-25e6-4a6e-a651-2c86020ac6fc" /><br>
