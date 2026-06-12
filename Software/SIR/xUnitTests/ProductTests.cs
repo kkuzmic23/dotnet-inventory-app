@@ -1,5 +1,7 @@
 using BusinessLogicLayer;
+using DataAccessLayer;
 using EntityLayer.Entities;
+using FakeItEasy;
 using System.Collections.Generic;
 using Xunit;
 
@@ -167,12 +169,29 @@ namespace xUnitTests
             Assert.Equal(filteredProducts, products);
         }
 
-        /*  RIGHT NOW USES REPOSITORY TO UPDATE - IT BELONGS WITH THE DI CASES
+        [Fact]
+        public void AddProduct_ValidProduct_ReturnsTrue()
+        {
+            var product = new Product
+            {
+                ProductCode = "P001",
+                Name = "Milk",
+                ReorderLevel = 5
+            };
+
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Add(product, true)).Returns(1);
+
+            var service = new ProductService(fakeRepository);
+
+            var result = service.AddProduct(product);
+
+            Assert.True(result);
+        }
+
         [Fact]
         public void ToggleProductActiveStatus_ProvidedProduct_ReturnsTrue()
         {
-            ProductService service = new ProductService();
-
             Product product = new Product
             {
                 ProductCode = "P001",
@@ -184,16 +203,26 @@ namespace xUnitTests
                 CreatedAt = new System.DateTime()
             };
 
-            Assert.True(service.ToggleProductActiveStatus(product));
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            A.CallTo(() => fakeRepository.Update(product, true)).Returns(1);
+
+            ProductService service = new ProductService(fakeRepository);
+
+            bool result = service.ToggleProductActiveStatus(product);
+
+            Assert.True(result);
+            Assert.False(product.IsActive);
+            A.CallTo(() => fakeRepository.Update(product, true)).MustHaveHappenedOnceExactly();
         }
 
         [Fact]
         public void ToggleProductActiveStatus_NullProduct_ReturnsFalse()
         {
-            ProductService service = new ProductService();
+            var fakeRepository = A.Fake<IProductCRUDRepository>();
+            ProductService service = new ProductService(fakeRepository);
 
             Assert.False(service.ToggleProductActiveStatus(null));
+            A.CallTo(fakeRepository).MustNotHaveHappened();
         }
-        */
     }
 }
