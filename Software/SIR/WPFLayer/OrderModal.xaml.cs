@@ -17,6 +17,9 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
+    /// <summary>
+    /// Interaction logic for OrderModal.xaml
+    /// </summary>
     public partial class OrderModal : Window
     {
         private readonly OrderService orderService = new OrderService();
@@ -106,6 +109,12 @@ namespace WPFLayer
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             var selectedSupplier = cmbSupplier.SelectedItem as Supplier;
+            if (selectedSupplier == null)
+            {
+                MessageBox.Show("Select a supplier first");
+                return;
+            }
+
             var status = string.IsNullOrWhiteSpace(existingOrder?.Status) ? "Pending" : existingOrder.Status;
 
             if (!dpCreatedAt.SelectedDate.HasValue)
@@ -114,35 +123,44 @@ namespace WPFLayer
                 return;
             }
 
+            if (items.Count == 0)
+            {
+                MessageBox.Show("Add at least one item");
+                return;
+            }
+
+            var invalidProduct = items.FirstOrDefault(x => x.Product == null);
+            if (invalidProduct != null)
+            {
+                MessageBox.Show("An order item cannot be empty");
+                return;
+            }
+
+            var invalidQuantity = items.FirstOrDefault(x => x.Quantity <= 0);
+            if (invalidQuantity != null)
+            {
+                MessageBox.Show("An order item cannot have 0 or less");
+                return;
+            }
+
+            var duplicateProduct = items.GroupBy(x => x.Product.Id).FirstOrDefault(g => g.Count() > 1);
+
+            if (duplicateProduct != null)
+            {
+                MessageBox.Show("Cannot have the same product more than once");
+                return;
+            }
+
+
+
             var order = new Order
             {
                 Id = existingOrder?.Id ?? 0,
-                SupplierId = selectedSupplier?.Id ?? 0,
+                SupplierId = selectedSupplier.Id,
                 Status = status,
                 CreatedAt = dpCreatedAt.SelectedDate.Value,
                 ReceivedAt = dpReceivedAt.SelectedDate
             };
-
-            var orderValidation = orderService.ValidateOrder(order);
-            if (!orderValidation.IsSuccessful)
-            {
-                MessageBox.Show(orderValidation.ErrorMessage);
-                return;
-            }
-
-            var orderItems = items.Select(x => new OrderHasProduct
-            {
-                OrderId = order.Id,
-                ProductId = x.Product?.Id ?? 0,
-                Quantity = x.Quantity
-            }).ToList();
-
-            var itemValidation = orderItemService.ValidateOrderItems(orderItems);
-            if (!itemValidation.IsSuccessful)
-            {
-                MessageBox.Show(itemValidation.ErrorMessage);
-                return;
-            }
 
             bool isSuccessful;
 
@@ -161,10 +179,12 @@ namespace WPFLayer
                 return;
             }
 
-            foreach (var orderItem in orderItems)
+            var orderItems = items.Select(x => new OrderHasProduct
             {
-                orderItem.OrderId = order.Id;
-            }
+                OrderId = order.Id,
+                ProductId = x.Product.Id,
+                Quantity = x.Quantity
+            }).ToList();
 
             bool itemsSaved = orderItemService.ReplaceItems(order.Id, orderItems);
             if (!itemsSaved)

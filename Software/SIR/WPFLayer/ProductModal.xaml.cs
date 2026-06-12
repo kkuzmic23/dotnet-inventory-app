@@ -16,6 +16,9 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
+    /// <summary>
+    /// Interaction logic for ProductModal.xaml
+    /// </summary>
     public partial class ProductModal : Window
     {
         private readonly ProductService productService = new ProductService();
@@ -77,6 +80,12 @@ namespace WPFLayer
             var productCode = txtProductCode.Text?.Trim();
             var name = txtName.Text?.Trim();
 
+            if (string.IsNullOrWhiteSpace(productCode) || string.IsNullOrWhiteSpace(name))
+            {
+                MessageBox.Show("Name and product code are required");
+                return;
+            }
+
             if (!int.TryParse(txtReorderLevel.Text?.Trim(), out int reorderLevel) || reorderLevel < 0)
             {
                 MessageBox.Show("Reorder level must be positive number");
@@ -101,13 +110,6 @@ namespace WPFLayer
                 IsActive = chkIsActive.IsChecked == true,
                 CreatedAt = existingProduct?.CreatedAt ?? DateTime.Now,
             };
-
-            var validation = productService.ValidateProduct(product);
-            if (!validation.IsSuccessful)
-            {
-                MessageBox.Show(validation.ErrorMessage);
-                return;
-            }
 
             bool isSuccessful;
 

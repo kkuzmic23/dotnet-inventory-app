@@ -18,6 +18,9 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
+    /// <summary>
+    /// Interaction logic for ProductsControl.xaml
+    /// </summary>
     public partial class ProductsControl : UserControl
     {
         private readonly ProductService productService = new ProductService();
@@ -108,7 +111,9 @@ namespace WPFLayer
                 MessageBox.Show("This product is discontinued. Bringing it back");
             }
 
-            bool isSuccessful = productService.ToggleProductActiveStatus(product);
+            product.IsActive = !product.IsActive;
+
+            bool isSuccessful = productService.UpdateProduct(product);
             if (!isSuccessful)
             {
                 MessageBox.Show("Fatal flaw while updating product");
@@ -134,11 +139,27 @@ namespace WPFLayer
                 return;
             }
 
-            var selectedSupplier = cmbFilter.SelectedItem as Supplier;
-            int supplierId = selectedSupplier?.Id ?? 0;
-            string phrase = txtSearchProducts.Text;
+            IEnumerable<Product> filtered = allProducts;
 
-            products = new ObservableCollection<Product>(productService.FilterProducts(allProducts, supplierId, phrase));
+            var selectedSupplier = cmbFilter.SelectedItem as Supplier;
+            if (selectedSupplier != null && selectedSupplier.Id != 0)
+            {
+                filtered = filtered.Where(x => x.SupplierId == selectedSupplier.Id);
+            }
+
+            string phrase = txtSearchProducts.Text?.Trim();
+            if (!string.IsNullOrWhiteSpace(phrase))
+            {
+                filtered = filtered.Where(x =>
+                    (!string.IsNullOrWhiteSpace(x.Name) &&
+                     x.Name.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
+                    ||
+                    (!string.IsNullOrWhiteSpace(x.ProductCode) &&
+                     x.ProductCode.IndexOf(phrase, StringComparison.OrdinalIgnoreCase) >= 0)
+                );
+            }
+
+            products = new ObservableCollection<Product>(filtered);
             dgProducts.ItemsSource = products;
         }
 

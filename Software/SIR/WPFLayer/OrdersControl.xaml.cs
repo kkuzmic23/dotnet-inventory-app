@@ -18,6 +18,9 @@ using System.Windows.Shapes;
 
 namespace WPFLayer
 {
+    /// <summary>
+    /// Interaction logic for OrdersControl.xaml
+    /// </summary>
     public partial class OrdersControl : UserControl
     {
         private readonly OrderService orderService = new OrderService();

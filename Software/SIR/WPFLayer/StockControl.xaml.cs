@@ -28,35 +28,14 @@ namespace WPFLayer
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            dgStock.ItemsSource = ApplySearch(_allStock);
+            var service = new StockService();
+            dgStock.ItemsSource = service.SearchStock(_allStock, txtSearch.Text);
         }
 
         private void btnClearFilters_Click(object sender, RoutedEventArgs e)
         {
             txtSearch.Text = string.Empty;
             dgStock.ItemsSource = _allStock;
-        }
-
-        private List<Stock> ApplySearch(List<Stock> source)
-        {
-            if (source == null || source.Count == 0)
-            {
-                return new List<Stock>();
-            }
-
-            string term = (txtSearch.Text ?? string.Empty).Trim().ToLowerInvariant();
-            if (string.IsNullOrEmpty(term))
-            {
-                return source;
-            }
-
-            return source
-                .Where(s =>
-                    (s.Product?.Name ?? string.Empty).ToLowerInvariant().Contains(term) ||
-                    (s.Product?.ProductCode ?? string.Empty).ToLowerInvariant().Contains(term) ||
-                    (s.Product?.Description ?? string.Empty).ToLowerInvariant().Contains(term) ||
-                    (s.Product?.Supplier?.Name ?? string.Empty).ToLowerInvariant().Contains(term))
-                .ToList();
         }
 
         private void OnHelp(object sender, ExecutedRoutedEventArgs e)

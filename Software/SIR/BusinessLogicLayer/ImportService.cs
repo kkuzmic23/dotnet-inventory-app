@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace BusinessLogicLayer
 {
-    public class ImportService
+    public class ImportService : IImportService
     {
         public List<OrderHasProduct> GetImports()
         {
@@ -84,49 +84,99 @@ namespace BusinessLogicLayer
             using (var transactionRepo = new InventoryTransactionRepository())
             using (var orderRepo = new OrderRepository())
             {
-                foreach (var total in totals)
-                {
-                    var stock = stockRepo.GetByProductId(total.ProductId);
-                    if (stock == null)
-                    {
-                        stockRepo.Add(new Stock
-                        {
-                            ProductId = total.ProductId,
-                            Quantity = total.Total
-                        }, saveChanges: false);
-                    }
-                    else
-                    {
-                        stock.Quantity += total.Total;
-                    }
-                }
-
-                foreach (var item in details)
-                {
-                    transactionRepo.Add(new InventoryTransaction
-                    {
-                        ProductId = item.ProductId,
-                        QuantityDelta = item.Quantity,
-                        Type = "Import",
-                        ReferenceId = item.OrderId,
-                        Notes = "Imported from order",
-                        CreatedAt = System.DateTime.Now
-                    }, saveChanges: false);
-                }
-
-                var orderIds = details.Select(x => x.OrderId).Distinct().ToList();
-                orderRepo.SetStatusForOrders(orderIds, "Imported", saveChanges: false);
+                UpdateStockLevels(stockRepo, totals);
+                RecordInventoryTransactions(transactionRepo, details);
+                FinalizeImportOrders(orderRepo, details);
 
                 stockRepo.SaveChanges();
                 transactionRepo.SaveChanges();
                 orderRepo.SaveChanges();
             }
-            // Notify stock changes for all affected products for alerts
-            foreach (var t in totals) {
-                StockChangeNotifier.Notify(t.ProductId);
-            }
+
+            NotifyStockChanges(totals.Select(t => t.ProductId));
 
             return true;
+        }
+
+        private void UpdateStockLevels(StockRepository stockRepo, IEnumerable<dynamic> totals)
+        {
+            foreach (var total in totals)
+            {
+                var stock = stockRepo.GetByProductId(total.ProductId);
+                if (stock == null)
+                {
+                    stockRepo.Add(new Stock
+                    {
+                        ProductId = total.ProductId,
+                        Quantity = total.Total
+                    }, saveChanges: false);
+                }
+                else
+                {
+                    stock.Quantity += total.Total;
+                }
+            }
+        }
+
+        private void RecordInventoryTransactions(InventoryTransactionRepository transactionRepo, IEnumerable<ImportItemDetail> details)
+        {
+            foreach (var item in details)
+            {
+                transactionRepo.Add(new InventoryTransaction
+                {
+                    ProductId = item.ProductId,
+                    QuantityDelta = item.Quantity,
+                    Type = "Import",
+                    ReferenceId = item.OrderId,
+                    Notes = "Imported from order",
+                    CreatedAt = System.DateTime.Now
+                }, saveChanges: false);
+            }
+        }
+
+        private void FinalizeImportOrders(OrderRepository orderRepo, IEnumerable<ImportItemDetail> details)
+        {
+            var orderIds = details.Select(x => x.OrderId).Distinct().ToList();
+            orderRepo.SetStatusForOrders(orderIds, "Imported", saveChanges: false);
+        }
+
+        private void NotifyStockChanges(IEnumerable<int> productIds)
+        {
+            foreach (var productId in productIds)
+            {
+                StockChangeNotifier.Notify(productId);
+            }
+        }
+
+        public List<SupplierImportSummary> FilterSummaries(List<SupplierImportSummary> source, string supplierFilter, string productFilter, int? minAmount, int? maxAmount)
+        {
+            if (source == null || source.Count == 0)
+            {
+                return new List<SupplierImportSummary>();
+            }
+
+            supplierFilter = (supplierFilter ?? string.Empty).Trim().ToLowerInvariant();
+            productFilter = (productFilter ?? string.Empty).Trim().ToLowerInvariant();
+
+            return source
+                .Where(s => string.IsNullOrEmpty(supplierFilter) ||
+                            (!string.IsNullOrEmpty(s.SupplierName) &&
+                             s.SupplierName.ToLowerInvariant().Contains(supplierFilter)))
+                .Select(s => new SupplierImportSummary
+                {
+                    SupplierId = s.SupplierId,
+                    SupplierName = s.SupplierName,
+                    Products = s.Products
+                        .Where(p =>
+                            (string.IsNullOrEmpty(productFilter) ||
+                             (!string.IsNullOrEmpty(p.ProductName) &&
+                              p.ProductName.ToLowerInvariant().Contains(productFilter))) &&
+                            (!minAmount.HasValue || p.TotalQuantity >= minAmount.Value) &&
+                            (!maxAmount.HasValue || p.TotalQuantity <= maxAmount.Value))
+                        .ToList()
+                })
+                .Where(s => s.Products.Count > 0)
+                .ToList();
         }
     }
 

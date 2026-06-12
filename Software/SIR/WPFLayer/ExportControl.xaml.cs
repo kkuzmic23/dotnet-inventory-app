@@ -15,7 +15,6 @@ namespace WPFLayer
         private readonly ExportService exportService = new ExportService();
         private readonly StockService stockService = new StockService();
         private readonly ObservableCollection<ExportItemRequest> exportItems = new ObservableCollection<ExportItemRequest>();
-        private Dictionary<int, int> stockByProductId = new Dictionary<int, int>();
 
         public ExportControl()
         {
@@ -24,7 +23,6 @@ namespace WPFLayer
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
             InputBindings.Add(new KeyBinding(ApplicationCommands.Help, new KeyGesture(Key.F1)));
             LoadProducts();
-            LoadStock();
             LoadExports();
         }
 
@@ -36,12 +34,6 @@ namespace WPFLayer
             {
                 cmbProducts.SelectedIndex = 0;
             }
-        }
-
-        private void LoadStock()
-        {
-            var stock = stockService.GetStock();
-            stockByProductId = stock.ToDictionary(s => s.ProductId, s => s.Quantity);
         }
 
         private void LoadExports()
@@ -89,48 +81,22 @@ namespace WPFLayer
                 return;
             }
 
-            var grouped = exportItems
-                .GroupBy(i => i.ProductId)
-                .Select(g => new
-                {
-                    ProductId = g.Key,
-                    ProductName = g.First().ProductName,
-                    Quantity = g.Sum(x => x.Quantity)
-                })
-                .ToList();
-
-            foreach (var item in grouped)
-            {
-                if (!stockByProductId.TryGetValue(item.ProductId, out int available))
-                {
-                    MessageBox.Show($"Product not in stock: {item.ProductName}.");
-                    return;
-                }
-
-                if (available < item.Quantity)
-                {
-                    MessageBox.Show($"Not enough stock for {item.ProductName}. Available: {available}.");
-                    return;
-                }
-            }
-
             var request = new ExportRequest
             {
                 Notes = txtNotes.Text?.Trim(),
                 Items = exportItems.ToList()
             };
 
-            bool ok = exportService.Export(request);
-            if (!ok)
+            var result = exportService.Export(request);
+            if (!result.Success)
             {
-                MessageBox.Show("Export failed.");
+                MessageBox.Show(result.ErrorMessage ?? "Export failed.");
                 return;
             }
 
             MessageBox.Show("Export completed.");
             exportItems.Clear();
             txtNotes.Text = string.Empty;
-            LoadStock();
             LoadExports();
         }
 
