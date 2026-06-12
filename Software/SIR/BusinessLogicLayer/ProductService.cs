@@ -58,6 +58,17 @@ namespace BusinessLogicLayer
             }
         }
 
+        public bool ToggleProductActiveStatus(Product product)
+        {
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.IsActive = !product.IsActive;
+            return UpdateProduct(product);
+        }
+
         public ServiceResult ValidateProduct(Product product)
         {
             if (product == null)
@@ -105,17 +116,6 @@ namespace BusinessLogicLayer
             }
 
             return filtered.ToList();
-        }
-
-        public bool ToggleProductActiveStatus(Product product)
-        {
-            if (product == null)
-            {
-                return false;
-            }
-
-            product.IsActive = !product.IsActive;
-            return UpdateProduct(product);
         }
     }
 }
