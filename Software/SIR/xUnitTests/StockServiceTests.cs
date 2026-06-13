@@ -117,5 +117,23 @@ namespace xUnitTests
             Assert.NotNull(result);
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void SearchStock_NullSearchTerm_ReturnsOriginalList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk" } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, null);
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal(source, result);
+        }
     }
 }
