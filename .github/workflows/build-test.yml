@@ -21,10 +21,10 @@ jobs:
         uses: NuGet/setup-nuget@v2.0.0
 
       - name: Restore NuGet packages
-        run: nuget restore SIR.sln
+        run: nuget restore Software/SIR/SIR.sln
 
       - name: Build solution
-        run: msbuild SIR.sln /p:Configuration=Release
+        run: msbuild Software/SIR/SIR.sln /p:Configuration=Release
 
       - name: Run unit tests
-        run: dotnet test xUnitTests/xUnitTests.csproj --filter "FullyQualifiedName!~Integration"
+        run: dotnet test Software/SIR/xUnitTests/xUnitTests.csproj --filter "FullyQualifiedName!~Integration"
