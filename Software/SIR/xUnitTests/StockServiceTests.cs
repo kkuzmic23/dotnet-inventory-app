@@ -48,5 +48,24 @@ namespace xUnitTests
             Assert.Single(result);
             Assert.Equal(source, result);
         }
+
+        [Fact]
+        public void SearchStock_TermMatchesProductName_ReturnsFilteredList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk" } },
+                new Stock { Product = new Product { Name = "Bread" } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "milk");
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Milk", result[0].Product.Name);
+        }
     }
 }
