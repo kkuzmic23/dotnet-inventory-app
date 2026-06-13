@@ -30,5 +30,23 @@ namespace xUnitTests
             Assert.Equal(2, result.Count);
             Assert.Equal(expectedStock, result);
         }
+
+        [Fact]
+        public void SearchStock_EmptySearchTerm_ReturnsOriginalList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk" } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "");
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal(source, result);
+        }
     }
 }
