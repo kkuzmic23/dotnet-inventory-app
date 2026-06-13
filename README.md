@@ -49,6 +49,18 @@ Rezultat izvođenja unit testova:<br>
 
 ## kkuzmic23
 
+Jedina komponenta na kojoj se može izvršavati integracijsko testiranje je baza podataka. To znači, jedinične testove koji su koristili FakeItEasy treba napisati pomoću stvarnih repozitorija. Sljedeća slika prikazuje jedan integracijski test za ProductService:<br>
+
+<img width="654" height="437" alt="image" src="https://github.com/user-attachments/assets/ce698d84-5d91-4d7d-9806-7b46964e58e5" /><br>
+Ovaj integracijski test testira istu metodu kao i jedinični test s FakeItEasy u slici iznad. On stvara validni proizvod, dodaje ga u bazu podataka te u listu koja prati promjene u bazi podataka. Tada poziva metodu koja se testira te provjerava dobiveni rezultat. Nakon toga pokreće query za dohvaćanje proizvoda iz baze i provjerava je li update naredba uspješno napravljena.<br>
+<img width="396" height="167" alt="image" src="https://github.com/user-attachments/assets/0ad606d9-993c-4148-b58e-8e88135a79e9" /><br>
+Integracijski testovi implementiraju i IDispose, što znači da moraju imati Dispose() metodu. Ova metoda poziva se nakon svakog testa te uklanja promjene napravljene na bazi. Jedina iznimka je UserIntegrationTests.cs:<br>
+<img width="599" height="362" alt="image" src="https://github.com/user-attachments/assets/5e575a90-e94b-44b8-8247-3abd5456d221" /><br>
+Ova klasa ne treba implementirati IDispose jer je stvara promjene u bazi.<br>
+Rezultati testiranja:<br>
+<img width="452" height="259" alt="image" src="https://github.com/user-attachments/assets/1553936b-4232-4bee-adac-a6f9a3360a28" /><br>
+
+
 ## tlevanic23
 
 # Uspostavljanje CI/CD cjevovoda
