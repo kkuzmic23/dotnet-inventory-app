@@ -7,7 +7,7 @@ namespace BusinessLogicLayer
 {
     public class ExportService : IExportService
     {
-        private readonly IProductRepository productRepo;
+        private readonly IProductCRUDRepository productRepo;
         private readonly IStockExportRepository exportRepo;
         private readonly IStockExportHasProductRepository exportItemRepo;
         private readonly IInventoryTransactionRepository transactionRepo;
@@ -17,7 +17,7 @@ namespace BusinessLogicLayer
         {
         }
 
-        public ExportService(IProductRepository productRepo, IStockExportRepository exportRepo, IStockExportHasProductRepository exportItemRepo, IInventoryTransactionRepository transactionRepo, IStockRepository stockRepo)
+        public ExportService(IProductCRUDRepository productRepo, IStockExportRepository exportRepo, IStockExportHasProductRepository exportItemRepo, IInventoryTransactionRepository transactionRepo, IStockRepository stockRepo)
         {
             this.productRepo = productRepo;
             this.exportRepo = exportRepo;

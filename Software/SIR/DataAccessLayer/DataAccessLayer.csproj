@@ -57,6 +57,11 @@
     <Compile Include="IProductCRUDRepository.cs" />
     <Compile Include="IOrderCRUDRepository.cs" />
     <Compile Include="IOrderItemCRUDRepository.cs" />
+    <Compile Include="IOrderRepository.cs" />
+    <Compile Include="IStockRepository.cs" />
+    <Compile Include="IStockExportRepository.cs" />
+    <Compile Include="IStockExportHasProductRepository.cs" />
+    <Compile Include="IInventoryTransactionRepository.cs" />
     <Compile Include="ISupplierCRUDRepository.cs" />
     <Compile Include="IUserRepository.cs" />
     <Compile Include="MockProductRepository.cs" />

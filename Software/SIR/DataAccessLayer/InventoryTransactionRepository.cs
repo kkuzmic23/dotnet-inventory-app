@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class InventoryTransactionRepository : Repository<InventoryTransaction>
+    public class InventoryTransactionRepository : Repository<InventoryTransaction>, IInventoryTransactionRepository
     {
         public InventoryTransactionRepository() : base(new Model1())
         {
