@@ -20,9 +20,6 @@ jobs:
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2.0.0
 
-      - name: Setup vstest.console.exe
-        run: darenm/Setup-VSTest@v1.3
-
       - name: Restore NuGet packages
         run: nuget restore SIR.sln
 
