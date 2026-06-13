@@ -7,12 +7,20 @@ namespace BusinessLogicLayer
 {
     public class StockService : IStockService
     {
+        private readonly IStockRepository repo;
+
+        public StockService() : this(new StockRepository())
+        {
+        }
+
+        public StockService(IStockRepository repo)
+        {
+            this.repo = repo;
+        }
+
         public List<Stock> GetStock()
         {
-            using (var repo = new StockRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return repo.GetAll().ToList();
         }
 
         public List<Stock> SearchStock(List<Stock> source, string searchTerm)

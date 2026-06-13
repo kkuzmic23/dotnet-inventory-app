@@ -7,64 +7,72 @@ namespace BusinessLogicLayer
 {
     public class ImportService : IImportService
     {
+        private readonly IOrderItemCRUDRepository itemRepo;
+        private readonly IStockRepository stockRepo;
+        private readonly IInventoryTransactionRepository transactionRepo;
+        private readonly IOrderRepository orderRepo;
+
+        public ImportService() : this(new OrderHasProductRepository(), new StockRepository(), new InventoryTransactionRepository(), new OrderRepository())
+        {
+        }
+
+        public ImportService(IOrderItemCRUDRepository itemRepo, IStockRepository stockRepo, IInventoryTransactionRepository transactionRepo, IOrderRepository orderRepo)
+        {
+            this.itemRepo = itemRepo;
+            this.stockRepo = stockRepo;
+            this.transactionRepo = transactionRepo;
+            this.orderRepo = orderRepo;
+        }
+
         public List<OrderHasProduct> GetImports()
         {
-            using (var repo = new OrderHasProductRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return itemRepo.GetAll().ToList();
         }
 
         public List<SupplierImportSummary> GetImportSummaries()
         {
-            using (var repo = new OrderHasProductRepository())
-            {
-                var items = repo.GetAll().ToList();
+            var items = itemRepo.GetAll().ToList();
 
-                return items
-                    .Where(x => x.Order?.Supplier != null && x.Product != null && x.Order.Status != "Imported")
-                    .GroupBy(x => new { x.Order.Supplier.Id, x.Order.Supplier.Name })
-                    .Select(g => new SupplierImportSummary
-                    {
-                        SupplierId = g.Key.Id,
-                        SupplierName = g.Key.Name,
-                        Products = g
-                            .GroupBy(p => new { p.Product.Id, p.Product.Name })
-                            .Select(pg => new ProductImportSummary
-                            {
-                                ProductId = pg.Key.Id,
-                                ProductName = pg.Key.Name,
-                                TotalQuantity = pg.Sum(x => x.Quantity)
-                            })
-                            .OrderBy(p => p.ProductName)
-                            .ToList()
-                    })
-                    .OrderBy(s => s.SupplierName)
-                    .ToList();
-            }
+            return items
+                .Where(x => x.Order?.Supplier != null && x.Product != null && x.Order.Status != "Imported")
+                .GroupBy(x => new { x.Order.Supplier.Id, x.Order.Supplier.Name })
+                .Select(g => new SupplierImportSummary
+                {
+                    SupplierId = g.Key.Id,
+                    SupplierName = g.Key.Name,
+                    Products = g
+                        .GroupBy(p => new { p.Product.Id, p.Product.Name })
+                        .Select(pg => new ProductImportSummary
+                        {
+                            ProductId = pg.Key.Id,
+                            ProductName = pg.Key.Name,
+                            TotalQuantity = pg.Sum(x => x.Quantity)
+                        })
+                        .OrderBy(p => p.ProductName)
+                        .ToList()
+                })
+                .OrderBy(s => s.SupplierName)
+                .ToList();
         }
 
         public List<ImportItemDetail> GetImportDetailsBySupplier(int supplierId)
         {
-            using (var repo = new OrderHasProductRepository())
-            {
-                return repo.GetAll()
-                    .Where(x => x.Order != null && x.Order.SupplierId == supplierId && x.Product != null && x.Order.Status != "Imported")
-                    .Select(x => new ImportItemDetail
-                    {
-                        OrderId = x.OrderId,
-                        ProductId = x.ProductId,
-                        ProductCode = x.Product.ProductCode,
-                        ProductName = x.Product.Name,
-                        Quantity = x.Quantity,
-                        OrderStatus = x.Order.Status,
-                        OrderCreatedAt = x.Order.CreatedAt,
-                        OrderReceivedAt = x.Order.ReceivedAt
-                    })
-                    .OrderBy(x => x.OrderId)
-                    .ThenBy(x => x.ProductName)
-                    .ToList();
-            }
+            return itemRepo.GetAll()
+                .Where(x => x.Order != null && x.Order.SupplierId == supplierId && x.Product != null && x.Order.Status != "Imported")
+                .Select(x => new ImportItemDetail
+                {
+                    OrderId = x.OrderId,
+                    ProductId = x.ProductId,
+                    ProductCode = x.Product.ProductCode,
+                    ProductName = x.Product.Name,
+                    Quantity = x.Quantity,
+                    OrderStatus = x.Order.Status,
+                    OrderCreatedAt = x.Order.CreatedAt,
+                    OrderReceivedAt = x.Order.ReceivedAt
+                })
+                .OrderBy(x => x.OrderId)
+                .ThenBy(x => x.ProductName)
+                .ToList();
         }
 
         public bool ApplyImport(int supplierId)
@@ -80,25 +88,20 @@ namespace BusinessLogicLayer
                 .Select(g => new { ProductId = g.Key, Total = g.Sum(x => x.Quantity) })
                 .ToList();
 
-            using (var stockRepo = new StockRepository())
-            using (var transactionRepo = new InventoryTransactionRepository())
-            using (var orderRepo = new OrderRepository())
-            {
-                UpdateStockLevels(stockRepo, totals);
-                RecordInventoryTransactions(transactionRepo, details);
-                FinalizeImportOrders(orderRepo, details);
+            UpdateStockLevels(stockRepo, totals);
+            RecordInventoryTransactions(transactionRepo, details);
+            FinalizeImportOrders(orderRepo, details);
 
-                stockRepo.SaveChanges();
-                transactionRepo.SaveChanges();
-                orderRepo.SaveChanges();
-            }
+            stockRepo.SaveChanges();
+            transactionRepo.SaveChanges();
+            orderRepo.SaveChanges();
 
             NotifyStockChanges(totals.Select(t => t.ProductId));
 
             return true;
         }
 
-        private void UpdateStockLevels(StockRepository stockRepo, IEnumerable<dynamic> totals)
+        private void UpdateStockLevels(IStockRepository stockRepo, IEnumerable<dynamic> totals)
         {
             foreach (var total in totals)
             {
@@ -118,7 +121,7 @@ namespace BusinessLogicLayer
             }
         }
 
-        private void RecordInventoryTransactions(InventoryTransactionRepository transactionRepo, IEnumerable<ImportItemDetail> details)
+        private void RecordInventoryTransactions(IInventoryTransactionRepository transactionRepo, IEnumerable<ImportItemDetail> details)
         {
             foreach (var item in details)
             {
@@ -134,7 +137,7 @@ namespace BusinessLogicLayer
             }
         }
 
-        private void FinalizeImportOrders(OrderRepository orderRepo, IEnumerable<ImportItemDetail> details)
+        private void FinalizeImportOrders(IOrderRepository orderRepo, IEnumerable<ImportItemDetail> details)
         {
             var orderIds = details.Select(x => x.OrderId).Distinct().ToList();
             orderRepo.SetStatusForOrders(orderIds, "Imported", saveChanges: false);

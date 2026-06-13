@@ -7,20 +7,33 @@ namespace BusinessLogicLayer
 {
     public class ExportService : IExportService
     {
+        private readonly IProductRepository productRepo;
+        private readonly IStockExportRepository exportRepo;
+        private readonly IStockExportHasProductRepository exportItemRepo;
+        private readonly IInventoryTransactionRepository transactionRepo;
+        private readonly IStockRepository stockRepo;
+
+        public ExportService() : this(new ProductRepository(), new StockExportRepository(), new StockExportHasProductRepository(), new InventoryTransactionRepository(), new StockRepository())
+        {
+        }
+
+        public ExportService(IProductRepository productRepo, IStockExportRepository exportRepo, IStockExportHasProductRepository exportItemRepo, IInventoryTransactionRepository transactionRepo, IStockRepository stockRepo)
+        {
+            this.productRepo = productRepo;
+            this.exportRepo = exportRepo;
+            this.exportItemRepo = exportItemRepo;
+            this.transactionRepo = transactionRepo;
+            this.stockRepo = stockRepo;
+        }
+
         public List<Product> GetProducts()
         {
-            using (var repo = new ProductRepository())
-            {
-                return repo.GetAll().ToList();
-            }
+            return productRepo.GetAll().ToList();
         }
 
         public List<StockExport> GetExports()
         {
-            using (var repo = new StockExportRepository())
-            {
-                return repo.GetAll().OrderByDescending(e => e.CreatedAt).ToList();
-            }
+            return exportRepo.GetAll().OrderByDescending(e => e.CreatedAt).ToList();
         }
 
         public ExportResult Export(ExportRequest request)
@@ -33,28 +46,22 @@ namespace BusinessLogicLayer
 
             var groupedItems = GroupExportItems(request.Items);
 
-            using (var stockRepo = new StockRepository())
-            using (var exportRepo = new StockExportRepository())
-            using (var exportItemRepo = new StockExportHasProductRepository())
-            using (var transactionRepo = new InventoryTransactionRepository())
+            var stockByProduct = GetStockForProducts(stockRepo, groupedItems.Select(i => (int)i.ProductId));
+
+            var stockValidation = ValidateStockAvailability(groupedItems, stockByProduct);
+            if (!stockValidation.Success)
             {
-                var stockByProduct = GetStockForProducts(stockRepo, groupedItems.Select(i => (int)i.ProductId));
-
-                var stockValidation = ValidateStockAvailability(groupedItems, stockByProduct);
-                if (!stockValidation.Success)
-                {
-                    return stockValidation;
-                }
-
-                var export = CreateExportRecord(exportRepo, request.Notes);
-                ProcessExportItems(groupedItems, export.Id, stockByProduct, exportItemRepo, transactionRepo);
-
-                exportItemRepo.SaveChanges();
-                stockRepo.SaveChanges();
-                transactionRepo.SaveChanges();
-
-                NotifyStockChanges(groupedItems.Select(x => (int)x.ProductId));
+                return stockValidation;
             }
+
+            var export = CreateExportRecord(exportRepo, request.Notes);
+            ProcessExportItems(groupedItems, export.Id, stockByProduct, exportItemRepo, transactionRepo);
+
+            exportItemRepo.SaveChanges();
+            stockRepo.SaveChanges();
+            transactionRepo.SaveChanges();
+
+            NotifyStockChanges(groupedItems.Select(x => (int)x.ProductId));
 
             return new ExportResult { Success = true };
         }
@@ -87,7 +94,7 @@ namespace BusinessLogicLayer
                 .ToList();
         }
 
-        private Dictionary<int, Stock> GetStockForProducts(StockRepository stockRepo, IEnumerable<int> productIds)
+        private Dictionary<int, Stock> GetStockForProducts(IStockRepository stockRepo, IEnumerable<int> productIds)
         {
             return stockRepo.GetAll()
                 .Where(s => productIds.Contains(s.ProductId))
@@ -123,7 +130,7 @@ namespace BusinessLogicLayer
             return new ExportResult { Success = true };
         }
 
-        private StockExport CreateExportRecord(StockExportRepository exportRepo, string notes)
+        private StockExport CreateExportRecord(IStockExportRepository exportRepo, string notes)
         {
             var export = new StockExport
             {
@@ -136,7 +143,7 @@ namespace BusinessLogicLayer
             return export;
         }
 
-        private void ProcessExportItems(List<dynamic> groupedItems, int exportId, Dictionary<int, Stock> stockByProduct, StockExportHasProductRepository exportItemRepo, InventoryTransactionRepository transactionRepo)
+        private void ProcessExportItems(List<dynamic> groupedItems, int exportId, Dictionary<int, Stock> stockByProduct, IStockExportHasProductRepository exportItemRepo, IInventoryTransactionRepository transactionRepo)
         {
             foreach (var item in groupedItems)
             {
