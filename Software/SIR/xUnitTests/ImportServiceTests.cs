@@ -31,5 +31,21 @@ namespace xUnitTests
             Assert.Single(result);
             A.CallTo(() => mockItemRepo.GetAll());
         }
+
+        [Fact]
+        public void ApplyImport_NoDetails_ReturnsFalse()
+        {
+            // Arrange
+            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
+            A.CallTo(() => mockItemRepo.GetAll()).Returns(new List<OrderHasProduct>().AsQueryable());
+
+            var service = new ImportService(mockItemRepo, A.Fake<IStockRepository>(), A.Fake<IInventoryTransactionRepository>(), A.Fake<IOrderRepository>());
+
+            // Act
+            var result = service.ApplyImport(1);
+
+            // Assert
+            Assert.False(result);
+        }
     }
 }
