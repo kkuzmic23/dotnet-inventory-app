@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class StockExportRepository : Repository<StockExport>
+    public class StockExportRepository : Repository<StockExport>, IStockExportRepository
     {
         public StockExportRepository() : base(new Model1())
         {

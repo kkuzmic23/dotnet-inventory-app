@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class OrderRepository : Repository<Order>, IOrderCRUDRepository
+    public class OrderRepository : Repository<Order>, IOrderRepository
     {
         public OrderRepository() : base(new Model1())
         {

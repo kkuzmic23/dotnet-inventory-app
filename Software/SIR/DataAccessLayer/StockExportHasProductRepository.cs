@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DataAccessLayer
 {
-    public class StockExportHasProductRepository : Repository<StockExportHasProduct>
+    public class StockExportHasProductRepository : Repository<StockExportHasProduct>, IStockExportHasProductRepository
     {
         public StockExportHasProductRepository() : base(new Model1())
         {
