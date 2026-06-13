@@ -103,5 +103,19 @@ namespace xUnitTests
             // Assert
             Assert.Empty(result);
         }
+
+        [Fact]
+        public void SearchStock_SourceIsNull_ReturnsEmptyList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+
+            // Act
+            var result = service.SearchStock(null, "any");
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
     }
 }
