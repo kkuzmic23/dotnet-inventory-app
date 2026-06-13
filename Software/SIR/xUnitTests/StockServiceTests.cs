@@ -11,6 +11,16 @@ namespace xUnitTests
     public class StockServiceTests
     {
         [Fact]
+        public void Constructor_WhenCalled_CreatesService()
+        {
+            // Act
+            var service = new StockService();
+
+            // Assert
+            Assert.NotNull(service);
+        }
+
+        [Fact]
         public void GetStock_WhenCalled_ReturnsAllStock()
         {
             // Arrange
