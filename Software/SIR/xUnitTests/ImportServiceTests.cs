@@ -66,5 +66,19 @@ namespace xUnitTests
             Assert.Single(result);
             Assert.Equal("Supplier A", result[0].SupplierName);
         }
+
+        [Fact]
+        public void FilterSummaries_NullSource_ReturnsEmptyList()
+        {
+            // Arrange
+            var service = new ImportService();
+
+            // Act
+            var result = service.FilterSummaries(null, "any", null, null, null);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
     }
 }
