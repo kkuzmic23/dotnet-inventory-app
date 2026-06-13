@@ -73,6 +73,16 @@ Rezultati testiranja:<br>
 
 ## kkuzmic23
 
+TDD sam razvio funkcionalnost za dohvaćanje proizvoda prema njegovom kodu.
+
+###Crvena faza
+
+U prvoj slici, metode u pitanju još nisu ni implementirane, pa projekt ne kompajlira:<br>
+<img width="812" height="716" alt="crvena-faza-metode-1" src="https://github.com/user-attachments/assets/f0221485-89cd-4dd4-a0a2-e746b97bc73c" /><br>
+
+U drugoj slici, metoda ipak je implementirana pa projekt kompajlira, ali testovi padaju:<br>
+
+
 ## tlevanic23
 
 # Recenzija programskog koda
