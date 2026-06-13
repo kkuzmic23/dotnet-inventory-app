@@ -75,12 +75,12 @@ Rezultati testiranja:<br>
 
 TDD sam razvio funkcionalnost za dohvaćanje proizvoda prema njegovom kodu.
 
-###Crvena faza
+### Crvena faza
 
 U prvoj slici, metode u pitanju još nisu ni implementirane, pa projekt ne kompajlira:<br>
 <img width="804" height="723" alt="crvena-faza-metode" src="https://github.com/user-attachments/assets/d0bd1e5d-ebff-4690-8260-53a286820cbb" />
 
-###Zelena faza
+### Zelena faza
 
 U zelenoj fazi počinjemo s izradom samog programskog koda. Prvi korak je stvaranje metode. U drugoj slici, metoda ipak je implementirana pa projekt kompajlira:<br>
 <img width="426" height="124" alt="zelena-faza-prazna-metoda" src="https://github.com/user-attachments/assets/8071f9e1-da68-4dc0-970e-5712d47f7e2c" /><br>
