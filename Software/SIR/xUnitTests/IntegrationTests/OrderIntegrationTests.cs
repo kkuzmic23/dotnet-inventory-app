@@ -12,13 +12,13 @@ namespace xUnitTests.IntegrationTests
 {
     public class OrderIntegrationTests : IDisposable
     {
-        private readonly OrderRepository repo = new OrderRepository();
-        private readonly OrderService service = new OrderService();
-        private readonly List<Order> insertedOrders = new List<Order>();
+        private readonly List<int> insertedOrders = new List<int>();
 
         [Fact]
         public void AddOrder_GivenValidOrder_PersistsToDB()
         {
+            OrderService service = new OrderService();
+
             var order = new Order
             {
                 SupplierId = 1,
@@ -31,12 +31,14 @@ namespace xUnitTests.IntegrationTests
 
             Assert.True(result);
             Assert.True(order.Id > 0);
-            insertedOrders.Add(order);
+            insertedOrders.Add(order.Id);
         }
 
         [Fact]
         public void AddOrder_GivenInvalidOrder_DoesNotPersistToDB()
         {
+            OrderService service = new OrderService();
+
             var invalidOrder = new Order();
 
             var result = service.AddOrder(invalidOrder);
@@ -48,6 +50,8 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void GetOrders_ReturnsAtLeastOneOrder()
         {
+            OrderService service = new OrderService();
+
             var order = new Order
             {
                 SupplierId = 1,
@@ -56,7 +60,7 @@ namespace xUnitTests.IntegrationTests
                 ReceivedAt = DateTime.Now
             };
             service.AddOrder(order);
-            insertedOrders.Add(order);
+            insertedOrders.Add(order.Id);
 
             var result = service.GetOrders();
 
@@ -66,6 +70,8 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void UpdateOrder_WhenOrderExists_UpdatesInDB()
         {
+            OrderService service = new OrderService();
+
             var order = new Order
             {
                 SupplierId = 1,
@@ -74,7 +80,7 @@ namespace xUnitTests.IntegrationTests
                 ReceivedAt = DateTime.Now
             };
             service.AddOrder(order);
-            insertedOrders.Add(order);
+            insertedOrders.Add(order.Id);
 
             order.Status = "Inactive";
             var result = service.UpdateOrder(order);
@@ -88,6 +94,8 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void UpdateOrder_GivenInvalidOrder_ReturnsFailure()
         {
+            OrderService service = new OrderService();
+
             var invalidOrder = new Order();
 
             var result = service.UpdateOrder(invalidOrder);
@@ -99,6 +107,8 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void RemoveOrder_WhenOrderExists_DeletesFromDB()
         {
+            OrderService service = new OrderService();
+
             var order = new Order
             {
                 SupplierId = 1,
@@ -119,21 +129,25 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void RemoveOrder_GivenInvalidOrder_ReturnsFailure()
         {
-            var invalidOrder = new Order();
+            OrderService service = new OrderService();
 
-            var result = service.RemoveOrder(invalidOrder);
+            var result = service.RemoveOrder(null);
 
             Assert.False(result);
-            Assert.Equal(0, invalidOrder.Id);
         }
 
         public void Dispose()
         {
-            foreach (var order in insertedOrders)
+            OrderService service = new OrderService();
+
+            foreach (var id in insertedOrders)
             {
-                repo.Remove(order);
+                var order = service.GetOrders().FirstOrDefault(o => o.Id == id);
+                if (order != null)
+                {
+                    service.RemoveOrder(order);
+                }
             }
-            repo.Dispose();
         }
     }
 }

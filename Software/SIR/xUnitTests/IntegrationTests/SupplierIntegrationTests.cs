@@ -108,16 +108,18 @@ namespace xUnitTests.IntegrationTests
                 Address = "Billaaddress 130",
                 CreatedAt = DateTime.Now
             };
-
             service.AddSupplier(supplier);
             insertedSuppliers.Add(supplier);
 
+            var originalName = supplier.Name;
             supplier.Name = null;
             var result = service.UpdateSupplier(supplier);
 
             Assert.False(result);
+
+            supplier.Name = originalName;
             var unchanged = service.GetSuppliers().FirstOrDefault(s => s.Id == supplier.Id);
-            Assert.NotNull(unchanged.Name);
+            Assert.Equal(originalName, unchanged.Name);
         }
 
         [Fact]
