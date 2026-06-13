@@ -119,7 +119,12 @@ namespace BusinessLogicLayer
 
         public Product FindProductByCode(string code)
         {
-            return new Product();
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+
+            return repo.GetAll().ToList().FirstOrDefault(p => p.ProductCode.Equals(code.Trim(), StringComparison.OrdinalIgnoreCase));
         }
     }
 }
