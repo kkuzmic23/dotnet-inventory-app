@@ -88,6 +88,63 @@ namespace xUnitTests
         }
 
         [Fact]
+        public void SearchStock_TermMatchesDescription_ReturnsFilteredList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk", Description = "Fresh dairy product" } },
+                new Stock { Product = new Product { Name = "Bread", Description = "Bakery product" } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "dairy");
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Milk", result[0].Product.Name);
+        }
+
+        [Fact]
+        public void SearchStock_TermMatchesSupplierName_ReturnsFilteredList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk", Supplier = new Supplier { Name = "Dairy Supplier" } } },
+                new Stock { Product = new Product { Name = "Bread", Supplier = new Supplier { Name = "Bakery Supplier" } } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "bakery");
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Bread", result[0].Product.Name);
+        }
+
+        [Fact]
+        public void SearchStock_SearchTermHasWhitespaceAndDifferentCase_ReturnsFilteredList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = new Product { Name = "Milk" } },
+                new Stock { Product = new Product { Name = "Bread" } }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "  MILK  ");
+
+            // Assert
+            Assert.Single(result);
+            Assert.Equal("Milk", result[0].Product.Name);
+        }
+
+        [Fact]
         public void SearchStock_TermDoesNotExist_ReturnsEmptyList()
         {
             // Arrange
@@ -115,6 +172,37 @@ namespace xUnitTests
 
             // Assert
             Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void SearchStock_SourceIsEmpty_ReturnsEmptyList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+
+            // Act
+            var result = service.SearchStock(new List<Stock>(), "any");
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void SearchStock_StockHasNullProduct_ReturnsEmptyList()
+        {
+            // Arrange
+            var service = new StockService(A.Fake<IStockRepository>());
+            var source = new List<Stock>
+            {
+                new Stock { Product = null }
+            };
+
+            // Act
+            var result = service.SearchStock(source, "milk");
+
+            // Assert
             Assert.Empty(result);
         }
 
