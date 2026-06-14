@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlertService.cs" />
+    <Compile Include="DiscountService.cs" />
     <Compile Include="EmailNotificationService.cs" />
     <Compile Include="ImportService.cs" />
     <Compile Include="IImportService.cs" />
