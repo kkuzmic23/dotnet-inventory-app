@@ -1,12 +1,11 @@
 using BusinessLogicLayer;
 using DataAccessLayer;
 using EntityLayer.Entities;
-using FakeItEasy;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace xUnitTests
+namespace xUnitTests.IntegrationTests
 {
     public class StockServiceIntegrationTests
     {
@@ -24,28 +23,22 @@ namespace xUnitTests
         public void GetStock_WhenCalled_ReturnsAllStock()
         {
             // Arrange
-            var mockRepo = A.Fake<IStockRepository>();
-            var expectedStock = new List<Stock>
-            {
-                new Stock { ProductId = 1, Quantity = 10 },
-                new Stock { ProductId = 2, Quantity = 5 }
-            };
-            A.CallTo(() => mockRepo.GetAll()).Returns(expectedStock.AsQueryable());
-            var service = new StockService(mockRepo);
+            var service = new StockService();
+            var repo = new StockRepository();
+            var expectedCount = repo.GetAll().Count();
 
             // Act
             var result = service.GetStock();
 
             // Assert
-            Assert.Equal(2, result.Count);
-            Assert.Equal(expectedStock, result);
+            Assert.Equal(expectedCount, result.Count);
         }
 
         [Fact]
         public void SearchStock_EmptySearchTerm_ReturnsOriginalList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk" } }
@@ -63,7 +56,7 @@ namespace xUnitTests
         public void SearchStock_TermMatchesProductName_ReturnsFilteredList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk" } },
@@ -82,7 +75,7 @@ namespace xUnitTests
         public void SearchStock_TermMatchesProductCode_ReturnsFilteredList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { ProductCode = "P001", Name = "Milk" } },
@@ -101,7 +94,7 @@ namespace xUnitTests
         public void SearchStock_TermMatchesDescription_ReturnsFilteredList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk", Description = "Fresh dairy product" } },
@@ -120,7 +113,7 @@ namespace xUnitTests
         public void SearchStock_TermMatchesSupplierName_ReturnsFilteredList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk", Supplier = new Supplier { Name = "Dairy Supplier" } } },
@@ -139,7 +132,7 @@ namespace xUnitTests
         public void SearchStock_SearchTermHasWhitespaceAndDifferentCase_ReturnsFilteredList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk" } },
@@ -158,7 +151,7 @@ namespace xUnitTests
         public void SearchStock_TermDoesNotExist_ReturnsEmptyList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk" } }
@@ -175,7 +168,7 @@ namespace xUnitTests
         public void SearchStock_SourceIsNull_ReturnsEmptyList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
 
             // Act
             var result = service.SearchStock(null, "any");
@@ -189,7 +182,7 @@ namespace xUnitTests
         public void SearchStock_SourceIsEmpty_ReturnsEmptyList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
 
             // Act
             var result = service.SearchStock(new List<Stock>(), "any");
@@ -203,7 +196,7 @@ namespace xUnitTests
         public void SearchStock_StockHasNullProduct_ReturnsEmptyList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = null }
@@ -220,7 +213,7 @@ namespace xUnitTests
         public void SearchStock_NullSearchTerm_ReturnsOriginalList()
         {
             // Arrange
-            var service = new StockService(A.Fake<IStockRepository>());
+            var service = new StockService();
             var source = new List<Stock>
             {
                 new Stock { Product = new Product { Name = "Milk" } }
