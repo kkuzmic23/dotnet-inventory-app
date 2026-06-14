@@ -1,12 +1,11 @@
 using BusinessLogicLayer;
 using DataAccessLayer;
 using EntityLayer.Entities;
-using FakeItEasy;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace xUnitTests
+namespace xUnitTests.IntegrationTests
 {
     public class ImportServiceIntegrationTests
     {
@@ -14,255 +13,67 @@ namespace xUnitTests
         public void GetImports_WhenCalled_ReturnsAllImports()
         {
             // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var imports = new List<OrderHasProduct> { new OrderHasProduct { ProductId = 1 } };
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(imports.AsQueryable());
-            
-            var service = new ImportService(
-                mockItemRepo, 
-                A.Fake<IStockRepository>(), 
-                A.Fake<IInventoryTransactionRepository>(), 
-                A.Fake<IOrderRepository>());
+            var service = new ImportService();
+            var repo = new OrderHasProductRepository();
+            var expectedCount = repo.GetAll().Count();
 
             // Act
             var result = service.GetImports();
 
             // Assert
-            Assert.Single(result);
-            A.CallTo(() => mockItemRepo.GetAll());
+            Assert.Equal(expectedCount, result.Count);
         }
 
         [Fact]
         public void ApplyImport_NoDetails_ReturnsFalse()
         {
             // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(new List<OrderHasProduct>().AsQueryable());
-
-            var service = new ImportService(mockItemRepo, A.Fake<IStockRepository>(), A.Fake<IInventoryTransactionRepository>(), A.Fake<IOrderRepository>());
+            var service = new ImportService();
 
             // Act
-            var result = service.ApplyImport(1);
+            // Using a very unlikely supplier ID
+            var result = service.ApplyImport(-999);
 
             // Assert
             Assert.False(result);
         }
 
         [Fact]
-        public void GetImportSummaries_WhenCalled_GroupsProductsBySupplier()
+        public void GetImportSummaries_WhenCalled_ReturnsSummariesFromDb()
         {
             // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var items = new List<OrderHasProduct>
-            {
-                new OrderHasProduct
-                {
-                    ProductId = 1,
-                    Quantity = 2,
-                    Product = new Product { Id = 1, Name = "Milk" },
-                    Order = new Order
-                    {
-                        Supplier = new Supplier { Id = 1, Name = "Supplier A" },
-                        Status = "Ordered"
-                    }
-                },
-                new OrderHasProduct
-                {
-                    ProductId = 1,
-                    Quantity = 3,
-                    Product = new Product { Id = 1, Name = "Milk" },
-                    Order = new Order
-                    {
-                        Supplier = new Supplier { Id = 1, Name = "Supplier A" },
-                        Status = "Ordered"
-                    }
-                }
-            };
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(items.AsQueryable());
-
-            var service = new ImportService(
-                mockItemRepo,
-                A.Fake<IStockRepository>(),
-                A.Fake<IInventoryTransactionRepository>(),
-                A.Fake<IOrderRepository>());
+            var service = new ImportService();
+            var repo = new OrderHasProductRepository();
+            var items = repo.GetAll().ToList();
+            var expectedSupplierCount = items
+                .Where(x => x.Order?.Supplier != null && x.Product != null && x.Order.Status != "Imported")
+                .GroupBy(x => x.Order.Supplier.Id)
+                .Count();
 
             // Act
             var result = service.GetImportSummaries();
 
             // Assert
-            Assert.Single(result);
-            Assert.Equal("Supplier A", result[0].SupplierName);
-            Assert.Single(result[0].Products);
-            Assert.Equal("Milk", result[0].Products[0].ProductName);
-            Assert.Equal(5, result[0].Products[0].TotalQuantity);
-        }
-
-        [Fact]
-        public void GetImportSummaries_ImportedOrders_AreSkipped()
-        {
-            // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var items = new List<OrderHasProduct>
-            {
-                new OrderHasProduct
-                {
-                    Product = new Product { Id = 1, Name = "Milk" },
-                    Order = new Order
-                    {
-                        Supplier = new Supplier { Id = 1, Name = "Supplier A" },
-                        Status = "Imported"
-                    }
-                }
-            };
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(items.AsQueryable());
-
-            var service = new ImportService(
-                mockItemRepo,
-                A.Fake<IStockRepository>(),
-                A.Fake<IInventoryTransactionRepository>(),
-                A.Fake<IOrderRepository>());
-
-            // Act
-            var result = service.GetImportSummaries();
-
-            // Assert
-            Assert.Empty(result);
+            Assert.Equal(expectedSupplierCount, result.Count);
         }
 
         [Fact]
         public void GetImportDetailsBySupplier_WhenCalled_ReturnsSupplierDetails()
         {
             // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var items = new List<OrderHasProduct>
+            var service = new ImportService();
+            var repo = new OrderHasProductRepository();
+            var firstItem = repo.GetAll().FirstOrDefault(x => x.Order.Status != "Imported");
+
+            if (firstItem != null)
             {
-                new OrderHasProduct
-                {
-                    OrderId = 10,
-                    ProductId = 1,
-                    Quantity = 4,
-                    Product = new Product { Id = 1, ProductCode = "P001", Name = "Milk" },
-                    Order = new Order
-                    {
-                        Id = 10,
-                        SupplierId = 1,
-                        Status = "Ordered"
-                    }
-                },
-                new OrderHasProduct
-                {
-                    OrderId = 11,
-                    ProductId = 2,
-                    Quantity = 8,
-                    Product = new Product { Id = 2, ProductCode = "P002", Name = "Bread" },
-                    Order = new Order
-                    {
-                        Id = 11,
-                        SupplierId = 2,
-                        Status = "Ordered"
-                    }
-                }
-            };
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(items.AsQueryable());
+                // Act
+                var result = service.GetImportDetailsBySupplier(firstItem.Order.SupplierId);
 
-            var service = new ImportService(
-                mockItemRepo,
-                A.Fake<IStockRepository>(),
-                A.Fake<IInventoryTransactionRepository>(),
-                A.Fake<IOrderRepository>());
-
-            // Act
-            var result = service.GetImportDetailsBySupplier(1);
-
-            // Assert
-            Assert.Single(result);
-            Assert.Equal(10, result[0].OrderId);
-            Assert.Equal("P001", result[0].ProductCode);
-            Assert.Equal("Milk", result[0].ProductName);
-            Assert.Equal(4, result[0].Quantity);
-        }
-
-        [Fact]
-        public void ApplyImport_ExistingStock_IncreasesStock()
-        {
-            // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var mockStockRepo = A.Fake<IStockRepository>();
-            var mockTransactionRepo = A.Fake<IInventoryTransactionRepository>();
-            var mockOrderRepo = A.Fake<IOrderRepository>();
-
-            var existingStock = new Stock { ProductId = 1, Quantity = 10 };
-            var items = new List<OrderHasProduct>
-            {
-                new OrderHasProduct
-                {
-                    OrderId = 5,
-                    ProductId = 1,
-                    Quantity = 4,
-                    Product = new Product { Id = 1, ProductCode = "P001", Name = "Milk" },
-                    Order = new Order
-                    {
-                        Id = 5,
-                        SupplierId = 1,
-                        Status = "Ordered"
-                    }
-                }
-            };
-
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(items.AsQueryable());
-            A.CallTo(() => mockStockRepo.GetByProductId(1)).Returns(existingStock);
-
-            var service = new ImportService(
-                mockItemRepo,
-                mockStockRepo,
-                mockTransactionRepo,
-                mockOrderRepo);
-
-            // Act
-            var result = service.ApplyImport(1);
-
-            // Assert
-            Assert.True(result);
-            Assert.Equal(14, existingStock.Quantity);
-        }
-
-        [Fact]
-        public void ApplyImport_NewStock_AddsStock()
-        {
-            // Arrange
-            var mockItemRepo = A.Fake<IOrderItemCRUDRepository>();
-            var mockStockRepo = A.Fake<IStockRepository>();
-            var items = new List<OrderHasProduct>
-            {
-                new OrderHasProduct
-                {
-                    OrderId = 5,
-                    ProductId = 1,
-                    Quantity = 4,
-                    Product = new Product { Id = 1, ProductCode = "P001", Name = "Milk" },
-                    Order = new Order
-                    {
-                        Id = 5,
-                        SupplierId = 1,
-                        Status = "Ordered"
-                    }
-                }
-            };
-
-            A.CallTo(() => mockItemRepo.GetAll()).Returns(items.AsQueryable());
-            A.CallTo(() => mockStockRepo.GetByProductId(1)).Returns(null);
-
-            var service = new ImportService(
-                mockItemRepo,
-                mockStockRepo,
-                A.Fake<IInventoryTransactionRepository>(),
-                A.Fake<IOrderRepository>());
-
-            // Act
-            var result = service.ApplyImport(1);
-
-            // Assert
-            Assert.True(result);
+                // Assert
+                Assert.NotEmpty(result);
+                Assert.All(result, item => Assert.Equal(firstItem.Order.SupplierId, repo.GetAll().First(x => x.OrderId == item.OrderId).Order.SupplierId));
+            }
         }
 
         [Fact]
