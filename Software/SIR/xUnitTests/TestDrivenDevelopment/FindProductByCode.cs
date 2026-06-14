@@ -15,7 +15,7 @@ namespace xUnitTests.TestDrivenDevelopment
         {
             Product product = new Product
             {
-                ProductCode = "P001",
+                ProductCode = "P001", 
                 Name = "Milk"
             };
 
