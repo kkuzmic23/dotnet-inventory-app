@@ -82,7 +82,7 @@ namespace xUnitTests.IntegrationTests
             {
                 Items = new List<ExportItemRequest>
                 {
-                    new ExportItemRequest { ProductId = -999, Quantity = 1 }
+                    new ExportItemRequest { ProductId = 0, Quantity = 1 }
                 }
             };
 
@@ -91,7 +91,7 @@ namespace xUnitTests.IntegrationTests
 
             // Assert
             Assert.False(result.Success);
-            Assert.Equal("Product not in stock.", result.ErrorMessage);
+            Assert.Equal("Invalid product.", result.ErrorMessage);
         }
 
         [Fact]
@@ -126,12 +126,18 @@ namespace xUnitTests.IntegrationTests
         {
             // Arrange
             var service = new ExportService();
+            var stockRepo = new StockRepository();    
+            int nonExistentId = 999999;
+            while (stockRepo.GetAll().Any(s => s.ProductId == nonExistentId))
+            {
+                nonExistentId++;
+            }
 
             var request = new ExportRequest
             {
                 Items = new List<ExportItemRequest>
                 {
-                    new ExportItemRequest { ProductId = -999, Quantity = 1 }
+                    new ExportItemRequest { ProductId = nonExistentId, Quantity = 1 }
                 }
             };
 
