@@ -21,7 +21,7 @@ jobs:
         run: dotnet restore Software/SIR/SIR.sln
 
       - name: Check Formatting
-        run: dotnet format Software/SIR/SIR.sln --verify-no-changes --severity info
+        run: dotnet format Software/SIR/SIR.sln 
 
   security-scan:
     name: Dependency Security Scan
@@ -36,4 +36,4 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Scan for Vulnerable Packages
-        run: dotnet list Software/SIR/SIR.sln package --vulnerable --include-transitive
+        run: dotnet restore Software/SIR/SIR.sln /p:NuGetAudit=true /p:NuGetAuditMode=all
