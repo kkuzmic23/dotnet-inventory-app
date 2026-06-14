@@ -81,11 +81,6 @@ namespace WPFLayer
             lblWelcome.Content = "Statistics";
         }
 
-        private void btnViewLogs_Click(object sender, RoutedEventArgs e) {
-            var w = new ViewLogsWindow { Owner = this };
-            w.ShowDialog();
-        }
-
         private void btnReports_Click(object sender, RoutedEventArgs e)
         {
 

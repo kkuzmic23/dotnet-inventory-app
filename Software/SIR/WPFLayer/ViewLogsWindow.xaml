@@ -1,0 +1,16 @@
+<Window x:Class="WPFLayer.ViewLogsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="View Logs" Height="500" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Margin="8">
+            <Button Name="btnRefresh" Content="Refresh" Click="BtnRefresh_Click" Width="90" Margin="0,0,8,0"/>
+            <Button Name="btnClear" Content="Clear" Click="BtnClear_Click" Width="90"/>
+        </StackPanel>
+        <TextBox Grid.Row="1" Name="txtLogs" Margin="8" FontFamily="Consolas" FontSize="12" IsReadOnly="True" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" AcceptsReturn="True"/>
+    </Grid>
+</Window>

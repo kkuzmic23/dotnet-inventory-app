@@ -154,6 +154,7 @@
     <Compile Include="ImportControl.xaml.cs">
       <DependentUpon>ImportControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="OrderItem.cs" />
     <Compile Include="OrderModal.xaml.cs">
       <DependentUpon>OrderModal.xaml</DependentUpon>
@@ -183,6 +184,9 @@
     </Compile>
     <Compile Include="SuppliersControl.xaml.cs">
       <DependentUpon>SuppliersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewLogsWindow.xaml.cs">
+      <DependentUpon>ViewLogsWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="ImportControl.xaml">
       <SubType>Designer</SubType>
@@ -254,6 +258,9 @@
     </Page>
     <Page Include="SuppliersControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewLogsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
