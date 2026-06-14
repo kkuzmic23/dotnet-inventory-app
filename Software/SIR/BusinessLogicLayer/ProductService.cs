@@ -116,5 +116,15 @@ namespace BusinessLogicLayer
             product.IsActive = !product.IsActive;
             return UpdateProduct(product);
         }
+
+        public Product FindProductByCode(string code)
+        {
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return null;
+            }
+
+            return repo.GetAll().ToList().FirstOrDefault(p => p.ProductCode.Equals(code.Trim(), StringComparison.OrdinalIgnoreCase));
+        }
     }
 }

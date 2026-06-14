@@ -113,7 +113,13 @@ namespace xUnitTests
             IUserRepository fakeRepo = A.Fake<IUserRepository>();
             UserService service = new UserService(fakeRepo);
 
-            var user = new User { Id = 1, Username = "spongebob", Password = "plaintext" };
+            var user = new User 
+            {
+                Id = 1,
+                Username = "spongebob",
+                Password = "plaintext"
+            };
+
             A.CallTo(() => fakeRepo.GetByUsername("spongebob")).Returns(user);
 
             var result = service.Authenticate("spongebob", "wrongpassword");

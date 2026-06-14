@@ -12,16 +12,16 @@ namespace xUnitTests.IntegrationTests
 {
     public class ProductIntegrationTests : IDisposable
     {
-        private readonly ProductRepository repo = new ProductRepository();
-        private readonly ProductService service = new ProductService();
-        private readonly List<Product> insertedProducts = new List<Product>();
+        private readonly List<int> insertedProducts = new List<int>();
 
         [Fact]
         public void AddProduct_ValidProduct_PersistsToDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P001",
+                ProductCode = "P661",
                 Name = "Milk",
                 ReorderLevel = 5, 
                 SupplierId = 1,
@@ -33,12 +33,14 @@ namespace xUnitTests.IntegrationTests
 
             Assert.True(result);
             Assert.True(product.Id > 0);
-            insertedProducts.Add(product);
+            insertedProducts.Add(product.Id);
         }
 
         [Fact]
         public void AddProduct_InvalidProduct_DoesNotPersistToDB()
         {
+            ProductService service = new ProductService();
+
             var result = service.AddProduct(null);
 
             Assert.False(result);
@@ -47,9 +49,11 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void GetProducts_ReturnsProductsFromDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P002",
+                ProductCode = "P662",
                 Name = "Coca-Cola",
                 ReorderLevel = 3,
                 SupplierId = 1,
@@ -58,7 +62,7 @@ namespace xUnitTests.IntegrationTests
             };
 
             service.AddProduct(product);
-            insertedProducts.Add(product);
+            insertedProducts.Add(product.Id);
 
             var result = service.GetProducts();
 
@@ -69,9 +73,11 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void UpdateProduct_ValidProduct_UpdatesInDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P003",
+                ProductCode = "P663",
                 Name = "Juice",
                 ReorderLevel = 2,
                 SupplierId = 1,
@@ -80,7 +86,7 @@ namespace xUnitTests.IntegrationTests
             };
 
             service.AddProduct(product);
-            insertedProducts.Add(product);
+            insertedProducts.Add(product.Id);
 
             product.Name = "Orange Juice";
             var result = service.UpdateProduct(product);
@@ -93,9 +99,11 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void RemoveProduct_ValidProduct_DeletesFromDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P004",
+                ProductCode = "P664",
                 Name = "Water",
                 ReorderLevel = 1,
                 SupplierId = 1,
@@ -115,6 +123,9 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void RemoveProduct_NullProduct_ReturnsFalse()
         {
+            ProductRepository repo = new ProductRepository();
+            ProductService service = new ProductService();
+
             var result = service.RemoveProduct(null);
 
             Assert.False(result);
@@ -123,9 +134,11 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void ToggleProductActiveStatus_ActiveProduct_TogglesOffInDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P005",
+                ProductCode = "P665",
                 Name = "Bread",
                 ReorderLevel = 4,
                 SupplierId = 1,
@@ -134,7 +147,7 @@ namespace xUnitTests.IntegrationTests
             };
 
             service.AddProduct(product);
-            insertedProducts.Add(product);
+            insertedProducts.Add(product.Id);
 
             var result = service.ToggleProductActiveStatus(product);
 
@@ -147,9 +160,11 @@ namespace xUnitTests.IntegrationTests
         [Fact]
         public void ToggleProductActiveStatus_InactiveProduct_TogglesOnInDB()
         {
+            ProductService service = new ProductService();
+
             var product = new Product
             {
-                ProductCode = "P006",
+                ProductCode = "P666",
                 Name = "Butter",
                 ReorderLevel = 2,
                 SupplierId = 1,
@@ -158,7 +173,7 @@ namespace xUnitTests.IntegrationTests
             };
 
             service.AddProduct(product);
-            insertedProducts.Add(product);
+            insertedProducts.Add(product.Id);
 
             var result = service.ToggleProductActiveStatus(product);
 
@@ -170,11 +185,16 @@ namespace xUnitTests.IntegrationTests
 
         public void Dispose()
         {
-            foreach (var product in insertedProducts)
+            ProductService service = new ProductService();
+
+            foreach (var id in insertedProducts)
             {
-                repo.Remove(product);
+                var order = service.GetProducts().FirstOrDefault(o => o.Id == id);
+                if (order != null)
+                {
+                    service.RemoveProduct(order);
+                }
             }
-            repo.Dispose();
         }
     }
 }

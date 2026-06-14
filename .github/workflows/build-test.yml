@@ -1,0 +1,30 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2.0.0
+
+      - name: Restore NuGet packages
+        run: nuget restore Software/SIR/SIR.sln
+
+      - name: Build solution
+        run: msbuild Software/SIR/SIR.sln /p:Configuration=Release
+
+      - name: Run unit tests
+        run: dotnet test Software/SIR/xUnitTests/xUnitTests.csproj --filter "FullyQualifiedName!~Integration"

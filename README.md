@@ -49,6 +49,18 @@ Rezultat izvođenja unit testova:<br>
 
 ## kkuzmic23
 
+Jedina komponenta na kojoj se može izvršavati integracijsko testiranje je baza podataka. To znači, jedinične testove koji su koristili FakeItEasy treba napisati pomoću stvarnih repozitorija. Sljedeća slika prikazuje jedan integracijski test za ProductService:<br>
+
+<img width="654" height="437" alt="image" src="https://github.com/user-attachments/assets/ce698d84-5d91-4d7d-9806-7b46964e58e5" /><br>
+Ovaj integracijski test testira istu metodu kao i jedinični test s FakeItEasy u slici iznad. On stvara validni proizvod, dodaje ga u bazu podataka te u listu koja prati promjene u bazi podataka. Tada poziva metodu koja se testira te provjerava dobiveni rezultat. Nakon toga pokreće query za dohvaćanje proizvoda iz baze i provjerava je li update naredba uspješno napravljena.<br>
+<img width="396" height="167" alt="image" src="https://github.com/user-attachments/assets/0ad606d9-993c-4148-b58e-8e88135a79e9" /><br>
+Integracijski testovi implementiraju i IDispose, što znači da moraju imati Dispose() metodu. Ova metoda poziva se nakon svakog testa te uklanja promjene napravljene na bazi. Jedina iznimka je UserIntegrationTests.cs:<br>
+<img width="599" height="362" alt="image" src="https://github.com/user-attachments/assets/5e575a90-e94b-44b8-8247-3abd5456d221" /><br>
+Ova klasa ne treba implementirati IDispose jer je stvara promjene u bazi.<br>
+Rezultati testiranja:<br>
+<img width="452" height="259" alt="image" src="https://github.com/user-attachments/assets/1553936b-4232-4bee-adac-a6f9a3360a28" /><br>
+
+
 ## tlevanic23
 
 # Uspostavljanje CI/CD cjevovoda
@@ -60,6 +72,36 @@ Rezultat izvođenja unit testova:<br>
 # Razvoj vođen testiranjem (TDD)
 
 ## kkuzmic23
+
+TDD sam razvio funkcionalnost za dohvaćanje proizvoda prema njegovom kodu.
+
+### Crvena faza
+
+U prvoj slici, metode u pitanju još nisu ni implementirane, pa projekt ne kompajlira:<br>
+<img width="804" height="723" alt="crvena-faza-metode" src="https://github.com/user-attachments/assets/d0bd1e5d-ebff-4690-8260-53a286820cbb" />
+
+### Zelena faza
+
+U zelenoj fazi počinjemo s izradom samog programskog koda. Prvi korak je stvaranje metode. U drugoj slici, metoda ipak je implementirana pa projekt kompajlira:<br>
+<img width="426" height="124" alt="zelena-faza-prazna-metoda" src="https://github.com/user-attachments/assets/8071f9e1-da68-4dc0-970e-5712d47f7e2c" /><br>
+Ali metoda još ništa ne radi, pa testovi padaju:<br>
+<img width="740" height="298" alt="zelena-faza-prazna-metoda-testovi" src="https://github.com/user-attachments/assets/40cb5f64-2f03-47c6-9d85-9a5f535d9e02" /><br>
+Prvi korak u zelenoj fazi je ispunjavanje 'happy path'-a, to jest ispravnog slučaja. Prva verzija metode izgleda ovako:<br>
+<img width="663" height="105" alt="zelena-faza-prva-verzija-koda" src="https://github.com/user-attachments/assets/4672f74e-1e07-4a57-92ea-f77af7514c81" /><br>
+Sada metoda za ispravni product code vraća stvarni proizvod. Očekuje se da ostali testovi neće prolaziti jer nismo osigurali druge return path-ove, ali:<br>
+<img width="562" height="234" alt="zelena-faza-prva-verzija-koda-prva-dva-testova-prolaze" src="https://github.com/user-attachments/assets/efd3ade2-d4b6-488c-99d9-8011053e7d38" /><br>
+Prošao je i jedan drugi test. Konkretno, to je test koji provjerava rezultat u slučaju da ne postoji traženi proizvod. Znači da repo.GetAll() vraća null u slučaju nepostojećeg proizvoda.<br>
+Sada sam išao napisat kod koji ispunjuje test koji provjerava velika i mala slova kao i razmake u stringu product code-a:<br>
+<img width="999" height="122" alt="zelena-faza-druga-verzija-koda" src="https://github.com/user-attachments/assets/a99f03c1-e14d-4168-8543-7419c10fc3d9" /><br>
+Nakon što je ova promjena dodana, sada prolazi i treći test:<br>
+<img width="611" height="248" alt="zelena-faza-druga-verzija-koda-prva-tri-testova-prolaze" src="https://github.com/user-attachments/assets/8a15cf32-c01e-4e1d-a038-e939edc47d09" /><br>
+Sada je još ostala metoda koja projverava rezultat ako je napravljen neispravan unos u product code. Ovo uključuje null i whitespace. Srećom, C# ima za to već pripremljenu metodu: string.IsNullOrWhiteSpace():<br>
+<img width="992" height="204" alt="zelena-faza-treca-verzija-koda" src="https://github.com/user-attachments/assets/0a791a16-ce86-4779-adc6-db550da3414a" /><br>
+I sada prolaze svi testovi:<br>
+<img width="613" height="334" alt="zelena-faza-treca-verzija-koda-svi-testovi-prolaze" src="https://github.com/user-attachments/assets/375d0bcf-62f4-479d-bcb7-42491958edc6" /><br>
+
+### Refaktoriranje
+Refaktoriranje u ovom slučaju nije potrebno jer je metoda u pitanju dosta jednostavna.
 
 ## tlevanic23
 
