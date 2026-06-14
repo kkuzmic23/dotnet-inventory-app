@@ -23,6 +23,7 @@ namespace WPFLayer
         private readonly GlobalStockAlertListener _listener = new GlobalStockAlertListener();
         public MainWindow()
         {
+            Logger.Log("Test log: MainWindow started");
             InitializeComponent();
             _listener.Start();
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Help, OnHelp));
