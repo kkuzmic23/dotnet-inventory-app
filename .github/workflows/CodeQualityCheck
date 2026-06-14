@@ -1,0 +1,39 @@
+name: Quality and Security Scan
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  code-quality:
+    name: Cleaning and Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore NuGet packages
+        run: dotnet restore Software/SIR/SIR.sln
+
+      - name: Check Formatting
+        run: dotnet format Software/SIR/SIR.sln --verify-no-changes --severity info
+
+  security-scan:
+    name: Dependency Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Scan for Vulnerable Packages
+        run: dotnet list Software/SIR/SIR.sln package --vulnerable --include-transitive
