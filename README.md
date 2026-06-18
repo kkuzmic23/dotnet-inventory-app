@@ -13,5 +13,6 @@ My primary responsibility in this project was the implementation and testing of 
 - **Products**
 - **Orders**
 - **Suppliers**
+- **Users**
 
 This includes work across the related business logic, data access, UI flows, and test files for those modules.
